@@ -8,10 +8,16 @@ module.exports = {
       actionType: QuestionConstants.RECEIVE_QUESTIONS
     });
   },
-  changeQuestionSort: function(sortBy) {
+  changeQuestionSort: function(sortBy) {    
     AppDispatcher.dispatch({
       action: sortBy,
       actionType: QuestionConstants.CHANGE_QUESTION_SORT
+    });
+  },
+  changeQuestionFilter: function(sortBy) {       
+    AppDispatcher.dispatch({
+      action: sortBy,
+      actionType: QuestionConstants.CHANGE_QUESTION_FILTER
     });
   },
   receiveQuestion: function(question) {

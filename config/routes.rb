@@ -8,7 +8,11 @@ Rails.application.routes.draw do
         get :current
       end
     end
-    resources :questions, except: [:new, :edit]
+    resources :questions, except: [:new, :edit] do
+      collection do
+        get :search
+      end
+    end
     resources :votes, only: [:create, :destroy]
     resources :favorites, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy, :update]

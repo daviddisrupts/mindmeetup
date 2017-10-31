@@ -40,8 +40,15 @@ function resetQuestions(questions) {
 }
 
 function changeQuestionSort(questionSortBy) {
+
   _questionSortBy = questionSortBy;
 }
+
+function changeQuestionFilter(questionFilterBy) {
+
+  _questionSortBy = questionFilterBy;
+}
+
 
 function resetQuestion(question) {
   if (!_questions) {
@@ -84,9 +91,8 @@ QuestionStore.allQuestions = function() {
       });
       return tags.indexOf(_tag.name) !== -1;
     });
-  }
-
-  switch (_questionSortBy) {
+  }  
+  switch (_questionSortBy) {    
     case 'newest':
       Util.sortBy(questions, 'created_at', true);
       break;
@@ -96,7 +102,16 @@ QuestionStore.allQuestions = function() {
     case 'views':
       Util.sortBy(questions, 'view_count', true);
       break;
-  }
+    case 'weekly':
+      questions = Util.filterBy(questions, 'weekly');
+      break;    
+    case 'unanswers':
+      questions = Util.filterBy(questions, 'unanswer');
+      break;
+    case 'monthly':
+      questions = Util.filterBy(questions, 'monthly');
+      break;  
+  }  
   return questions;
 };
 
@@ -126,15 +141,18 @@ QuestionStore.getQuestionSortBy = function() {
   return _questionSortBy;
 };
 
-QuestionStore.__onDispatch = function(payload) {
+QuestionStore.__onDispatch = function(payload) {    
   switch (payload.actionType) {
     case QuestionConstants.RECEIVE_QUESTIONS:
       resetQuestions(payload.action);
       ApiUtil.fetchCurrentUser();
       break;
-    case QuestionConstants.CHANGE_QUESTION_SORT:
+    case QuestionConstants.CHANGE_QUESTION_SORT:      
       changeQuestionSort(payload.action);
       break;
+    case QuestionConstants.CHANGE_QUESTION_FILTER:      
+      changeQuestionFilter(payload.action);
+      break;      
     case QuestionConstants.RECEIVE_QUESTION:
       resetQuestion(payload.action);
       ApiUtil.fetchCurrentUser();

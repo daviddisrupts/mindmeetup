@@ -6,10 +6,9 @@ var SortNav = require('../shared/sort_nav');
 var QuestionActions = require('../../actions/question');
 var TagStub = require('../tags/stub');
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-
 var _callbackId;
 
-var QUESTION_SORT_TYPES = ['newest', 'votes', 'views'];
+var QUESTION_SORT_TYPES = ['newest', 'votes', 'views', 'weekly', 'monthly','unanswers'];
 
 var QuestionsIndex = React.createClass({
   getInitialState: function() {
@@ -18,10 +17,11 @@ var QuestionsIndex = React.createClass({
       sortBy: QuestionStore.getQuestionSortBy(),
       tag: QuestionStore.getQuestionsTag(),
       indexLoaded: QuestionStore.getIndexLoaded(),
-      tagLoaded: false
+      tagLoaded: false,
+      filterBy: null,
     };
   },
-  componentDidMount: function() {
+  componentDidMount: function() {    
     _callbackId = QuestionStore.addListener(this.onChange);
     if (this.props.params.tagName) {
       ApiUtil.fetchQuestionsTag(this.props.params.tagName);
@@ -39,7 +39,7 @@ var QuestionsIndex = React.createClass({
     }
     _callbackId.remove();
   },
-  onChange: function() {
+  onChange: function() {    
     this.setState({
       questions: QuestionStore.allQuestions(),
       sortBy: QuestionStore.getQuestionSortBy(),
@@ -48,7 +48,10 @@ var QuestionsIndex = React.createClass({
       tagLoaded: true
     });
   },
-  handleSortChange: function(sortBy) {
+  handleSortChange: function(sortBy) {    
+    if (sortBy == 'unanswers'|| sortBy == 'monthly' || sortBy == 'weekly') {
+      QuestionActions.changeQuestionFilter(sortBy);
+    }
     if (sortBy !== this.state.sortBy) {
       QuestionActions.changeQuestionSort(sortBy);
     }
@@ -104,10 +107,36 @@ var QuestionsIndex = React.createClass({
       );
     }
   },
+  handleFilter: function(e) {        
+    var value = e.target.innerHTML    
+    ApiUtil.fetchFilteredQuestions(value);
+    this.setState({ filterBy: value });
+  },
+  renderFilterLabel: function(){
+     return (
+        <div className='content-double-sidebar'>
+          <ul>
+            <b>General</b>
+          </ul>
+          <ul>
+            <b> AR </b>           
+            <li><div className= {`link ${this.state.filterBy == 'AR Kit' ? 'active' : ""}`} onClick={this.handleFilter}>AR Kit</div></li>
+            <li><div className={`link ${this.state.filterBy == 'AR Core' ? 'active' : ""}`} onClick={this.handleFilter}>AR Core</div></li>
+            <li><div className={`link ${this.state.filterBy == 'Holo Lense' ? 'active' : ""}`} onClick={this.handleFilter}>Holo Lense</div></li>
+            <li><div className={`link ${this.state.filterBy == 'Magic Leap' ? 'active' : ""}`} onClick={this.handleFilter}>Magic Leap</div></li>            
+          </ul>
+          <ul>
+            <b>VR</b>
+            <li><div className={`link ${this.state.filterBy == 'Windows Mixed' ? 'active' : ""}`} onClick={this.handleFilter}>Windows Mixed</div></li>            
+          </ul>
+        </div>
+      )  
+  },  
   render: function() {
     var questions = this.state.questions;
     var sortNavHeader = 'Questions', sidebarTag;
     var sidebarLabel;
+
     if (questions) {
       sidebarLabel = questions.length === 1 ? 'question' : 'questions';
     }
@@ -141,6 +170,7 @@ var QuestionsIndex = React.createClass({
             active={this.state.sortBy}
             header={sortNavHeader}
             handleSortChange={this.handleSortChange}/>
+
           <ReactCSSTransitionGroup
             transitionName='fade-in-left-out'
             transitionEnterTimeout={500}
@@ -149,6 +179,7 @@ var QuestionsIndex = React.createClass({
           </ReactCSSTransitionGroup>
         </div>
         {this.renderSidebar(sidebarLabel, sidebarTag, tagDescription)}
+        { this.renderFilterLabel() }
       </div>
     );
   }

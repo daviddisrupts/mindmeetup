@@ -12,7 +12,7 @@ module.exports = {
   },
 
   // NOTE: defaults to ascending
-  sortBy: function(items, sortType, isDescending, sortType2, isDescending2) {
+  sortBy: function(items, sortType, isDescending, sortType2, isDescending2) {    
       if (sortType === 'rank') {
         items.sort(function(a, b) {
           if (a.rank === 'bronze' && b.rank === 'silver' ||
@@ -39,7 +39,7 @@ module.exports = {
           }
         });
       } else {
-        items.sort(function(a, b) {
+        items.sort(function(a, b) {          
           if (a[sortType] < b[sortType]) {
             return isDescending ? 1 : -1;
           } else if (a[sortType] > b[sortType]) {
@@ -60,7 +60,30 @@ module.exports = {
             }
           }
         });
-      }
+      }      
+  },
+
+  filterBy: function(items, sortType){    
+    if (sortType === 'unanswer') {     
+      items = items.filter(function(item) {
+          return item.answer_count == 0;
+        });          
+    }
+   if (sortType === 'monthly') {
+      items = items.filter( item => ( (item.created_at).getMonth() == (new Date).getMonth() ));
+    }
+    if (sortType === 'weekly') {
+        var curr = new Date(); // get current date        
+        curr.setHours(0,0,0,0);
+        var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+        var last = first + 6; // last day is the first day + 6
+
+        var firstday = new Date(curr.setDate(first))
+        var lastday = new Date(curr.setDate(last))
+        lastday.setHours(23,59,0,0);
+        items = items.filter( item => ( ((item.created_at >= firstday) && (item.created_at <= lastday)) ))
+    }
+    return items;      
   },
   formatDateHelper: function (item) {
     if (item.created_at) {

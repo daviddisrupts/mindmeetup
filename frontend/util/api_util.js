@@ -78,6 +78,18 @@ module.exports = {
       QuestionActions.receiveQuestionsTag(tagName);
     }
   },
+  fetchFilteredQuestions: function(filterVal){    
+    $.ajax({
+      method: 'GET',
+      url: '/api/questions/search',
+      data: { search: filterVal },
+      dataType: 'json',
+      success: QuestionActions.receiveQuestions,
+      error: function() {
+        debugger
+      }
+    });
+  },
   fetchUser: function(userId) {
     $.ajax({
       method: 'GET',

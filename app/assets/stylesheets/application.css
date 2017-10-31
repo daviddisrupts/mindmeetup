@@ -175,6 +175,7 @@ button:hover {
 .content-double-main {
   width: 728px;
   float: left;
+  min-height: 100px;
 }
 
 .content-double-sidebar {
@@ -210,7 +211,7 @@ button:hover {
   cursor: pointer;
 }
 
-.link:hover {
+.link:hover, .link.active {
   color: #0be;
 }
 

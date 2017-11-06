@@ -1,4 +1,5 @@
 var QuestionConstants = require('../constants/question');
+var CategoryConstants = require('../constants/category');
 var AppDispatcher = require('../dispatcher/dispatcher');
 
 module.exports = {
@@ -6,6 +7,12 @@ module.exports = {
     AppDispatcher.dispatch({
       action: questions,
       actionType: QuestionConstants.RECEIVE_QUESTIONS
+    });
+  },
+  receiveCategory: function(categories){
+    AppDispatcher.dispatch({
+      action: categories,
+      actionType: CategoryConstants.RECEIVE_CATEGORIES
     });
   },
   changeQuestionSort: function(sortBy) {    

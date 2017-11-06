@@ -60,20 +60,31 @@ class Api::QuestionsController < ApplicationController
   end
 
   def search    
-    @questions = Question.search(params[:search])
+    category = Category.find_by(id: params[:search])
+    if category.parent.present?
+       @questions = category.questions
+    else      
+      @questions = (category.questions + category.subcategories.collect(&:questions)).flatten.compact
+    end  
     get_question_details
     render :index
   end
+
+  def category_index
+    @categories = Category.where(parent_id: nil)
+    render json: @categories
+  end
+
   private
 
   def question_params
-    params.require(:question).permit(:content, :title, tag_names: [])
+    params.require(:question).permit(:category_id, :content, :title, tag_names: [])
   end
 
   def get_question_details
     question_user_ids = Set.new(Question.pluck("DISTINCT user_id"))
     answer_user_ids = Set.new(Answer.pluck("DISTINCT user_id"))
     user_ids = (question_user_ids + answer_user_ids).to_a
-    @users = User.find_with_reputation_hash(user_ids)
+    @users = User.find_with_reputation_hash(user_ids)    
   end
 end

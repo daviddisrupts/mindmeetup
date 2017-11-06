@@ -1,7 +1,7 @@
 if current_user
   json.extract!(@question,
     :id, :title, :content, :created_at, :vote_count, :answer_count,
-      :view_count
+      :view_count, :category_id
   )
 
   if @question.updated_at != @question.created_at

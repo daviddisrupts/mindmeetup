@@ -19,6 +19,7 @@ var QuestionsIndex = React.createClass({
       indexLoaded: QuestionStore.getIndexLoaded(),
       tagLoaded: false,
       filterBy: null,
+      categories: []
     };
   },
   componentDidMount: function() {    
@@ -27,6 +28,7 @@ var QuestionsIndex = React.createClass({
       ApiUtil.fetchQuestionsTag(this.props.params.tagName);
     }
     ApiUtil.fetchQuestions();
+    ApiUtil.fetchCategories();
   },
   componentWillReceiveProps: function(newProps) {
     if (this.props.params.tagName !== newProps.params.tagName) {
@@ -45,7 +47,8 @@ var QuestionsIndex = React.createClass({
       sortBy: QuestionStore.getQuestionSortBy(),
       tag: QuestionStore.getQuestionsTag(),
       indexLoaded: QuestionStore.getIndexLoaded(),
-      tagLoaded: true
+      tagLoaded: true,
+      categories: QuestionStore.getCategories(),
     });
   },
   handleSortChange: function(sortBy) {    
@@ -58,6 +61,9 @@ var QuestionsIndex = React.createClass({
   },
   resetTag: function() {
     this.setState({ tag: {} });
+  },
+  resetFilter: function(){
+    ApiUtil.fetchQuestions();
   },
   renderQuestionIndexItems: function() {
     var questions = this.state.questions;
@@ -107,32 +113,28 @@ var QuestionsIndex = React.createClass({
       );
     }
   },
-  handleFilter: function(e) {        
-    var value = e.target.innerHTML    
-    ApiUtil.fetchFilteredQuestions(value);
-    this.setState({ filterBy: value });
+  handleFilter: function(id) {    
+    ApiUtil.fetchFilteredQuestions(id);
+    this.setState({ filterBy: id });
   },
-  renderFilterLabel: function(){
+  renderFilterLabel: function(){    
      return (
         <div className='content-double-sidebar'>
           <ul>
-            <b>General</b>
-          </ul>
-          <ul>
-            <b> AR </b>           
-            <li><div className= {`link ${this.state.filterBy == 'AR Kit' ? 'active' : ""}`} onClick={this.handleFilter}>AR Kit</div></li>
-            <li><div className={`link ${this.state.filterBy == 'AR Core' ? 'active' : ""}`} onClick={this.handleFilter}>AR Core</div></li>
-            <li><div className={`link ${this.state.filterBy == 'Holo Lense' ? 'active' : ""}`} onClick={this.handleFilter}>Holo Lense</div></li>
-            <li><div className={`link ${this.state.filterBy == 'Magic Leap' ? 'active' : ""}`} onClick={this.handleFilter}>Magic Leap</div></li>            
-          </ul>
-          <ul>
-            <b>VR</b>
-            <li><div className={`link ${this.state.filterBy == 'Windows Mixed' ? 'active' : ""}`} onClick={this.handleFilter}>Windows Mixed</div></li>            
+            <li className ="link" onClick={ this.resetFilter }><b>General</b></li>
+            {(this.state.categories != undefined && this.state.categories.length > 0) ? this.state.categories.map((category, i) =>
+              <ul>
+                <li key={category.id} className= {`link ${this.state.filterBy == category.id ? 'active' : ""}`} onClick={() => this.handleFilter(category.id)}><b>{category.name}</b></li>
+                {category.subcategories.length > 0 ? category.subcategories.map((subcategory, j) =>
+                  <li key={subcategory.id}><div className= {`link ${this.state.filterBy == subcategory.id ? 'active' : ""}`} onClick={() => this.handleFilter(subcategory.id)}>{subcategory.name}</div></li>
+                ) : ''}
+              </ul>
+            ) : ''}
           </ul>
         </div>
       )  
   },  
-  render: function() {
+  render: function() {    
     var questions = this.state.questions;
     var sortNavHeader = 'Questions', sidebarTag;
     var sidebarLabel;
@@ -140,7 +142,7 @@ var QuestionsIndex = React.createClass({
     if (questions) {
       sidebarLabel = questions.length === 1 ? 'question' : 'questions';
     }
-
+ 
     if (this.props.params.tagName) {
       sortNavHeader = 'Tagged ' + sortNavHeader;
       sidebarLabel = 'tagged ' + sidebarLabel;

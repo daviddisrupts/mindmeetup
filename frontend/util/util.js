@@ -79,7 +79,7 @@ module.exports = {
         var last = first + 6; // last day is the first day + 6
 
         var firstday = new Date(curr.setDate(first))
-        var lastday = new Date(curr.setDate(last))
+        var lastday = new Date(firstday.getTime() + 60 * 60 *24 * 6 * 1000)
         lastday.setHours(23,59,0,0);
         items = items.filter( item => ( ((item.created_at >= firstday) && (item.created_at <= lastday)) ))
     }

@@ -41,6 +41,17 @@ module.exports = {
       }
     });
   },
+  fetchCategories: function(){
+    $.ajax({
+      method: 'GET',
+      url: 'api/questions/category_index',
+      dataType: 'json',
+      success: QuestionActions.receiveCategory,
+      error: function() {
+        debugger
+      }
+    });
+  },
   fetchQuestion: function(questionId) {
     $.ajax({
       method: 'GET',
@@ -178,7 +189,8 @@ module.exports = {
     var data = {
       '[question][title]': question.title,
       '[question][content]': question.content,
-      '[question][tag_names]': question.tags
+      '[question][tag_names]': question.tags,
+      '[question][category_id]': question.category_id
     };
     $.ajax({
       method: 'PATCH',
@@ -353,12 +365,13 @@ module.exports = {
       }
     });
   },
-  createQuestion: function(question) {
+  createQuestion: function(question) {    
     var data = {
       '[question][title]': question.title,
       '[question][content]': question.content,
-      '[question][tag_names]': question.tags
-    };
+      '[question][tag_names]': question.tags,
+      '[question][category_id]': question.category_id
+    };    
     requireCurrentUser($.ajax.bind(null, {
       method: 'POST',
       url: 'api/questions',

@@ -6,10 +6,11 @@ var RemovableTagStub = require('../tags/removable_stub.jsx');
 var TagStore = require('../../stores/tag');
 var TagActions = require('../../actions/tag');
 var TagStub = require('../tags/stub');
+var QuestionStore = require('../../stores/question');
 
 var _callbackId;
 var QuestionsForm = React.createClass({
-  getInitialState: function() {
+  getInitialState: function() {    
     var tags = [];
     if (this.props.tags) {
       tags = this.props.tags.map(function(tag) {
@@ -26,19 +27,23 @@ var QuestionsForm = React.createClass({
       foundTags: null,
       tagStringError: false,
       newTagDescription: '',
-      isCreatingNewTag: false
+      isCreatingNewTag: false,
+      categories: [],
+      category_id: this.props.category_id ||''
     };
   },
   componentDidMount: function() {
     _callbackId = TagStore.addListener(this.onTagChange);
     ApiUtil.fetchTags();
+    ApiUtil.fetchCategories();
   },
   onTagChange: function() {
     var foundTags = TagStore.all().slice(0, 6);
     this.setState({
       foundTags: foundTags,
       newTagDescription: '',
-      isCreatingNewTag: false
+      isCreatingNewTag: false,
+      categories: QuestionStore.getCategories()
     });
   },
   componentWillUnmount: function() {
@@ -50,7 +55,7 @@ var QuestionsForm = React.createClass({
     tags.splice(tags.indexOf(tagName), 1);
     this.setState({ tags: tags });
   },
-  handleChange: function(type, e) {
+  handleChange: function(type, e) {    
     switch (type) {
       case 'title':
         this.setState ({ title: e.currentTarget.value });
@@ -58,6 +63,9 @@ var QuestionsForm = React.createClass({
       case 'content':
         this.setState ({ content: e.currentTarget.value });
         break;
+      case 'category_id':
+        this.setState ({ category_id: e.currentTarget.value });
+        break;  
     }
   },
   handleSubmit: function() {
@@ -197,7 +205,19 @@ var QuestionsForm = React.createClass({
       </div>
     );
   },
-  render: function() {
+  // renderOptions: function(){
+  //   var options = []
+  //   if (this.state.categories != undefined && this.state.categories.length > 0){
+  //     this.state.categories.forEach(function(category) {
+  //       options.push({id: category.id, name: category.name});
+  //       category.subcategories.forEach(function(subcategory) {
+  //         options.push({id: subcategory.id, name: subcategory.name});
+  //       })
+  //     })
+  //   }
+  //   return options
+  // },
+  render: function() {    
     var buttonClass, tagSearchResults;
 
     if (!this.state.title.length || !this.state.content.length) {
@@ -252,10 +272,34 @@ var QuestionsForm = React.createClass({
     if (this.state.tagStringError) {
       tagsInputClass += ' question-form-tags-input-error';
     }
-
+    var options = []
+    if (this.state.categories != undefined && this.state.categories.length > 0){
+      this.state.categories.forEach(function(category) {
+        options.push({id: category.id, name: category.name});
+        category.subcategories.forEach(function(subcategory) {
+          options.push({id: subcategory.id, name: subcategory.name});
+        })
+      })
+    }
     return (
+
       <div className='question-form-double group'>
         <div className='question-form-main'>
+          <div className='question-form-title-container group que-category'>
+            <div className='question-form-title-label'>
+              Category
+            </div>
+            <select id="question-form-title-input" onChange={this.handleChange.bind(this,"category_id")} value={this.state.category_id || ""}>
+              <option key="que-select" value={null}>Select Category</option>  
+              {                
+                options.map(function (orgs, ind) {                                                                
+                    return <option key={orgs.id} value={orgs.id }>{orgs.name}</option>
+                })
+              }
+            </select>
+
+            
+          </div>
           <div className='question-form-title-container group'>
             <div className='question-form-title-label'>
               Title

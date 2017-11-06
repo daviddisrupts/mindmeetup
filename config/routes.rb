@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :questions, except: [:new, :edit] do
       collection do
         get :search
+        get :category_index
       end
     end
     resources :votes, only: [:create, :destroy]

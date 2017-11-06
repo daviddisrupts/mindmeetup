@@ -22,7 +22,8 @@ class Question < ActiveRecord::Base
   # validate tag_ids?
 
   belongs_to :user
-
+  belongs_to :category
+ 
   has_many :answers, dependent: :destroy
   has_many :responders, -> { distinct }, through: :answers, source: :user
 

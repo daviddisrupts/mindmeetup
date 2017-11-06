@@ -1,6 +1,7 @@
 var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var QuestionConstants = require('../constants/question');
+var CategoryConstants = require('../constants/category');
 var QuestionStore = new Store(AppDispatcher);
 var Util = require('../util/util');
 var ApiUtil = require('../util/api_util');
@@ -12,6 +13,7 @@ var _questionSortBy = 'newest';
 var _tag;
 var _indexLoaded;
 var _answerSubmissionOK;
+var _categories;
 
 function formatDates(question) {
   Util.formatDateHelper(question);
@@ -37,6 +39,10 @@ function resetQuestions(questions) {
     _questions[question.id] = question;
   });
   _indexLoaded = true;
+}
+
+function fetchCategories(categories) {
+  _categories = categories;  
 }
 
 function changeQuestionSort(questionSortBy) {
@@ -115,6 +121,10 @@ QuestionStore.allQuestions = function() {
   return questions;
 };
 
+QuestionStore.getCategories = function() {
+   return _categories;  
+};
+
 QuestionStore.getQuestion = function(questionId) {
   if (!_questions || !_questions[questionId]) {
     return null;
@@ -167,6 +177,9 @@ QuestionStore.__onDispatch = function(payload) {
       resetQuestion(payload.action);
       _answerSubmissionOK = true;
       break;
+    case CategoryConstants.RECEIVE_CATEGORIES:
+      fetchCategories(payload.action);
+      break;        
   }
   this.__emitChange();
 };

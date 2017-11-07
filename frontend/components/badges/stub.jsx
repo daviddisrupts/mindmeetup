@@ -5,7 +5,7 @@ var hashHistory = require('react-router').hashHistory;
 var BadgeStub = React.createClass({
   handleClick: function() {
     if (this.props.badge.id) {
-      var path = '/badges/' + this.props.badge.id;
+      var path = '/awards/' + this.props.badge.id;
       hashHistory.push(path);
     }
   },

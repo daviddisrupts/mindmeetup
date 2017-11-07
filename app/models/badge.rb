@@ -88,7 +88,7 @@ class Badge < ActiveRecord::Base
   validates :rank, inclusion: ['bronze', 'silver', 'gold']
   validates :category, inclusion: ['Question', 'Answer', 'Tag']
 
-  has_many :badgings
+  has_many :badgings, dependent: :destroy
   has_many :users, through: :badgings, source: :user
 
   def self.show_find(badgeId)

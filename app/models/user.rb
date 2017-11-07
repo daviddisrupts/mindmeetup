@@ -223,4 +223,14 @@ class User < ActiveRecord::Base
   def to_s
     display_name
   end
+
+  def ar_count
+    ar_questions = questions.joins(:category).where(categories: { name: ['AR','AR Kit', 'AR Core', "Hololens", "Magic Leap", "Vuforia"]})
+    return (ar_questions.joins(:votes).count + ar_questions.joins(:favorites).count)
+  end
+
+  def vr_count
+    vr_questions = questions.joins(:category).where(categories: { name: ['VR','Windows mixed reality', 'Daydream', "Oculus", "HTC Vive", 'WebVR', 'SteamVR']})
+    return (vr_questions.joins(:votes).count + vr_questions.joins(:favorites).count)
+  end
 end

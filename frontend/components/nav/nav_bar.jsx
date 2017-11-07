@@ -9,7 +9,7 @@ var NavNotifications = require('./notifications');
 var AuthModal = require('./auth_modal');
 var CurrentUserActions = require('../../actions/current_user');
 
-var HEADERS = ['questions', 'tags', 'users', 'badges', 'ask'];
+var HEADERS = ['questions', 'tags', 'users', 'awards', 'ask'];
 var MODAL_TABS = ['Log In', 'Sign Up'];
 
 var _currentUserStoreCallbackId;
@@ -68,7 +68,7 @@ var NavBar = React.createClass({
                 className='nav-current-user-icon'
                 src={util.avatarSrc(currentUser.id)} />
               <div className='current-user-reputation'>
-                {currentUserReputation}
+                AR {currentUser.ar_count} | VR {currentUser.vr_count}
               </div>
             </div>
           </li>

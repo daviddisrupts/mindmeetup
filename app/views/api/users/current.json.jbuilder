@@ -1,5 +1,5 @@
 json.extract!(@current_user,
-  :id, :display_name, :bio, :location, :reputation, :email
+  :id, :display_name, :bio, :location, :reputation, :email, :ar_count, :vr_count
 )
 
 json.notifications @notifications do |notification|

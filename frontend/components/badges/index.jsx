@@ -6,7 +6,7 @@ var SortNav = require('../shared/sort_nav');
 var BadgeStub = require('../badges/stub');
 
 var _callbackId;
-var BADGE_SELECT_TYPES = ['all', 'gold', 'silver', 'bronze'];
+var BADGE_SELECT_TYPES = ['all', 'Tier 3', 'Tier 2', 'Tier 1'];
 
 var BadgesIndex = React.createClass({
   getInitialState: function() {
@@ -31,23 +31,23 @@ var BadgesIndex = React.createClass({
   handleSelectChange: function(select) {
     BadgeActions.resetBadgesSelect(select);
   },
-  renderBadges: function(category, subcategory) {
+  renderBadges: function(category, subcategory) {    
     var badges = this.state.badges[category][subcategory];
     switch (this.state.select) {
       case 'all':
         // do nothing
         break;
-      case 'gold':
+      case 'Tier 3':
         badges = badges.filter(function(badge) {
           return badge.rank === 'gold';
         });
         break;
-      case 'silver':
+      case 'Tier 2':
         badges = badges.filter(function(badge) {
           return badge.rank === 'silver';
         });
         break;
-      case 'bronze':
+      case 'Tier 1':
         badges = badges.filter(function(badge) {
           return badge.rank === 'bronze';
         });
@@ -70,7 +70,7 @@ var BadgesIndex = React.createClass({
     }.bind()));
   },
   renderSubcategories: function(category) {
-    var subcategories = Object.keys(this.state.badges[category]).sort();
+    var subcategories = Object.keys(this.state.badges[category]).sort();    
     return (subcategories.map(function(subcategory) {
       return (
         <div
@@ -94,14 +94,14 @@ var BadgesIndex = React.createClass({
           key={'badge-' + category}
           className='badges-index-category-element'>
           <div className='badges-index-category-element-header'>
-            {category + ' Badges'}
+            {category + ' Awards'}
           </div>
           {this.renderSubcategories(category)}
         </div>
       );
     }.bind(this)));
   },
-  render: function() {
+  render: function() {    
     if (!this.state.badges) {
       return (<div />);
     }
@@ -113,7 +113,7 @@ var BadgesIndex = React.createClass({
             tabShift='right'
             links={BADGE_SELECT_TYPES}
             active={this.state.select}
-            header='Badges'
+            header='Awards'
             handleSortChange={this.handleSelectChange}/>
           <div className='badges-index-main-help'>
             Besides gaining reputation with good questions and answers, you
@@ -128,7 +128,7 @@ var BadgesIndex = React.createClass({
         <div className='content-double-sidebar'>
           <div className='badge-index-sidebar-element'>
             <div className='badge-index-sidebar-element-label'>
-              <BadgeStub badge={{name: 'bronze_badge', rank: 'bronze'}}/>
+              <BadgeStub badge={{name: 'tier 1', rank: 'bronze'}}/>
             </div>
             <div className='badge-index-sidebar-element-description'>
               Bronze badges encourage users to make quality posts. They are not
@@ -138,7 +138,7 @@ var BadgesIndex = React.createClass({
 
           <div className='badge-index-sidebar-element'>
             <div className='badge-index-sidebar-element-label'>
-              <BadgeStub badge={{name: 'silver_badge', rank: 'silver'}}/>
+              <BadgeStub badge={{name: 'tier 2', rank: 'silver'}}/>
             </div>
             <div className='badge-index-sidebar-element-description'>
               Silver badges are less common than bronze badges. You'll have to
@@ -148,7 +148,7 @@ var BadgesIndex = React.createClass({
 
           <div className='badge-index-sidebar-element'>
             <div className='badge-index-sidebar-element-label'>
-              <BadgeStub badge={{name: 'gold_badge', rank: 'gold'}}/>
+              <BadgeStub badge={{name: 'tier 3', rank: 'gold'}}/>
             </div>
             <div className='badge-index-sidebar-element-description'>
               Gold badges are the hardest badge to earn. These are rarely awarded

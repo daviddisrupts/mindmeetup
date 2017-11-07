@@ -30,8 +30,8 @@ var App = (
       <Route path='users' component={UsersIndex} />
       <Route path='users/:userId(/:tab)' component={UserShow} />
       <Route path='tags' component={TagsIndex} />
-      <Route path='badges' component={BadgesIndex} />
-      <Route path='badges/:badgeId' component={BadgeShow} />
+      <Route path='awards' component={BadgesIndex} />
+      <Route path='awards/:badgeId' component={BadgeShow} />
       <Route path='search(/:query)' component={Search} />
     </Route>
   </Router>

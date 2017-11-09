@@ -7,6 +7,8 @@
     "test": "test"
   },
   "scripts": {
+    "prestart": "npm run dev",
+    "dev": "./node_modules/.bin/webpack --watch --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "./node_modules/.bin/webpack"
   },

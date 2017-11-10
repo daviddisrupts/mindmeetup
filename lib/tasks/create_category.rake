@@ -3,9 +3,9 @@ namespace :migrate do
         
     Category.create!([{name: "AR"},{name: "VR"}])
 
-    ar_subcategories = ['AR Kit', 'AR Core', "Holo Lense", "Magic Leap", "Vuforia"]
+    ar_subcategories = ['ARKit', 'ARCore', "HoloLens", "Magic Leap", "Vuforia"]
 
-    vr_subcategories = ['Windows Mixed Redif', 'Day dream', "Oculus", "HTC Vive"]
+    vr_subcategories = ['Windows Mixed Reality', 'Daydream', "Oculus", "HTC Vive", "WebVR", "SteamVR"]
 
     ar_category = Category.find_by_name("AR")
     vr_category = Category.find_by_name("VR")

@@ -1,13 +1,13 @@
 namespace :migrate do  
   task :update_category => :environment do
 
-  	day_dream = Category.find_by_name("Day dream")
+  	day_dream = Category.find_by_name("Daydream")
   	day_dream.update_attributes(name: "Daydream")
 
-  	holo_lense = Category.find_by_name("Holo Lense")
+  	holo_lense = Category.find_by_name("HoloLens")
   	holo_lense.update_attributes(name: "Hololens")
 
-  	windows_mixed = Category.find_by_name("Windows Mixed Redif")
+  	windows_mixed = Category.find_by_name("Windows Mixed Reality")
   	windows_mixed.update_attributes(name: "Windows mixed reality")
 
   	vr_subcategories = ['WebVR', 'SteamVR']

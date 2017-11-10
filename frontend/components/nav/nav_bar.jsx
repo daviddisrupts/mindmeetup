@@ -185,7 +185,7 @@ var NavBar = React.createClass({
         <div className='nav-header main-content group'>
           <ul className='nav-left-container base'>
             <li onClick={this.navigate.bind(null, '/')}>
-              <h1 className='logo'>SnackOverflow</h1>
+              <h1 className='logo'>RestartReality</h1>
             </li>
           </ul>
           <ul className='nav-right-container base'>

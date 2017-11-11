@@ -13,7 +13,8 @@ class Api::UsersController < ApplicationController
   def create
     user = User.new(user_params)
       if user.save
-        login!(user)
+        # login!(user)
+        UserMailer.user_account_confirmation(user).deliver_now
         @current_user = User.find_with_reputation(user.id)
         @notifications = []
         render 'api/users/current'

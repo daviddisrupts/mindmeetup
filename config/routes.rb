@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         get :current
       end
     end
+    get '/users/confirmation/:confirmation_token' => "confirmation#show", as: :user_confirmation
     resources :questions, except: [:new, :edit] do
       collection do
         get :search

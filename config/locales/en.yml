@@ -21,3 +21,6 @@
 
 en:
   hello: "Hello world"
+  user:
+    confirmation:
+      confirmation_period_expired: "Confirmation link Expired. Please request a new one."

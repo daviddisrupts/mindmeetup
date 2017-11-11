@@ -15,6 +15,7 @@
 class User < ActiveRecord::Base
   extend UserSQLHelper
   include Viewable
+  include Confirmable
 
   REPUTATION_SCHEME = {
     receive_question_upvote: 10,

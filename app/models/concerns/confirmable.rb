@@ -18,24 +18,34 @@ module Confirmable
     generate_confirmation_token && save(validate: false)
   end
 
-  def confirm_by_token(confirmation_token)
-    confirmable = find_by(confirmation_token: confirmation_token)
-    unless confirmable
-      confirmation_digest = Devise.token_generator.digest(self, :confirmation_token, confirmation_token)
-      confirmable = find_or_initialize_with_error_by(:confirmation_token, confirmation_digest)
-    end
-
-    confirmable.confirm if confirmable.persisted?
-    confirmable
-  end
-
   def confirm
   	if confirmation_period_expired?
-      self.errors.add(:email, :confirmation_period_expired)
+      self.errors.add(:confirmation_token, :confirmation_period_expired)
       return false
     end
   	self.confirmed_at = Time.now.utc
   	save(validate: true)
+  end
+
+  def confirmed?
+    !!confirmed_at
+  end
+
+  def unconfirmed?
+    !confirmed_at
+  end
+
+  module ClassMethods
+  	def confirm_by_token(confirmation_token)
+	    confirmable = find_by(confirmation_token: confirmation_token)
+	    unless confirmable
+	      return false
+	    end
+
+	    confirmable.errors.add(:email, :already_confirmed) if confirmable.confirmed?
+	    confirmable.confirm if confirmable.unconfirmed? && confirmable.persisted?
+	    confirmable
+	  end
   end
 
   protected

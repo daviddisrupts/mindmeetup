@@ -164,6 +164,8 @@ var AuthModal = React.createClass({
             <button onClick={this.handleSubmit} id="auth-submit">
               {this.props.active === 'Sign Up' ? 'Sign up' : 'Log in'}
             </button>
+            <br /><a href="/auth/facebook?popup=popup"> Login with Facebook </a>
+            <br /><a href="/auth/google_oauth2"> Login with Google </a>
             {errors}
             {footer}
           </div>

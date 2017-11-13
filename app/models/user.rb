@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   extend UserSQLHelper
   include Viewable
   include Confirmable
+  include Authenticable
 
   REPUTATION_SCHEME = {
     receive_question_upvote: 10,
@@ -30,8 +31,9 @@ class User < ActiveRecord::Base
   attr_reader :password
   attr_accessor :tags
 
-  validates :email, :display_name, :password_digest, presence: true
-  validates :email, uniqueness: true
+  validates :email, :password_digest, presence: true, :unless => :social_login?
+  validates :display_name, presence: true
+  validates :email, uniqueness: true, :allow_nil => true
   validates :password, length: { minimum: 6, allow_nil: true}
 
   has_many :questions
@@ -196,6 +198,16 @@ class User < ActiveRecord::Base
     user if user && user.is_password?(password)
   end
 
+  def self.create_with_omniauth(auth)
+    create! do |user|
+      user.provider = auth['provider']
+      user.uid = auth['uid']
+      if auth['info']
+         user.display_name = auth['info']['name'] || ""
+      end
+    end
+  end
+
   def self.index_all
     self.find_with_reputation_and_tags_and_vote_count
   end
@@ -233,5 +245,9 @@ class User < ActiveRecord::Base
   def vr_count
     vr_questions = questions.joins(:category).where(categories: { name: ['VR','Windows mixed reality', 'Daydream', "Oculus", "HTC Vive", 'WebVR', 'SteamVR']})
     return (vr_questions.joins(:votes).count + vr_questions.joins(:favorites).count)
+  end
+
+  def social_login?
+    !!provider && !!uid
   end
 end

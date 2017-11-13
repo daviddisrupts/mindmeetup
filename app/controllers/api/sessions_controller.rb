@@ -4,8 +4,11 @@ class Api::SessionsController < ApplicationController
       params[:user][:email], params[:user][:password]
     )
     if user
-      login!(user)
-      render_current_user
+      return render json: {
+        id: nil,
+        errors: user.errors.full_messages
+      }, status: :unauthorized unless user.authenticated?
+    login!(user) && render_current_user
     else
       current_user_object = {
         id: nil,

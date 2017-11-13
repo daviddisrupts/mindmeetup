@@ -73,3 +73,6 @@ group :production do
   gem 'newrelic_rpm'
 end
 gem 'active_model_serializers'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'

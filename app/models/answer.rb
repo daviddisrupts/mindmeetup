@@ -10,10 +10,13 @@
 #  updated_at  :datetime         not null
 #  unread      :boolean          default(TRUE)
 #
+require 'elasticsearch/model'
 
 class Answer < ActiveRecord::Base
   include Commentable
   include Votable
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   attr_accessor :matches
 

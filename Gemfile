@@ -72,3 +72,7 @@ group :production do
   gem 'newrelic_rpm'
 end
 gem 'active_model_serializers'
+
+# serach engine
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'

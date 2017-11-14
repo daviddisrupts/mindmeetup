@@ -9,12 +9,15 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+require 'elasticsearch/model'
 
 class Question < ActiveRecord::Base
   include Commentable
   include Votable
   include Viewable
   include Badgeable
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   attr_accessor :tag_names, :matches
 

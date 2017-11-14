@@ -11,12 +11,12 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
-  # For large-scale production use, consider using a caching reverse proxy like
+  # For large-scale stagting use, consider using a caching reverse proxy like
   # NGINX, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
@@ -54,7 +54,7 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-  # Use a different cache store in production.
+  # Use a different cache store in staging.
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
@@ -79,11 +79,11 @@ Rails.application.configure do
 
   # Mail configuration
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => "http://www.restartreality.com" }
+  config.action_mailer.default_url_options = { :host => "https://newreality.herokuapp.com" }
   ActionMailer::Base.smtp_settings = {
     :user_name => ENV['SENDGRID_USERNAME'],
     :password => ENV['SENDGRID_PASSWORD'],
-    :domain => 'restartreality.com',
+    :domain => 'newreality.herokuapp.com',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,

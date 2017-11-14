@@ -29,7 +29,7 @@ en:
             email:
               unconfirmed: "address needs to be confirm before continuing."
               confirm: "address has been successfully confirmed."
-              already_confirmed: "was already confirmed, please try signing in"
+              already_confirmed: "was already confirmed, please try signing in."
             confirmation_token:
               confirmation_period_expired: "is Expired. Please request a new one."
               not_found: "Email with this token was not found."

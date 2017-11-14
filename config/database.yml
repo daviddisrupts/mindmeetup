@@ -83,3 +83,9 @@ production:
   database: SnackOverflow_production
   username: SnackOverflow
   password: <%= ENV['SNACKOVERFLOW_DATABASE_PASSWORD'] %>
+
+staging:
+  <<: *default
+  database: SnackOverflow_staging
+  username: SnackOverflow
+  password: <%= ENV['SNACKOVERFLOW_DATABASE_PASSWORD'] %>

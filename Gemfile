@@ -69,7 +69,7 @@ group :development do
   gem "letter_opener"
 end
 
-group :production do
+group :production, :staging do
   gem 'newrelic_rpm'
 end
 gem 'active_model_serializers'

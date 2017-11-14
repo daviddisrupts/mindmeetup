@@ -51,7 +51,7 @@ module Confirmable
   protected
 
   def confirmation_period_expired?
-    Time.now.utc > self.confirmation_sent_at.utc + eval(ENV['USER_CONFIRM_WITHIN'])
+    Time.now.utc > self.confirmation_sent_at.utc + eval(ENV['USER_CONFIRM_WITHIN'] || '15.days')
   end
 
   def generate_token

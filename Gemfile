@@ -75,6 +75,12 @@ group :production, :staging do
   gem 'rails_12factor'
 end
 gem 'active_model_serializers'
+
+# serach engine
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
+
+# Social authentication
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'

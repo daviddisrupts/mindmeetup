@@ -240,7 +240,7 @@ module.exports = {
       data: data,
       dataType: 'json',
       success: function(user) {
-        CurrentUserActions.receiveCurrentUser(user);
+        // CurrentUserActions.receiveCurrentUser(user); // Needs to be confirm email before current user
         CurrentUserActions.toggleSignupModalOn();
       },
       error: function(obj) {

@@ -1,1 +1,7 @@
 <div id='root'></div>
+
+<% if flash[:error] || flash[:notice] %>
+	<script type="text/javascript">
+		alert("<%= flash[:error] || flash[:notice] %>")
+	</script>
+<% end %>

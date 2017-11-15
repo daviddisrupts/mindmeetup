@@ -3,11 +3,13 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     resource :session, only: [:create, :destroy]
+    get '/auth/:provider/callback' => 'social_auth/omniauth_callbacks#authenticate'
     resources :users, except: [:new, :edit, :destroy] do
       collection do
         get :current
       end
     end
+    get '/users/confirmation/:confirmation_token' => "confirmations#show", as: :user_confirmation
     resources :questions, except: [:new, :edit] do
       collection do
         get :search

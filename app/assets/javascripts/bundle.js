@@ -32917,7 +32917,7 @@
 	      data: data,
 	      dataType: 'json',
 	      success: function (user) {
-	        CurrentUserActions.receiveCurrentUser(user);
+	        // CurrentUserActions.receiveCurrentUser(user); // Needs to be confirm email before current user
 	        CurrentUserActions.toggleSignupModalOn();
 	      },
 	      error: function (obj) {
@@ -34019,6 +34019,18 @@
 	            'button',
 	            { onClick: this.handleSubmit, id: 'auth-submit' },
 	            this.props.active === 'Sign Up' ? 'Sign up' : 'Log in'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'a',
+	            { href: '/auth/facebook?popup=popup' },
+	            ' Login with Facebook '
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'a',
+	            { href: '/auth/google_oauth2' },
+	            ' Login with Google '
 	          ),
 	          errors,
 	          footer

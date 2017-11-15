@@ -15,8 +15,7 @@ require 'elasticsearch/model'
 class Answer < ActiveRecord::Base
   include Commentable
   include Votable
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  include Searchable
 
   attr_accessor :matches
 
@@ -33,10 +32,8 @@ class Answer < ActiveRecord::Base
       .order(created_at: :desc)
   end
 
-  def self.search(query)
-    Answer.includes(:associated_tags, :votes)
-      .select("answers.*, questions.title AS title")
-      .joins(:question)
-      .where("lower(answers.content) like :query", query: "%#{query.downcase}%")
+  # OPTIMIZE : Need to add title in qnswer object. Used in Api::SearchesController#query.
+  def title
+    question.title
   end
 end

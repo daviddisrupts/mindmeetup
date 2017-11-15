@@ -1,7 +1,7 @@
 class Api::SearchesController < ApplicationController
   def query
     if params[:q]
-      @posts = Question.search(params[:q]) + Answer.search(params[:q])
+      @posts = Question.search(params[:q]).records.to_a + Answer.includes(:question).search(params[:q]).records.to_a
       @posts.each do |post|
         post.matches = post.content.downcase.scan(params[:q]).count
         post.matches += post.title.downcase.scan(params[:q]).count

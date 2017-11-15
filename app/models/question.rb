@@ -16,8 +16,7 @@ class Question < ActiveRecord::Base
   include Votable
   include Viewable
   include Badgeable
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  include Searchable
 
   attr_accessor :tag_names, :matches
 
@@ -39,12 +38,6 @@ class Question < ActiveRecord::Base
 
   USER_DETAILS = { user: [{ questions: :votes }, { given_answers: :votes }, :votes,
     { comments: :votes }]}
-
-  def self.search(query)
-    Question.includes(:associated_tags, :votes, :views, :answers)
-        .where("lower(content) like :query OR lower(title) like :query",
-        query: "%#{query.downcase}%")
-  end
 
   def self.with_stats_and_tags_by_user_id(user_id)
     Question

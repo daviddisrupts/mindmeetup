@@ -25722,6 +25722,7 @@
 	var _submissionComplete;
 	var _signupModalOn = false;
 	var _currentUserErrors = null;
+	var _successMessage = null;
 	
 	function resetCurrentUser(currentUser) {
 	  if (currentUser.id) {
@@ -25730,6 +25731,10 @@
 	    _currentUserErrors = currentUser.errors;
 	  }
 	  _currentUser = currentUser;
+	}
+	
+	function sucessForgotPassword(response) {
+	  _currentUser = response;
 	}
 	
 	function resetUpdateSubmissionErrors(errors) {
@@ -25777,6 +25782,9 @@
 	      } else {
 	        _signupModalOn = { warning: payload.action };
 	      }
+	      break;
+	    case CurrentUserConstants.SUCCESS_FORGOT_PASSWORD:
+	      sucessForgotPassword(payload.action);
 	      break;
 	  }
 	  this.__emitChange();
@@ -32552,7 +32560,8 @@
 	  RECEIVED_CURRENT_USER: 'RECEIVED_CURRENT_USER',
 	  RECEIVED_CURRENT_USER_UPDATE_STATUS_BAD: 'RECEIVED_CURRENT_USER_UPDATE_STATUS_BAD',
 	  RESET_UPDATE_SUBMISSION_STATUS: 'RESET_UPDATE_SUBMISSION_STATUS',
-	  TOGGLE_SIGNUP_MODAL_ON: 'TOGGLE_SIGNUP_MODAL_ON'
+	  TOGGLE_SIGNUP_MODAL_ON: 'TOGGLE_SIGNUP_MODAL_ON',
+	  SUCCESS_FORGOT_PASSWORD: 'SUCCESS_FORGOT_PASSWORD'
 	};
 
 /***/ }),
@@ -32944,6 +32953,24 @@
 	      }
 	    });
 	  },
+	  forgotPassword: function (userInfo) {
+	    var data = {
+	      '[user][email]': userInfo.email
+	    };
+	    $.ajax({
+	      method: 'POST',
+	      url: '/api/users/password',
+	      data: data,
+	      dataType: 'json',
+	      success: function (response) {
+	        CurrentUserActions.successForgotPassword(response);
+	      },
+	      error: function (response) {
+	        console.log(JSON.parse(response.responseText));
+	        alert(JSON.parse(response.responseText));
+	      }
+	    });
+	  },
 	  destroySession: function () {
 	    $.ajax({
 	      method: 'DELETE',
@@ -33156,6 +33183,12 @@
 	    AppDispatcher.dispatch({
 	      action: warning,
 	      actionType: CurrentUserConstants.TOGGLE_SIGNUP_MODAL_ON
+	    });
+	  },
+	  successForgotPassword: function (response) {
+	    AppDispatcher.dispatch({
+	      action: response,
+	      actionType: CurrentUserConstants.SUCCESS_FORGOT_PASSWORD
 	    });
 	  }
 	};
@@ -33832,9 +33865,11 @@
 	      displayName: '',
 	      email: '',
 	      password: '',
+	      forgotPasswordPage: false,
 	      authStatus: null,
 	      currentUser: null,
-	      errors: []
+	      errors: [],
+	      messages: []
 	    };
 	  },
 	  componentDidMount: function () {
@@ -33844,6 +33879,11 @@
 	    var currentUser = CurrentUserStore.fetch();
 	    if (currentUser.errors) {
 	      this.setState({ errors: currentUser.errors });
+	    }
+	
+	    var successMessage = CurrentUserStore.fetch();
+	    if (successMessage.messages) {
+	      this.setState({ messages: successMessage.messages });
 	    }
 	  },
 	  componentWillUnmount: function () {
@@ -33872,16 +33912,23 @@
 	    this.setState({ errors: [], password: '' });
 	    if (this.props.active === 'Sign Up') {
 	      ApiUtil.createUser(this.state);
-	    } else if (this.props.active === 'Log In') {
+	    } else if (this.props.active === 'Log In' && !this.state.forgotPasswordPage) {
 	      ApiUtil.createSession(this.state);
+	    } else if (this.state.forgotPasswordPage) {
+	      ApiUtil.forgotPassword(this.state);
 	    }
 	  },
 	  handleModalTabClick: function (tab) {
 	    this.props.handleModalTabClick(tab);
-	    this.setState({ errors: [] });
+	    this.setState({ errors: [], forgotPasswordPage: false, messages: [] });
+	  },
+	  handleForgotLink: function () {
+	    this.props.handleModalTabClick('Log In');
+	    this.setState({ errors: [], forgotPasswordPage: true, messages: [] });
 	  },
 	  render: function () {
-	    var displayNameInput, footer, displayNamePlaceholder, emailPlaceholder, passwordPlaceholder, warning, authFormErrorsHeader;
+	    var displayNameInput, footer, displayNamePlaceholder, emailPlaceholder, passwordPlaceholder, warning, authFormErrorsHeader, forgotPasswordLabel;
+	    forgotPasswordLabel = this.state.forgotPasswordPage ? "Forgot your account's password? Enter your email address and we'll send you a recovery link." : "";
 	    if (this.props.active === 'Sign Up') {
 	      displayNamePlaceholder = 'Zero Cool';
 	      emailPlaceholder = 'user@email.net';
@@ -33984,41 +34031,51 @@
 	        React.createElement(
 	          'div',
 	          { className: 'auth-form-container' },
-	          React.createElement(
+	          this.state.messages.length ? this.state.messages : React.createElement(
 	            'div',
-	            { className: 'auth-form-group' },
+	            null,
 	            React.createElement(
 	              'div',
-	              { className: 'auth-form-label' },
-	              'Email'
+	              { className: 'auth-form-group' },
+	              forgotPasswordLabel,
+	              React.createElement(
+	                'div',
+	                { className: 'auth-form-label' },
+	                'Email'
+	              ),
+	              React.createElement('input', {
+	                type: 'text',
+	                placeholder: emailPlaceholder,
+	                onChange: this.handleChange.bind(this, 'email'),
+	                value: this.state.email,
+	                id: 'auth-email' })
 	            ),
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: emailPlaceholder,
-	              onChange: this.handleChange.bind(this, 'email'),
-	              value: this.state.email,
-	              id: 'auth-email' })
-	          ),
-	          displayNameInput,
-	          React.createElement(
-	            'div',
-	            { className: 'auth-form-group' },
-	            React.createElement(
+	            displayNameInput,
+	            !this.state.forgotPasswordPage && React.createElement(
 	              'div',
-	              { className: 'auth-form-label' },
-	              'Password'
+	              { className: 'auth-form-group' },
+	              React.createElement(
+	                'div',
+	                { className: 'auth-form-label' },
+	                'Password'
+	              ),
+	              React.createElement('input', {
+	                type: 'password',
+	                placeholder: passwordPlaceholder,
+	                onChange: this.handleChange.bind(this, 'password'),
+	                value: this.state.password,
+	                id: 'auth-password' }),
+	              this.props.active !== 'Sign Up' && React.createElement(
+	                'a',
+	                { href: 'javascript:;', onClick: this.handleForgotLink.bind(this, "") },
+	                'Forgot password?'
+	              )
 	            ),
-	            React.createElement('input', {
-	              type: 'password',
-	              placeholder: passwordPlaceholder,
-	              onChange: this.handleChange.bind(this, 'password'),
-	              value: this.state.password,
-	              id: 'auth-password' })
-	          ),
-	          React.createElement(
-	            'button',
-	            { onClick: this.handleSubmit, id: 'auth-submit' },
-	            this.props.active === 'Sign Up' ? 'Sign up' : 'Log in'
+	            React.createElement(
+	              'button',
+	              { onClick: this.handleSubmit, id: 'auth-submit' },
+	              this.props.active === 'Sign Up' ? 'Sign up' : this.state.forgotPasswordPage ? 'Send Recovery Email' : 'Log in'
+	            )
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(

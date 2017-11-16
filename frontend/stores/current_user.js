@@ -9,6 +9,7 @@ var _updateSubmissionErrors = [];
 var _submissionComplete;
 var _signupModalOn = false;
 var _currentUserErrors = null;
+var _successMessage = null;
 
 function resetCurrentUser(currentUser) {
   if (currentUser.id) {
@@ -17,6 +18,10 @@ function resetCurrentUser(currentUser) {
     _currentUserErrors = currentUser.errors;
   }
   _currentUser = currentUser;
+}
+
+function sucessForgotPassword(response) {
+  _currentUser = response;
 }
 
 function resetUpdateSubmissionErrors(errors) {
@@ -64,6 +69,9 @@ CurrentUserStore.__onDispatch = function(payload) {
       } else {
         _signupModalOn = { warning: payload.action };
       }
+      break;
+    case(CurrentUserConstants.SUCCESS_FORGOT_PASSWORD):
+      sucessForgotPassword(payload.action);
       break;
   }
   this.__emitChange();

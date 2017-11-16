@@ -267,6 +267,24 @@ module.exports = {
       }
     });
   },
+  forgotPassword: function(userInfo) {
+    var data = {
+      '[user][email]': userInfo.email,
+    };
+    $.ajax({
+      method: 'POST',
+      url: '/api/users/password',
+      data: data,
+      dataType: 'json',
+      success: function(response) {
+        CurrentUserActions.successForgotPassword(response);
+      },
+      error: function(response) {
+        console.log(JSON.parse(response.responseText));
+        alert(JSON.parse(response.responseText));
+      }
+    });
+  },
   destroySession: function() {
     $.ajax({
       method: 'DELETE',

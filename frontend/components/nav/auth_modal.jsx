@@ -14,9 +14,11 @@ var AuthModal = React.createClass({
       displayName: '',
       email: '',
       password: '',
+      forgotPasswordPage: false,
       authStatus: null,
       currentUser: null,
-      errors: []
+      errors: [],
+      messages: []
     };
   },
   componentDidMount: function() {
@@ -26,6 +28,11 @@ var AuthModal = React.createClass({
     var currentUser = CurrentUserStore.fetch();
     if (currentUser.errors) {
       this.setState({ errors: currentUser.errors });
+    }
+
+    var successMessage = CurrentUserStore.fetch();
+    if (successMessage.messages) {
+      this.setState({ messages: successMessage.messages });
     }
   },
   componentWillUnmount: function() {
@@ -54,17 +61,24 @@ var AuthModal = React.createClass({
     this.setState({ errors: [], password: '' });
     if (this.props.active === 'Sign Up') {
       ApiUtil.createUser(this.state);
-    } else if (this.props.active === 'Log In') {
+    } else if (this.props.active === 'Log In' && !this.state.forgotPasswordPage) {
       ApiUtil.createSession(this.state);
+    } else if (this.state.forgotPasswordPage) {
+      ApiUtil.forgotPassword(this.state)
     }
   },
   handleModalTabClick: function(tab) {
     this.props.handleModalTabClick(tab);
-    this.setState({ errors: [] });
+    this.setState({ errors: [], forgotPasswordPage: false, messages: [] });
+  },
+  handleForgotLink: function() {
+    this.props.handleModalTabClick('Log In');
+    this.setState({ errors: [], forgotPasswordPage: true, messages: [] });
   },
   render: function() {
     var displayNameInput, footer, displayNamePlaceholder, emailPlaceholder,
-      passwordPlaceholder, warning, authFormErrorsHeader;
+      passwordPlaceholder, warning, authFormErrorsHeader, forgotPasswordLabel;
+    forgotPasswordLabel = this.state.forgotPasswordPage ? "Forgot your account's password? Enter your email address and we'll send you a recovery link." : "";
     if (this.props.active === 'Sign Up') {
       displayNamePlaceholder = 'Zero Cool';
       emailPlaceholder = 'user@email.net';
@@ -137,38 +151,50 @@ var AuthModal = React.createClass({
             links={MODAL_TABS}
             active={this.props.active}
             handleSortChange={this.handleModalTabClick} />
-          <div className='auth-form-container'>
-            <div className='auth-form-group'>
-              <div className='auth-form-label'>
-                Email
-              </div>
-              <input
-                type='text'
-                placeholder={emailPlaceholder}
-                onChange={this.handleChange.bind(this, 'email')}
-                value={this.state.email}
-                id="auth-email" />
+            <div className='auth-form-container'>
+              { this.state.messages.length ? (
+                this.state.messages
+              ) : (
+                <div>
+                  <div className='auth-form-group'>
+                    {forgotPasswordLabel}
+                    <div className='auth-form-label'>
+                      Email
+                    </div>
+                    <input
+                      type='text'
+                      placeholder={emailPlaceholder}
+                      onChange={this.handleChange.bind(this, 'email')}
+                      value={this.state.email}
+                      id="auth-email" />
+                  </div>
+                  {displayNameInput}
+                  { !this.state.forgotPasswordPage &&
+                    <div className='auth-form-group'>
+                      <div className='auth-form-label'>
+                        Password
+                      </div>
+                      <input
+                        type='password'
+                        placeholder={passwordPlaceholder}
+                        onChange={this.handleChange.bind(this, 'password')}
+                        value={this.state.password}
+                        id="auth-password" />
+                      { this.props.active !== 'Sign Up' &&
+                        <a href="javascript:;" onClick={this.handleForgotLink.bind(this, "")}>Forgot password?</a>
+                      }
+                    </div>
+                  }
+                  <button onClick={this.handleSubmit} id="auth-submit">
+                    {this.props.active === 'Sign Up' ? 'Sign up' : (this.state.forgotPasswordPage ? 'Send Recovery Email' : 'Log in')}
+                  </button>
+                </div>
+              )}
+              <br /><a href="/auth/facebook?popup=popup"> Login with Facebook </a>
+              <br /><a href="/auth/google_oauth2"> Login with Google </a>
+              {errors}
+              {footer}
             </div>
-            {displayNameInput}
-            <div className='auth-form-group'>
-              <div className='auth-form-label'>
-                Password
-              </div>
-              <input
-                type='password'
-                placeholder={passwordPlaceholder}
-                onChange={this.handleChange.bind(this, 'password')}
-                value={this.state.password}
-                id="auth-password" />
-            </div>
-            <button onClick={this.handleSubmit} id="auth-submit">
-              {this.props.active === 'Sign Up' ? 'Sign up' : 'Log in'}
-            </button>
-            <br /><a href="/auth/facebook?popup=popup"> Login with Facebook </a>
-            <br /><a href="/auth/google_oauth2"> Login with Google </a>
-            {errors}
-            {footer}
-          </div>
         </div>
       </div>
     );

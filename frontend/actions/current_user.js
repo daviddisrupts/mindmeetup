@@ -35,5 +35,11 @@ module.exports = {
       action: warning,
       actionType: CurrentUserConstants.TOGGLE_SIGNUP_MODAL_ON
     });
+  },
+  successForgotPassword: function(response) {
+    AppDispatcher.dispatch({
+      action: response,
+      actionType: CurrentUserConstants.SUCCESS_FORGOT_PASSWORD
+    });
   }
 };

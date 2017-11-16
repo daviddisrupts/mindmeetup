@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   include Viewable
   include Confirmable
   include Authenticable
+  include Recoverable
 
   REPUTATION_SCHEME = {
     receive_question_upvote: 10,

@@ -9,7 +9,11 @@ Rails.application.routes.draw do
         get :current
       end
     end
+    # Account confirmation after signup
     get '/users/confirmation/:confirmation_token' => "confirmations#show", as: :user_confirmation
+    post '/users/password' => "passwords#create", as: :user_password_reset
+    # get '/users/password/edit' => "passwords#edit", as: :edit_user_password_reset
+    put '/users/password' => "passwords#update", as: :update_user_password_reset
     resources :questions, except: [:new, :edit] do
       collection do
         get :search

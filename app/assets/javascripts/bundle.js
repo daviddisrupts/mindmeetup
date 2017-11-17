@@ -51,7 +51,7 @@
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var Redirect = __webpack_require__(159).Redirect;
 	var NavBar = __webpack_require__(222);
-	var QuestionsIndex = __webpack_require__(264);
+	var QuestionsIndex = __webpack_require__(265);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var QuestionShow = __webpack_require__(277);
 	var QuestionsForm = __webpack_require__(285);
@@ -62,6 +62,7 @@
 	var BadgesIndex = __webpack_require__(317);
 	var BadgeShow = __webpack_require__(319);
 	var Search = __webpack_require__(321);
+	var UserRecoverAccount = __webpack_require__(324);
 	
 	var App = React.createElement(
 	  Router,
@@ -70,6 +71,7 @@
 	    Route,
 	    { path: '/', component: NavBar },
 	    React.createElement(IndexRoute, { component: QuestionsIndex }),
+	    React.createElement(Route, { path: 'users/account-recovery(/:query)', component: UserRecoverAccount }),
 	    React.createElement(Route, { path: 'questions', component: QuestionsIndex }),
 	    React.createElement(Route, { path: 'questions/tagged/:tagName', component: QuestionsIndex }),
 	    React.createElement(Route, { path: 'questions/:questionId(/answer/:answerId)', component: QuestionShow }),
@@ -25603,7 +25605,7 @@
 	      return React.createElement('div', null);
 	    }
 	
-	    if (currentUser.id) {
+	    if (currentUser.id && !!currentUser.notifications) {
 	      currentUserDisplayName = currentUser.display_name;
 	      currentUserReputation = currentUser.reputation;
 	      unreadNotifications = currentUser.notifications.filter(function (item) {
@@ -25725,7 +25727,7 @@
 	var _successMessage = null;
 	
 	function resetCurrentUser(currentUser) {
-	  if (currentUser.id) {
+	  if (currentUser.id && !!currentUser.notifications) {
 	    currentUser.notifications.forEach(Util.formatDateHelper);
 	  } else {
 	    _currentUserErrors = currentUser.errors;
@@ -32827,6 +32829,19 @@
 	      }
 	    });
 	  },
+	  fetchUserByAccountRecoverToken: function (token) {
+	    $.ajax({
+	      method: 'GET',
+	      url: '/api/users/password/edit?reset_password_token=' + token,
+	      dataType: 'json',
+	      success: function (user) {
+	        CurrentUserActions.receiveCurrentUser(user);
+	      },
+	      error: function (response) {
+	        CurrentUserActions.receiveCurrentUser(JSON.parse(response.responseText));
+	      }
+	    });
+	  },
 	
 	  // UPDATE
 	
@@ -32912,6 +32927,27 @@
 	      }
 	    });
 	  },
+	  recoverAccount: function (userInfo) {
+	    var data = {
+	      '[user][password]': userInfo.password,
+	      '[user][password_confirmation]': userInfo.confirmPassword,
+	      '[user][reset_password_token]': userInfo.token
+	    };
+	    $.ajax({
+	      method: 'PUT',
+	      url: '/api/users/password',
+	      data: data,
+	      dataType: 'json',
+	      success: function (user) {
+	        CurrentUserActions.receiveCurrentUser(user);
+	        alert("Password updated successfully!");
+	        hashHistory.push('/');
+	      },
+	      error: function (obj) {
+	        CurrentUserActions.receiveCurrentUser(JSON.parse(obj.responseText));
+	      }
+	    });
+	  },
 	
 	  // POST and DELETE
 	  createUser: function (userInfo) {
@@ -32966,7 +33002,6 @@
 	        CurrentUserActions.successForgotPassword(response);
 	      },
 	      error: function (response) {
-	        console.log(JSON.parse(response.responseText));
 	        alert(JSON.parse(response.responseText));
 	      }
 	    });
@@ -33850,7 +33885,7 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
 	var CurrentUserActions = __webpack_require__(248);
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var CurrentUserStore = __webpack_require__(223);
 	
 	var MODAL_TABS = ['Log In', 'Sign Up'];
@@ -34117,15 +34152,101 @@
 /* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(159).hashHistory;
+	var ApiUtil = __webpack_require__(247);
+	var util = __webpack_require__(246);
+	
+	var SortNav = React.createClass({
+	  displayName: 'SortNav',
+	
+	  handleLogout: function () {
+	    ApiUtil.destroySession();
+	    hashHistory.push('/');
+	  },
+	  render: function () {
+	    var liLinks = this.props.links.map(function (link) {
+	      var className = 'sort-nav';
+	      if (this.props.active === link) {
+	        className += ' active';
+	      }
+	      return React.createElement(
+	        'li',
+	        {
+	          key: 'link-' + link,
+	          className: className,
+	          onClick: this.props.handleSortChange.bind(null, link) },
+	        link
+	      );
+	    }.bind(this));
+	
+	    var ulClass;
+	    if (this.props.tabShift === 'left') {
+	      ulClass = 'nav-left-container';
+	    } else if (this.props.tabShift === 'right') {
+	      ulClass = 'nav-right-container';
+	    }
+	
+	    var rightContainer;
+	    if (this.props.displayLogout) {
+	      rightContainer = React.createElement(
+	        'div',
+	        { className: 'sort-nav-right-container' },
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleLogout },
+	          'Log out'
+	        )
+	      );
+	    } else if (this.props.userInfo && this.props.userInfo.displayName) {
+	      var userPath = '/users/' + this.props.userInfo.id;
+	      rightContainer = React.createElement(
+	        'div',
+	        { className: 'sort-nav-right-container' },
+	        React.createElement(
+	          'span',
+	          { className: 'sort-nav-user-display-name' },
+	          this.props.userInfo.displayName
+	        ),
+	        React.createElement('img', {
+	          onClick: hashHistory.push.bind(this, userPath),
+	          className: 'sort-nav-user-icon link',
+	          src: util.avatarSrc(this.props.userInfo.id) })
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      { className: 'subheader group' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.props.header
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: ulClass },
+	        liLinks
+	      ),
+	      rightContainer
+	    );
+	  }
+	});
+	
+	module.exports = SortNav;
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
 	var QuestionStore = __webpack_require__(261);
 	var ApiUtil = __webpack_require__(247);
-	var QuestionIndexItem = __webpack_require__(265);
-	var SortNav = __webpack_require__(269);
+	var QuestionIndexItem = __webpack_require__(266);
+	var SortNav = __webpack_require__(264);
 	var QuestionActions = __webpack_require__(250);
-	var TagStub = __webpack_require__(266);
+	var TagStub = __webpack_require__(267);
 	var ReactCSSTransitionGroup = __webpack_require__(270);
 	var _callbackId;
 	
@@ -34343,14 +34464,14 @@
 	module.exports = QuestionsIndex;
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var TagStub = __webpack_require__(266);
-	var TagStubIndex = __webpack_require__(267);
-	var UserLinkStub = __webpack_require__(268);
+	var TagStub = __webpack_require__(267);
+	var TagStubIndex = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var util = __webpack_require__(246);
 	
 	function renderTagStubs(questionId, tags) {
@@ -34486,7 +34607,7 @@
 	module.exports = QuestionsIndexItem;
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34532,11 +34653,11 @@
 	module.exports = TagStub;
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(266);
+	var TagStub = __webpack_require__(267);
 	
 	var TagStubIndex = React.createClass({
 	  displayName: 'TagStubIndex',
@@ -34561,7 +34682,7 @@
 	module.exports = TagStubIndex;
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34584,92 +34705,6 @@
 	});
 	
 	module.exports = UserLinkStub;
-
-/***/ }),
-/* 269 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var hashHistory = __webpack_require__(159).hashHistory;
-	var ApiUtil = __webpack_require__(247);
-	var util = __webpack_require__(246);
-	
-	var SortNav = React.createClass({
-	  displayName: 'SortNav',
-	
-	  handleLogout: function () {
-	    ApiUtil.destroySession();
-	    hashHistory.push('/');
-	  },
-	  render: function () {
-	    var liLinks = this.props.links.map(function (link) {
-	      var className = 'sort-nav';
-	      if (this.props.active === link) {
-	        className += ' active';
-	      }
-	      return React.createElement(
-	        'li',
-	        {
-	          key: 'link-' + link,
-	          className: className,
-	          onClick: this.props.handleSortChange.bind(null, link) },
-	        link
-	      );
-	    }.bind(this));
-	
-	    var ulClass;
-	    if (this.props.tabShift === 'left') {
-	      ulClass = 'nav-left-container';
-	    } else if (this.props.tabShift === 'right') {
-	      ulClass = 'nav-right-container';
-	    }
-	
-	    var rightContainer;
-	    if (this.props.displayLogout) {
-	      rightContainer = React.createElement(
-	        'div',
-	        { className: 'sort-nav-right-container' },
-	        React.createElement(
-	          'button',
-	          { onClick: this.handleLogout },
-	          'Log out'
-	        )
-	      );
-	    } else if (this.props.userInfo && this.props.userInfo.displayName) {
-	      var userPath = '/users/' + this.props.userInfo.id;
-	      rightContainer = React.createElement(
-	        'div',
-	        { className: 'sort-nav-right-container' },
-	        React.createElement(
-	          'span',
-	          { className: 'sort-nav-user-display-name' },
-	          this.props.userInfo.displayName
-	        ),
-	        React.createElement('img', {
-	          onClick: hashHistory.push.bind(this, userPath),
-	          className: 'sort-nav-user-icon link',
-	          src: util.avatarSrc(this.props.userInfo.id) })
-	      );
-	    }
-	    return React.createElement(
-	      'div',
-	      { className: 'subheader group' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        this.props.header
-	      ),
-	      React.createElement(
-	        'ul',
-	        { className: ulClass },
-	        liLinks
-	      ),
-	      rightContainer
-	    );
-	  }
-	});
-	
-	module.exports = SortNav;
 
 /***/ }),
 /* 270 */
@@ -35645,7 +35680,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var QuestionStore = __webpack_require__(261);
 	var QuestionActions = __webpack_require__(250);
 	var ShowItem = __webpack_require__(279);
@@ -35708,9 +35743,9 @@
 	var React = __webpack_require__(1);
 	var CommentsIndex = __webpack_require__(280);
 	var CommentsForm = __webpack_require__(282);
-	var TagStub = __webpack_require__(266);
-	var TagStubIndex = __webpack_require__(267);
-	var UserLinkStub = __webpack_require__(268);
+	var TagStub = __webpack_require__(267);
+	var TagStubIndex = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var AnswersEdit = __webpack_require__(283);
 	var ApiUtil = __webpack_require__(247);
@@ -36001,7 +36036,7 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
-	var UserLinkStub = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	
 	function commentVoteClass(userVote, type) {
 	  var className;
@@ -36364,7 +36399,7 @@
 	var RemovableTagStub = __webpack_require__(288);
 	var TagStore = __webpack_require__(289);
 	var TagActions = __webpack_require__(254);
-	var TagStub = __webpack_require__(266);
+	var TagStub = __webpack_require__(267);
 	var QuestionStore = __webpack_require__(261);
 	
 	var _callbackId;
@@ -37093,7 +37128,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
@@ -37365,7 +37400,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserLinkStub = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var TagLinkIndex = __webpack_require__(295);
 	var util = __webpack_require__(246);
@@ -37577,7 +37612,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
@@ -37660,7 +37695,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(266);
+	var TagStub = __webpack_require__(267);
 	
 	var TagsIndexItem = React.createClass({
 	  displayName: 'TagsIndexItem',
@@ -37724,7 +37759,7 @@
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(293);
 	var ApiUtil = __webpack_require__(247);
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var UserShowProfile = __webpack_require__(301);
 	var UserShowActivity = __webpack_require__(308);
 	var hashHistory = __webpack_require__(159).hashHistory;
@@ -38119,7 +38154,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(266);
+	var TagStub = __webpack_require__(267);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
@@ -38635,7 +38670,7 @@
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var ShowActivitySummary = __webpack_require__(309);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ShowActivityDetail = __webpack_require__(314);
@@ -39173,7 +39208,7 @@
 	
 	var React = __webpack_require__(1);
 	var MiniNav = __webpack_require__(305);
-	var TagStubIndex = __webpack_require__(267);
+	var TagStubIndex = __webpack_require__(268);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ShowActivityTagItem = __webpack_require__(312);
@@ -39715,7 +39750,7 @@
 	var ApiUtil = __webpack_require__(247);
 	var BadgeStore = __webpack_require__(318);
 	var BadgeActions = __webpack_require__(256);
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var BadgeStub = __webpack_require__(307);
 	
 	var _callbackId;
@@ -40077,7 +40112,7 @@
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var UserLinkStub = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var util = __webpack_require__(246);
 	
 	var BadgingItem = React.createClass({
@@ -40147,7 +40182,7 @@
 	var SearchStore = __webpack_require__(322);
 	var ApiUtil = __webpack_require__(247);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var SortNav = __webpack_require__(269);
+	var SortNav = __webpack_require__(264);
 	var SearchActions = __webpack_require__(258);
 	var SearchItem = __webpack_require__(323);
 	
@@ -40332,8 +40367,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStubIndex = __webpack_require__(267);
-	var UserLinkStub = __webpack_require__(268);
+	var TagStubIndex = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var util = __webpack_require__(246);
 	
@@ -40506,6 +40541,170 @@
 	});
 	
 	module.exports = SearchItem;
+
+/***/ }),
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(247);
+	var CurrentUserStore = __webpack_require__(223);
+	
+	var UserRecoverAccount = React.createClass({
+	  displayName: 'UserRecoverAccount',
+	
+	  getInitialState: function () {
+	    return {
+	      password: '',
+	      confirmPassword: '',
+	      currentUser: { email: "" },
+	      token: null,
+	      token_errors: false,
+	      form_errors: false,
+	      messages: false
+	    };
+	  },
+	  componentDidMount: function () {
+	    _callbackId = CurrentUserStore.addListener(this.onChange);
+	  },
+	  onChange: function () {
+	    var currentUser = CurrentUserStore.fetch();
+	    this.setState({ currentUser: currentUser });
+	    if (currentUser.errors) {
+	      if (currentUser.type === 'TOKEN_ERROR') {
+	        this.setState({ token_errors: currentUser.errors });
+	      } else {
+	        this.setState({ form_errors: currentUser.errors });
+	      }
+	    }
+	  },
+	  componentWillMount: function () {
+	    const link = window.location.href.split("?")[1];
+	    const params = new URLSearchParams(link);
+	    const token = params.get('reset_password_token');
+	    this.setState({ token: token });
+	    ApiUtil.fetchUserByAccountRecoverToken(token);
+	  },
+	  handleChange: function (type, e) {
+	    switch (type) {
+	      case 'password':
+	        this.setState({ password: e.currentTarget.value });
+	        break;
+	      case 'confirmPassword':
+	        this.setState({ confirmPassword: e.currentTarget.value });
+	        break;
+	    }
+	  },
+	  handleSubmit: function () {
+	    this.setState({ form_errors: false, token_errors: false, messages: false });
+	    ApiUtil.recoverAccount(this.state);
+	  },
+	  componentWillUnmount: function () {
+	    _callbackId.remove();
+	  },
+	  render: function () {
+	    var passwordPlaceholder, confirmPasswordPlaceholder, recoverAccountButton, errors;
+	    passwordPlaceholder = 'new password', confirmPasswordPlaceholder = 'new password(again)', recoverAccountButton = 'Recover Account';
+	    if (this.state.form_errors.length || this.state.token_errors) {
+	      errors = React.createElement(
+	        'div',
+	        { className: 'auth-form-errors' },
+	        React.createElement('div', { className: 'auth-form-errors-header' }),
+	        React.createElement(
+	          'ul',
+	          null,
+	          (this.state.form_errors || this.state.token_errors).map(function (error, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'error-' + idx },
+	              error + '.'
+	            );
+	          })
+	        )
+	      );
+	    }
+	    if (this.state.messages.length) {
+	      messages = React.createElement(
+	        'div',
+	        { className: 'recover-account-success' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.messages.map(function (msg, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'msg-' + idx },
+	              msg + '.'
+	            );
+	          })
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'questions-index-container group' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Account Recovery'
+	        )
+	      ),
+	      React.createElement('hr', null),
+	      this.state.token_errors.length ? React.createElement(
+	        'div',
+	        null,
+	        errors
+	      ) : React.createElement(
+	        'div',
+	        null,
+	        this.state.messages.length ? React.createElement(
+	          'div',
+	          null,
+	          messages
+	        ) : React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            'Recover account for ',
+	            this.state.currentUser.email
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-group' },
+	            React.createElement('input', {
+	              type: 'password',
+	              placeholder: passwordPlaceholder,
+	              onChange: this.handleChange.bind(this, 'password')
+	            })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-group' },
+	            React.createElement('input', {
+	              type: 'password',
+	              placeholder: confirmPasswordPlaceholder,
+	              onChange: this.handleChange.bind(this, 'confirmPassword')
+	            })
+	          ),
+	          React.createElement(
+	            'button',
+	            { onClick: this.handleSubmit, id: 'auth-submit' },
+	            recoverAccountButton
+	          ),
+	          ' ',
+	          React.createElement('br', null),
+	          errors
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = UserRecoverAccount;
 
 /***/ })
 /******/ ]);

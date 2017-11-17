@@ -9,8 +9,8 @@ module Recoverable
       recoverable
     end
 
-    def reset_password_by_token(attributes, token)
-      recoverable = find_or_initialize_with_errors(:reset_password_token, token)
+    def reset_password_by_token(attributes)
+      recoverable = find_or_initialize_with_errors(:reset_password_token, attributes[:reset_password_token])
       recoverable.reset_password(attributes[:password], attributes[:password_confirmation]) if recoverable.persisted?
       recoverable
     end

@@ -140,6 +140,19 @@ module.exports = {
       }
     });
   },
+  fetchUserByAccountRecoverToken: function (token) {
+    $.ajax({
+      method: 'GET',
+      url: '/api/users/password/edit?reset_password_token='+token,
+      dataType: 'json',
+      success: function (user) {
+        CurrentUserActions.receiveCurrentUser(user);
+      },
+      error: function (response) {
+        CurrentUserActions.receiveCurrentUser(JSON.parse(response.responseText));
+      }
+    });
+  },
 
   // UPDATE
 
@@ -226,6 +239,27 @@ module.exports = {
       }
     });
   },
+  recoverAccount: function (userInfo) {
+    var data = {
+      '[user][password]': userInfo.password,
+      '[user][password_confirmation]': userInfo.confirmPassword,
+      '[user][reset_password_token]': userInfo.token,
+    };
+    $.ajax({
+      method: 'PUT',
+      url: '/api/users/password',
+      data: data,
+      dataType: 'json',
+      success: function (user) {
+        CurrentUserActions.receiveCurrentUser(user);
+        alert("Password updated successfully!");
+        hashHistory.push('/');
+      },
+      error: function (obj) {
+        CurrentUserActions.receiveCurrentUser(JSON.parse(obj.responseText));
+      }
+    });
+  },
 
   // POST and DELETE
   createUser: function(userInfo) {
@@ -280,7 +314,6 @@ module.exports = {
         CurrentUserActions.successForgotPassword(response);
       },
       error: function(response) {
-        console.log(JSON.parse(response.responseText));
         alert(JSON.parse(response.responseText));
       }
     });

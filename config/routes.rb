@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
     # Password recovery routes
     post '/users/password' => "passwords#create", as: :user_password_reset
+    get '/users/password/edit' => "passwords#edit", as: :edit_user_password_reset
     put '/users/password' => "passwords#update", as: :update_user_password_reset
 
     resources :users, except: [:new, :edit, :destroy] do

@@ -37,7 +37,7 @@ en:
             password:
               not_match: "does not match with confirm password"
             reset_password_token:
-              not_found: "not found or link waas expired. Please request a new one."
+              not_found: "not found or link was expired. Please request a new one"
     success:
       models:
         user:

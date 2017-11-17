@@ -16,11 +16,13 @@ var UserShow = require('./components/users/show');
 var BadgesIndex = require('./components/badges/index');
 var BadgeShow = require('./components/badges/show');
 var Search = require('./components/search/search');
+var UserRecoverAccount = require('./components/users/recover_account')
 
 var App = (
   <Router history={hashHistory}>
     <Route path='/' component={NavBar}>
       <IndexRoute component={QuestionsIndex} />
+      <Route path='users/account-recovery(/:query)' component={UserRecoverAccount} />
       <Route path='questions' component={QuestionsIndex} />
       <Route path='questions/tagged/:tagName' component={QuestionsIndex} />
       <Route path='questions/:questionId(/answer/:answerId)' component={QuestionShow} />

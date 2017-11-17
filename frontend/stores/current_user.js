@@ -12,7 +12,7 @@ var _currentUserErrors = null;
 var _successMessage = null;
 
 function resetCurrentUser(currentUser) {
-  if (currentUser.id) {
+  if (currentUser.id && !!currentUser.notifications) {
     currentUser.notifications.forEach(Util.formatDateHelper);
   } else {
     _currentUserErrors = currentUser.errors;

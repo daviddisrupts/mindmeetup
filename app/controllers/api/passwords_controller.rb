@@ -3,7 +3,7 @@ class Api::PasswordsController < ApplicationController
   def create
     user = User.send_reset_password_instructions(params[:user][:email])
     if user.errors.empty?
-      render json: { messages: ["Account recovery email sent to #{user.email}"] }, status: :ok
+      render json: { messages: [I18n.t("account_recover.recover_mail_sent", email: user.email)] }, status: :ok
     else
       render json: user.errors.full_messages, status: :unprocessable_entity
     end

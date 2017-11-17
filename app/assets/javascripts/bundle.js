@@ -32962,8 +32962,7 @@
 	      data: data,
 	      dataType: 'json',
 	      success: function (user) {
-	        // CurrentUserActions.receiveCurrentUser(user); // Needs to be confirm email before current user
-	        CurrentUserActions.toggleSignupModalOn();
+	        CurrentUserActions.receiveCurrentUser(user);
 	      },
 	      error: function (obj) {
 	        CurrentUserActions.receiveCurrentUser(JSON.parse(obj.responseText));
@@ -34025,7 +34024,7 @@
 	      );
 	    }
 	
-	    var errors;
+	    var errors, messages;
 	    if (this.state.errors.length) {
 	      errors = React.createElement(
 	        'div',
@@ -34044,6 +34043,20 @@
 	              { key: 'error-' + idx },
 	              error + '.'
 	            );
+	          })
+	        )
+	      );
+	    }
+	
+	    if (this.state.messages.length) {
+	      messages = React.createElement(
+	        'div',
+	        { className: 'auth-form-successs' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.messages.map(function (message, idx) {
+	            return React.createElement('li', { key: 'success-' + idx, dangerouslySetInnerHTML: { __html: message } });
 	          })
 	        )
 	      );
@@ -34074,11 +34087,6 @@
 	              null,
 	              React.createElement('br', null),
 	              this.state.messages
-	            ),
-	            React.createElement(
-	              'p',
-	              null,
-	              'If you don\'t see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".'
 	            )
 	          ) : React.createElement(
 	            'div',

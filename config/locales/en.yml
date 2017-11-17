@@ -44,3 +44,12 @@ en:
           attributes:
             email:
               confirmed: "Your email address has been successfully confirmed."
+  signup:
+    success: >
+            Thank you for signing up, an email has been sent to your email address %{email}.
+            Please check your email and sign in.
+
+  account_recover:
+    recover_mail_sent: >
+                    Account recovery email sent to %{user.email}
+                    If you don't see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".

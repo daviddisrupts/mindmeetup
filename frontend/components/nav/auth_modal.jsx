@@ -124,7 +124,7 @@ var AuthModal = React.createClass({
       );
     }
 
-    var errors;
+    var errors, messages;
     if (this.state.errors.length) {
       errors = (
         <div className='auth-form-errors'>
@@ -134,6 +134,18 @@ var AuthModal = React.createClass({
           <ul>
             {this.state.errors.map(function(error, idx){
               return (<li key={'error-' + idx}>{error + '.'}</li>);
+            })}
+          </ul>
+        </div>
+      );
+    }
+
+    if (this.state.messages.length) {
+      messages = (
+        <div className='auth-form-successs'>
+          <ul>
+            {this.state.messages.map(function(message, idx){
+              return (<li key={'success-' + idx} dangerouslySetInnerHTML={{__html:message}}></li>);
             })}
           </ul>
         </div>
@@ -158,7 +170,6 @@ var AuthModal = React.createClass({
                     <br />
                     { this.state.messages }
                   </label>
-                  <p>If you don't see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".</p>
                 </div>
               ) : (
                 <div>

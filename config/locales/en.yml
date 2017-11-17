@@ -32,10 +32,12 @@ en:
               already_confirmed: "was already confirmed, please try signing in."
               not_found: "not found."
             confirmation_token:
-              confirmation_period_expired: "is Expired. Please request a new one."
+              confirmation_period_expired: "was Expired. Please request a new one."
               not_found: "Email with this token was not found."
             password:
               not_match: "does not match with confirm password"
+            reset_password_token:
+              not_found: "not found or link waas expired. Please request a new one."
     success:
       models:
         user:

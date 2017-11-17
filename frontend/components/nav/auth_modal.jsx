@@ -153,7 +153,13 @@ var AuthModal = React.createClass({
             handleSortChange={this.handleModalTabClick} />
             <div className='auth-form-container'>
               { this.state.messages.length ? (
-                this.state.messages
+                <div>
+                  <label>
+                    <br />
+                    { this.state.messages }
+                  </label>
+                  <p>If you don't see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".</p>
+                </div>
               ) : (
                 <div>
                   <div className='auth-form-group'>

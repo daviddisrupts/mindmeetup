@@ -51,7 +51,7 @@
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var Redirect = __webpack_require__(159).Redirect;
 	var NavBar = __webpack_require__(222);
-	var QuestionsIndex = __webpack_require__(265);
+	var QuestionsIndex = __webpack_require__(264);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var QuestionShow = __webpack_require__(277);
 	var QuestionsForm = __webpack_require__(285);
@@ -33850,7 +33850,7 @@
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
 	var CurrentUserActions = __webpack_require__(248);
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var CurrentUserStore = __webpack_require__(223);
 	
 	var MODAL_TABS = ['Log In', 'Sign Up'];
@@ -34031,7 +34031,21 @@
 	        React.createElement(
 	          'div',
 	          { className: 'auth-form-container' },
-	          this.state.messages.length ? this.state.messages : React.createElement(
+	          this.state.messages.length ? React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	              'label',
+	              null,
+	              React.createElement('br', null),
+	              this.state.messages
+	            ),
+	            React.createElement(
+	              'p',
+	              null,
+	              'If you don\'t see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".'
+	            )
+	          ) : React.createElement(
 	            'div',
 	            null,
 	            React.createElement(
@@ -34103,101 +34117,15 @@
 /* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var hashHistory = __webpack_require__(159).hashHistory;
-	var ApiUtil = __webpack_require__(247);
-	var util = __webpack_require__(246);
-	
-	var SortNav = React.createClass({
-	  displayName: 'SortNav',
-	
-	  handleLogout: function () {
-	    ApiUtil.destroySession();
-	    hashHistory.push('/');
-	  },
-	  render: function () {
-	    var liLinks = this.props.links.map(function (link) {
-	      var className = 'sort-nav';
-	      if (this.props.active === link) {
-	        className += ' active';
-	      }
-	      return React.createElement(
-	        'li',
-	        {
-	          key: 'link-' + link,
-	          className: className,
-	          onClick: this.props.handleSortChange.bind(null, link) },
-	        link
-	      );
-	    }.bind(this));
-	
-	    var ulClass;
-	    if (this.props.tabShift === 'left') {
-	      ulClass = 'nav-left-container';
-	    } else if (this.props.tabShift === 'right') {
-	      ulClass = 'nav-right-container';
-	    }
-	
-	    var rightContainer;
-	    if (this.props.displayLogout) {
-	      rightContainer = React.createElement(
-	        'div',
-	        { className: 'sort-nav-right-container' },
-	        React.createElement(
-	          'button',
-	          { onClick: this.handleLogout },
-	          'Log out'
-	        )
-	      );
-	    } else if (this.props.userInfo && this.props.userInfo.displayName) {
-	      var userPath = '/users/' + this.props.userInfo.id;
-	      rightContainer = React.createElement(
-	        'div',
-	        { className: 'sort-nav-right-container' },
-	        React.createElement(
-	          'span',
-	          { className: 'sort-nav-user-display-name' },
-	          this.props.userInfo.displayName
-	        ),
-	        React.createElement('img', {
-	          onClick: hashHistory.push.bind(this, userPath),
-	          className: 'sort-nav-user-icon link',
-	          src: util.avatarSrc(this.props.userInfo.id) })
-	      );
-	    }
-	    return React.createElement(
-	      'div',
-	      { className: 'subheader group' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        this.props.header
-	      ),
-	      React.createElement(
-	        'ul',
-	        { className: ulClass },
-	        liLinks
-	      ),
-	      rightContainer
-	    );
-	  }
-	});
-	
-	module.exports = SortNav;
-
-/***/ }),
-/* 265 */
-/***/ (function(module, exports, __webpack_require__) {
-
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
 	var QuestionStore = __webpack_require__(261);
 	var ApiUtil = __webpack_require__(247);
-	var QuestionIndexItem = __webpack_require__(266);
-	var SortNav = __webpack_require__(264);
+	var QuestionIndexItem = __webpack_require__(265);
+	var SortNav = __webpack_require__(269);
 	var QuestionActions = __webpack_require__(250);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(266);
 	var ReactCSSTransitionGroup = __webpack_require__(270);
 	var _callbackId;
 	
@@ -34415,14 +34343,14 @@
 	module.exports = QuestionsIndex;
 
 /***/ }),
-/* 266 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var TagStub = __webpack_require__(267);
-	var TagStubIndex = __webpack_require__(268);
-	var UserLinkStub = __webpack_require__(269);
+	var TagStub = __webpack_require__(266);
+	var TagStubIndex = __webpack_require__(267);
+	var UserLinkStub = __webpack_require__(268);
 	var util = __webpack_require__(246);
 	
 	function renderTagStubs(questionId, tags) {
@@ -34558,7 +34486,7 @@
 	module.exports = QuestionsIndexItem;
 
 /***/ }),
-/* 267 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34604,11 +34532,11 @@
 	module.exports = TagStub;
 
 /***/ }),
-/* 268 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(266);
 	
 	var TagStubIndex = React.createClass({
 	  displayName: 'TagStubIndex',
@@ -34633,7 +34561,7 @@
 	module.exports = TagStubIndex;
 
 /***/ }),
-/* 269 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34656,6 +34584,92 @@
 	});
 	
 	module.exports = UserLinkStub;
+
+/***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var hashHistory = __webpack_require__(159).hashHistory;
+	var ApiUtil = __webpack_require__(247);
+	var util = __webpack_require__(246);
+	
+	var SortNav = React.createClass({
+	  displayName: 'SortNav',
+	
+	  handleLogout: function () {
+	    ApiUtil.destroySession();
+	    hashHistory.push('/');
+	  },
+	  render: function () {
+	    var liLinks = this.props.links.map(function (link) {
+	      var className = 'sort-nav';
+	      if (this.props.active === link) {
+	        className += ' active';
+	      }
+	      return React.createElement(
+	        'li',
+	        {
+	          key: 'link-' + link,
+	          className: className,
+	          onClick: this.props.handleSortChange.bind(null, link) },
+	        link
+	      );
+	    }.bind(this));
+	
+	    var ulClass;
+	    if (this.props.tabShift === 'left') {
+	      ulClass = 'nav-left-container';
+	    } else if (this.props.tabShift === 'right') {
+	      ulClass = 'nav-right-container';
+	    }
+	
+	    var rightContainer;
+	    if (this.props.displayLogout) {
+	      rightContainer = React.createElement(
+	        'div',
+	        { className: 'sort-nav-right-container' },
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleLogout },
+	          'Log out'
+	        )
+	      );
+	    } else if (this.props.userInfo && this.props.userInfo.displayName) {
+	      var userPath = '/users/' + this.props.userInfo.id;
+	      rightContainer = React.createElement(
+	        'div',
+	        { className: 'sort-nav-right-container' },
+	        React.createElement(
+	          'span',
+	          { className: 'sort-nav-user-display-name' },
+	          this.props.userInfo.displayName
+	        ),
+	        React.createElement('img', {
+	          onClick: hashHistory.push.bind(this, userPath),
+	          className: 'sort-nav-user-icon link',
+	          src: util.avatarSrc(this.props.userInfo.id) })
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      { className: 'subheader group' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        this.props.header
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: ulClass },
+	        liLinks
+	      ),
+	      rightContainer
+	    );
+	  }
+	});
+	
+	module.exports = SortNav;
 
 /***/ }),
 /* 270 */
@@ -35631,7 +35645,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var QuestionStore = __webpack_require__(261);
 	var QuestionActions = __webpack_require__(250);
 	var ShowItem = __webpack_require__(279);
@@ -35694,9 +35708,9 @@
 	var React = __webpack_require__(1);
 	var CommentsIndex = __webpack_require__(280);
 	var CommentsForm = __webpack_require__(282);
-	var TagStub = __webpack_require__(267);
-	var TagStubIndex = __webpack_require__(268);
-	var UserLinkStub = __webpack_require__(269);
+	var TagStub = __webpack_require__(266);
+	var TagStubIndex = __webpack_require__(267);
+	var UserLinkStub = __webpack_require__(268);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var AnswersEdit = __webpack_require__(283);
 	var ApiUtil = __webpack_require__(247);
@@ -35987,7 +36001,7 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
-	var UserLinkStub = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(268);
 	
 	function commentVoteClass(userVote, type) {
 	  var className;
@@ -36350,7 +36364,7 @@
 	var RemovableTagStub = __webpack_require__(288);
 	var TagStore = __webpack_require__(289);
 	var TagActions = __webpack_require__(254);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(266);
 	var QuestionStore = __webpack_require__(261);
 	
 	var _callbackId;
@@ -37079,7 +37093,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
@@ -37351,7 +37365,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserLinkStub = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(268);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var TagLinkIndex = __webpack_require__(295);
 	var util = __webpack_require__(246);
@@ -37563,7 +37577,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
@@ -37646,7 +37660,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(266);
 	
 	var TagsIndexItem = React.createClass({
 	  displayName: 'TagsIndexItem',
@@ -37710,7 +37724,7 @@
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(293);
 	var ApiUtil = __webpack_require__(247);
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var UserShowProfile = __webpack_require__(301);
 	var UserShowActivity = __webpack_require__(308);
 	var hashHistory = __webpack_require__(159).hashHistory;
@@ -38105,7 +38119,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(266);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
@@ -38621,7 +38635,7 @@
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var ShowActivitySummary = __webpack_require__(309);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ShowActivityDetail = __webpack_require__(314);
@@ -39159,7 +39173,7 @@
 	
 	var React = __webpack_require__(1);
 	var MiniNav = __webpack_require__(305);
-	var TagStubIndex = __webpack_require__(268);
+	var TagStubIndex = __webpack_require__(267);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var ShowActivityTagItem = __webpack_require__(312);
@@ -39701,7 +39715,7 @@
 	var ApiUtil = __webpack_require__(247);
 	var BadgeStore = __webpack_require__(318);
 	var BadgeActions = __webpack_require__(256);
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var BadgeStub = __webpack_require__(307);
 	
 	var _callbackId;
@@ -40063,7 +40077,7 @@
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var UserLinkStub = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(268);
 	var util = __webpack_require__(246);
 	
 	var BadgingItem = React.createClass({
@@ -40133,7 +40147,7 @@
 	var SearchStore = __webpack_require__(322);
 	var ApiUtil = __webpack_require__(247);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var SortNav = __webpack_require__(264);
+	var SortNav = __webpack_require__(269);
 	var SearchActions = __webpack_require__(258);
 	var SearchItem = __webpack_require__(323);
 	
@@ -40318,8 +40332,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStubIndex = __webpack_require__(268);
-	var UserLinkStub = __webpack_require__(269);
+	var TagStubIndex = __webpack_require__(267);
+	var UserLinkStub = __webpack_require__(268);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var util = __webpack_require__(246);
 	

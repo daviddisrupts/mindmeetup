@@ -18,7 +18,7 @@ module Confirmable
     generate_confirmation_token && save(validate: false)
   end
 
-  def confirm
+  def confirm!
   	if confirmation_period_expired?
       self.errors.add(:confirmation_token, :confirmation_period_expired)
       return false
@@ -43,7 +43,7 @@ module Confirmable
 	    end
 
 	    confirmable.errors.add(:email, :already_confirmed) if confirmable.confirmed?
-	    confirmable.confirm if confirmable.unconfirmed? && confirmable.persisted?
+	    confirmable.confirm! if confirmable.unconfirmed? && confirmable.persisted?
 	    confirmable
 	  end
   end

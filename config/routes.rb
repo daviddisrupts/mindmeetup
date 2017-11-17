@@ -4,16 +4,20 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resource :session, only: [:create, :destroy]
     get '/auth/:provider/callback' => 'social_auth/omniauth_callbacks#authenticate'
+
+    # Password recovery routes
+    post '/users/password' => "passwords#create", as: :user_password_reset
+    put '/users/password' => "passwords#update", as: :update_user_password_reset
+
     resources :users, except: [:new, :edit, :destroy] do
       collection do
         get :current
       end
     end
-    # Account confirmation after signup
+
+    # Account confirmation route after signup
     get '/users/confirmation/:confirmation_token' => "confirmations#show", as: :user_confirmation
-    post '/users/password' => "passwords#create", as: :user_password_reset
-    # get '/users/password/edit' => "passwords#edit", as: :edit_user_password_reset
-    put '/users/password' => "passwords#update", as: :update_user_password_reset
+
     resources :questions, except: [:new, :edit] do
       collection do
         get :search

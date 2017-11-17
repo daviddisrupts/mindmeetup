@@ -51,5 +51,5 @@ en:
 
   account_recover:
     recover_mail_sent: >
-                    Account recovery email sent to %{user.email}
+                    Account recovery email sent to %{email}
                     If you don't see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".

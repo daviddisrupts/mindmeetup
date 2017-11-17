@@ -62,6 +62,7 @@
 	var BadgesIndex = __webpack_require__(317);
 	var BadgeShow = __webpack_require__(319);
 	var Search = __webpack_require__(321);
+	var UserRecoverAccount = __webpack_require__(324);
 	
 	var App = React.createElement(
 	  Router,
@@ -70,6 +71,7 @@
 	    Route,
 	    { path: '/', component: NavBar },
 	    React.createElement(IndexRoute, { component: QuestionsIndex }),
+	    React.createElement(Route, { path: 'users/account-recovery(/:query)', component: UserRecoverAccount }),
 	    React.createElement(Route, { path: 'questions', component: QuestionsIndex }),
 	    React.createElement(Route, { path: 'questions/tagged/:tagName', component: QuestionsIndex }),
 	    React.createElement(Route, { path: 'questions/:questionId(/answer/:answerId)', component: QuestionShow }),
@@ -25603,7 +25605,7 @@
 	      return React.createElement('div', null);
 	    }
 	
-	    if (currentUser.id) {
+	    if (currentUser.id && !!currentUser.notifications) {
 	      currentUserDisplayName = currentUser.display_name;
 	      currentUserReputation = currentUser.reputation;
 	      unreadNotifications = currentUser.notifications.filter(function (item) {
@@ -25722,14 +25724,19 @@
 	var _submissionComplete;
 	var _signupModalOn = false;
 	var _currentUserErrors = null;
+	var _successMessage = null;
 	
 	function resetCurrentUser(currentUser) {
-	  if (currentUser.id) {
+	  if (currentUser.id && !!currentUser.notifications) {
 	    currentUser.notifications.forEach(Util.formatDateHelper);
 	  } else {
 	    _currentUserErrors = currentUser.errors;
 	  }
 	  _currentUser = currentUser;
+	}
+	
+	function sucessForgotPassword(response) {
+	  _currentUser = response;
 	}
 	
 	function resetUpdateSubmissionErrors(errors) {
@@ -25777,6 +25784,9 @@
 	      } else {
 	        _signupModalOn = { warning: payload.action };
 	      }
+	      break;
+	    case CurrentUserConstants.SUCCESS_FORGOT_PASSWORD:
+	      sucessForgotPassword(payload.action);
 	      break;
 	  }
 	  this.__emitChange();
@@ -32552,7 +32562,8 @@
 	  RECEIVED_CURRENT_USER: 'RECEIVED_CURRENT_USER',
 	  RECEIVED_CURRENT_USER_UPDATE_STATUS_BAD: 'RECEIVED_CURRENT_USER_UPDATE_STATUS_BAD',
 	  RESET_UPDATE_SUBMISSION_STATUS: 'RESET_UPDATE_SUBMISSION_STATUS',
-	  TOGGLE_SIGNUP_MODAL_ON: 'TOGGLE_SIGNUP_MODAL_ON'
+	  TOGGLE_SIGNUP_MODAL_ON: 'TOGGLE_SIGNUP_MODAL_ON',
+	  SUCCESS_FORGOT_PASSWORD: 'SUCCESS_FORGOT_PASSWORD'
 	};
 
 /***/ }),
@@ -32818,6 +32829,19 @@
 	      }
 	    });
 	  },
+	  fetchUserByAccountRecoverToken: function (token) {
+	    $.ajax({
+	      method: 'GET',
+	      url: '/api/users/password/edit?reset_password_token=' + token,
+	      dataType: 'json',
+	      success: function (user) {
+	        CurrentUserActions.receiveCurrentUser(user);
+	      },
+	      error: function (response) {
+	        CurrentUserActions.receiveCurrentUser(JSON.parse(response.responseText));
+	      }
+	    });
+	  },
 	
 	  // UPDATE
 	
@@ -32903,6 +32927,27 @@
 	      }
 	    });
 	  },
+	  recoverAccount: function (userInfo) {
+	    var data = {
+	      '[user][password]': userInfo.password,
+	      '[user][password_confirmation]': userInfo.confirmPassword,
+	      '[user][reset_password_token]': userInfo.token
+	    };
+	    $.ajax({
+	      method: 'PUT',
+	      url: '/api/users/password',
+	      data: data,
+	      dataType: 'json',
+	      success: function (user) {
+	        CurrentUserActions.receiveCurrentUser(user);
+	        alert("Password updated successfully!");
+	        hashHistory.push('/');
+	      },
+	      error: function (obj) {
+	        CurrentUserActions.receiveCurrentUser(JSON.parse(obj.responseText));
+	      }
+	    });
+	  },
 	
 	  // POST and DELETE
 	  createUser: function (userInfo) {
@@ -32917,8 +32962,7 @@
 	      data: data,
 	      dataType: 'json',
 	      success: function (user) {
-	        // CurrentUserActions.receiveCurrentUser(user); // Needs to be confirm email before current user
-	        CurrentUserActions.toggleSignupModalOn();
+	        CurrentUserActions.receiveCurrentUser(user);
 	      },
 	      error: function (obj) {
 	        CurrentUserActions.receiveCurrentUser(JSON.parse(obj.responseText));
@@ -32941,6 +32985,23 @@
 	      },
 	      error: function (obj) {
 	        CurrentUserActions.receiveCurrentUser(JSON.parse(obj.responseText));
+	      }
+	    });
+	  },
+	  forgotPassword: function (userInfo) {
+	    var data = {
+	      '[user][email]': userInfo.email
+	    };
+	    $.ajax({
+	      method: 'POST',
+	      url: '/api/users/password',
+	      data: data,
+	      dataType: 'json',
+	      success: function (response) {
+	        CurrentUserActions.successForgotPassword(response);
+	      },
+	      error: function (response) {
+	        alert(JSON.parse(response.responseText));
 	      }
 	    });
 	  },
@@ -33156,6 +33217,12 @@
 	    AppDispatcher.dispatch({
 	      action: warning,
 	      actionType: CurrentUserConstants.TOGGLE_SIGNUP_MODAL_ON
+	    });
+	  },
+	  successForgotPassword: function (response) {
+	    AppDispatcher.dispatch({
+	      action: response,
+	      actionType: CurrentUserConstants.SUCCESS_FORGOT_PASSWORD
 	    });
 	  }
 	};
@@ -33832,9 +33899,11 @@
 	      displayName: '',
 	      email: '',
 	      password: '',
+	      forgotPasswordPage: false,
 	      authStatus: null,
 	      currentUser: null,
-	      errors: []
+	      errors: [],
+	      messages: []
 	    };
 	  },
 	  componentDidMount: function () {
@@ -33844,6 +33913,11 @@
 	    var currentUser = CurrentUserStore.fetch();
 	    if (currentUser.errors) {
 	      this.setState({ errors: currentUser.errors });
+	    }
+	
+	    var successMessage = CurrentUserStore.fetch();
+	    if (successMessage.messages) {
+	      this.setState({ messages: successMessage.messages });
 	    }
 	  },
 	  componentWillUnmount: function () {
@@ -33872,16 +33946,23 @@
 	    this.setState({ errors: [], password: '' });
 	    if (this.props.active === 'Sign Up') {
 	      ApiUtil.createUser(this.state);
-	    } else if (this.props.active === 'Log In') {
+	    } else if (this.props.active === 'Log In' && !this.state.forgotPasswordPage) {
 	      ApiUtil.createSession(this.state);
+	    } else if (this.state.forgotPasswordPage) {
+	      ApiUtil.forgotPassword(this.state);
 	    }
 	  },
 	  handleModalTabClick: function (tab) {
 	    this.props.handleModalTabClick(tab);
-	    this.setState({ errors: [] });
+	    this.setState({ errors: [], forgotPasswordPage: false, messages: [] });
+	  },
+	  handleForgotLink: function () {
+	    this.props.handleModalTabClick('Log In');
+	    this.setState({ errors: [], forgotPasswordPage: true, messages: [] });
 	  },
 	  render: function () {
-	    var displayNameInput, footer, displayNamePlaceholder, emailPlaceholder, passwordPlaceholder, warning, authFormErrorsHeader;
+	    var displayNameInput, footer, displayNamePlaceholder, emailPlaceholder, passwordPlaceholder, warning, authFormErrorsHeader, forgotPasswordLabel;
+	    forgotPasswordLabel = this.state.forgotPasswordPage ? "Forgot your account's password? Enter your email address and we'll send you a recovery link." : "";
 	    if (this.props.active === 'Sign Up') {
 	      displayNamePlaceholder = 'Zero Cool';
 	      emailPlaceholder = 'user@email.net';
@@ -33943,7 +34024,7 @@
 	      );
 	    }
 	
-	    var errors;
+	    var errors, messages;
 	    if (this.state.errors.length) {
 	      errors = React.createElement(
 	        'div',
@@ -33966,6 +34047,20 @@
 	        )
 	      );
 	    }
+	
+	    if (this.state.messages.length) {
+	      messages = React.createElement(
+	        'div',
+	        { className: 'auth-form-successs' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.messages.map(function (message, idx) {
+	            return React.createElement('li', { key: 'success-' + idx, dangerouslySetInnerHTML: { __html: message } });
+	          })
+	        )
+	      );
+	    }
 	    return React.createElement(
 	      'div',
 	      { className: 'authentication-modal' },
@@ -33984,41 +34079,60 @@
 	        React.createElement(
 	          'div',
 	          { className: 'auth-form-container' },
-	          React.createElement(
+	          this.state.messages.length ? React.createElement(
 	            'div',
-	            { className: 'auth-form-group' },
+	            null,
+	            React.createElement(
+	              'label',
+	              null,
+	              React.createElement('br', null),
+	              this.state.messages
+	            )
+	          ) : React.createElement(
+	            'div',
+	            null,
 	            React.createElement(
 	              'div',
-	              { className: 'auth-form-label' },
-	              'Email'
+	              { className: 'auth-form-group' },
+	              forgotPasswordLabel,
+	              React.createElement(
+	                'div',
+	                { className: 'auth-form-label' },
+	                'Email'
+	              ),
+	              React.createElement('input', {
+	                type: 'text',
+	                placeholder: emailPlaceholder,
+	                onChange: this.handleChange.bind(this, 'email'),
+	                value: this.state.email,
+	                id: 'auth-email' })
 	            ),
-	            React.createElement('input', {
-	              type: 'text',
-	              placeholder: emailPlaceholder,
-	              onChange: this.handleChange.bind(this, 'email'),
-	              value: this.state.email,
-	              id: 'auth-email' })
-	          ),
-	          displayNameInput,
-	          React.createElement(
-	            'div',
-	            { className: 'auth-form-group' },
-	            React.createElement(
+	            displayNameInput,
+	            !this.state.forgotPasswordPage && React.createElement(
 	              'div',
-	              { className: 'auth-form-label' },
-	              'Password'
+	              { className: 'auth-form-group' },
+	              React.createElement(
+	                'div',
+	                { className: 'auth-form-label' },
+	                'Password'
+	              ),
+	              React.createElement('input', {
+	                type: 'password',
+	                placeholder: passwordPlaceholder,
+	                onChange: this.handleChange.bind(this, 'password'),
+	                value: this.state.password,
+	                id: 'auth-password' }),
+	              this.props.active !== 'Sign Up' && React.createElement(
+	                'a',
+	                { href: 'javascript:;', onClick: this.handleForgotLink.bind(this, "") },
+	                'Forgot password?'
+	              )
 	            ),
-	            React.createElement('input', {
-	              type: 'password',
-	              placeholder: passwordPlaceholder,
-	              onChange: this.handleChange.bind(this, 'password'),
-	              value: this.state.password,
-	              id: 'auth-password' })
-	          ),
-	          React.createElement(
-	            'button',
-	            { onClick: this.handleSubmit, id: 'auth-submit' },
-	            this.props.active === 'Sign Up' ? 'Sign up' : 'Log in'
+	            React.createElement(
+	              'button',
+	              { onClick: this.handleSubmit, id: 'auth-submit' },
+	              this.props.active === 'Sign Up' ? 'Sign up' : this.state.forgotPasswordPage ? 'Send Recovery Email' : 'Log in'
+	            )
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(
@@ -40435,6 +40549,170 @@
 	});
 	
 	module.exports = SearchItem;
+
+/***/ }),
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(247);
+	var CurrentUserStore = __webpack_require__(223);
+	
+	var UserRecoverAccount = React.createClass({
+	  displayName: 'UserRecoverAccount',
+	
+	  getInitialState: function () {
+	    return {
+	      password: '',
+	      confirmPassword: '',
+	      currentUser: { email: "" },
+	      token: null,
+	      token_errors: false,
+	      form_errors: false,
+	      messages: false
+	    };
+	  },
+	  componentDidMount: function () {
+	    _callbackId = CurrentUserStore.addListener(this.onChange);
+	  },
+	  onChange: function () {
+	    var currentUser = CurrentUserStore.fetch();
+	    this.setState({ currentUser: currentUser });
+	    if (currentUser.errors) {
+	      if (currentUser.type === 'TOKEN_ERROR') {
+	        this.setState({ token_errors: currentUser.errors });
+	      } else {
+	        this.setState({ form_errors: currentUser.errors });
+	      }
+	    }
+	  },
+	  componentWillMount: function () {
+	    const link = window.location.href.split("?")[1];
+	    const params = new URLSearchParams(link);
+	    const token = params.get('reset_password_token');
+	    this.setState({ token: token });
+	    ApiUtil.fetchUserByAccountRecoverToken(token);
+	  },
+	  handleChange: function (type, e) {
+	    switch (type) {
+	      case 'password':
+	        this.setState({ password: e.currentTarget.value });
+	        break;
+	      case 'confirmPassword':
+	        this.setState({ confirmPassword: e.currentTarget.value });
+	        break;
+	    }
+	  },
+	  handleSubmit: function () {
+	    this.setState({ form_errors: false, token_errors: false, messages: false });
+	    ApiUtil.recoverAccount(this.state);
+	  },
+	  componentWillUnmount: function () {
+	    _callbackId.remove();
+	  },
+	  render: function () {
+	    var passwordPlaceholder, confirmPasswordPlaceholder, recoverAccountButton, errors;
+	    passwordPlaceholder = 'new password', confirmPasswordPlaceholder = 'new password(again)', recoverAccountButton = 'Recover Account';
+	    if (this.state.form_errors.length || this.state.token_errors) {
+	      errors = React.createElement(
+	        'div',
+	        { className: 'auth-form-errors' },
+	        React.createElement('div', { className: 'auth-form-errors-header' }),
+	        React.createElement(
+	          'ul',
+	          null,
+	          (this.state.form_errors || this.state.token_errors).map(function (error, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'error-' + idx },
+	              error + '.'
+	            );
+	          })
+	        )
+	      );
+	    }
+	    if (this.state.messages.length) {
+	      messages = React.createElement(
+	        'div',
+	        { className: 'recover-account-success' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.messages.map(function (msg, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'msg-' + idx },
+	              msg + '.'
+	            );
+	          })
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'questions-index-container group' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Account Recovery'
+	        )
+	      ),
+	      React.createElement('hr', null),
+	      this.state.token_errors.length ? React.createElement(
+	        'div',
+	        null,
+	        errors
+	      ) : React.createElement(
+	        'div',
+	        null,
+	        this.state.messages.length ? React.createElement(
+	          'div',
+	          null,
+	          messages
+	        ) : React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            'Recover account for ',
+	            this.state.currentUser.email
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-group' },
+	            React.createElement('input', {
+	              type: 'password',
+	              placeholder: passwordPlaceholder,
+	              onChange: this.handleChange.bind(this, 'password')
+	            })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-group' },
+	            React.createElement('input', {
+	              type: 'password',
+	              placeholder: confirmPasswordPlaceholder,
+	              onChange: this.handleChange.bind(this, 'confirmPassword')
+	            })
+	          ),
+	          React.createElement(
+	            'button',
+	            { onClick: this.handleSubmit, id: 'auth-submit' },
+	            recoverAccountButton
+	          ),
+	          ' ',
+	          React.createElement('br', null),
+	          errors
+	        )
+	      )
+	    );
+	  }
+	});
+	module.exports = UserRecoverAccount;
 
 /***/ })
 /******/ ]);

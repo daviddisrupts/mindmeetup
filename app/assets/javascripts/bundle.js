@@ -25588,6 +25588,24 @@
 	      hashHistory.push(path);
 	    }
 	  },
+	  renderLogout: function () {
+	    var currentUser = this.state.currentUser;
+	    if (currentUser && currentUser.id) {
+	      return React.createElement(
+	        'li',
+	        null,
+	        React.createElement(
+	          'div',
+	          { onClick: this.handleLogout, id: 'nav-log-out' },
+	          'Log out'
+	        )
+	      );
+	    }
+	  },
+	  handleLogout: function () {
+	    ApiUtil.destroySession();
+	    hashHistory.push('/');
+	  },
 	  handleModalTabClick: function (tab) {
 	    this.setState({ modalActiveTab: tab });
 	  },
@@ -25671,7 +25689,8 @@
 	                  type: 'text',
 	                  placeholder: ' Search... ' })
 	              )
-	            )
+	            ),
+	            this.renderLogout()
 	          )
 	        )
 	      ),

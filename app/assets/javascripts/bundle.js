@@ -25667,7 +25667,7 @@
 	                  value: this.state.query,
 	                  className: 'nav-search',
 	                  type: 'text',
-	                  placeholder: '? Search Q&A' })
+	                  placeholder: ' Search... ' })
 	              )
 	            )
 	          )

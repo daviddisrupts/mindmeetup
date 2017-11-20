@@ -79,7 +79,7 @@ Rails.application.configure do
 
   # Mail configuration
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => "http://www.restartreality.com" }
+  config.action_mailer.default_url_options = { :host => "restartreality.herokuapp.com", protocol: "https://" }
   ActionMailer::Base.smtp_settings = {
     :user_name => ENV['SENDGRID_USERNAME'],
     :password => ENV['SENDGRID_PASSWORD'],

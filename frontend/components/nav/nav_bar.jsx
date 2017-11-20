@@ -118,7 +118,7 @@ var NavBar = React.createClass({
       return <div />;
     }
 
-    if (currentUser.id) {
+    if (currentUser.id && !!currentUser.notifications) {
       currentUserDisplayName = currentUser.display_name;
       currentUserReputation = currentUser.reputation;
       unreadNotifications = currentUser.notifications.filter(function(item) {

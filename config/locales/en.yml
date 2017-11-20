@@ -30,12 +30,26 @@ en:
               unconfirmed: "address needs to be confirm before continuing."
               confirm: "address has been successfully confirmed."
               already_confirmed: "was already confirmed, please try signing in."
+              not_found: "not found."
             confirmation_token:
-              confirmation_period_expired: "is Expired. Please request a new one."
+              confirmation_period_expired: "was Expired. Please request a new one."
               not_found: "Email with this token was not found."
+            password:
+              not_match: "does not match with confirm password"
+            reset_password_token:
+              not_found: "not found or link was expired. Please request a new one"
     success:
       models:
         user:
           attributes:
             email:
               confirmed: "Your email address has been successfully confirmed."
+  signup:
+    success: >
+            Thank you for signing up, an email has been sent to your email address %{email}.
+            Please check your email and sign in.
+
+  account_recover:
+    recover_mail_sent: >
+                    Account recovery email sent to %{email}
+                    If you don't see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".

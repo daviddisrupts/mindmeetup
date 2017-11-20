@@ -104,6 +104,22 @@ var NavBar = React.createClass({
       hashHistory.push(path);
     }
   },
+  renderLogout: function() {
+    var currentUser = this.state.currentUser;
+    if (currentUser && currentUser.id) {
+      return (
+        <li>
+          <div onClick={this.handleLogout} id="nav-log-out">
+            Log out
+          </div>
+        </li>
+      )
+    }
+  },
+  handleLogout: function() {
+    ApiUtil.destroySession();
+    hashHistory.push('/');
+  },
   handleModalTabClick: function(tab) {
     this.setState({ modalActiveTab: tab });
   },
@@ -178,6 +194,7 @@ var NavBar = React.createClass({
                     placeholder=" Search... "/>
                 </div>
               </li>
+              { this.renderLogout() }
             </ul>
           </div>
         </div>

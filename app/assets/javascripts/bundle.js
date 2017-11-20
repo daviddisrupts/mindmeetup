@@ -34009,7 +34009,7 @@
 	          null,
 	          React.createElement(
 	            'span',
-	            { className: 'link' },
+	            { className: 'link', onClick: this.handleModalTabClick.bind(this, 'Sign Up') },
 	            'Sign up'
 	          )
 	        )

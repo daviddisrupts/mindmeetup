@@ -112,7 +112,7 @@ var AuthModal = React.createClass({
         <div className='auth-footer'>
           <div>{"Don't have an account? "}</div>
           <div>
-            <span className='link'>Sign up</span>
+            <span className='link' onClick={this.handleModalTabClick.bind(this, 'Sign Up')}>Sign up</span>
           </div>
         </div>
       );

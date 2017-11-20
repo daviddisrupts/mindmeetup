@@ -33931,14 +33931,6 @@
 	            { className: 'link' },
 	            'Sign up'
 	          ),
-	          " or ",
-	          React.createElement(
-	            'span',
-	            {
-	              className: 'link',
-	              onClick: this.handleGuestLogin },
-	            'Log In as a guest.'
-	          )
 	        )
 	      );
 	    }

@@ -39926,7 +39926,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'badge-index-sidebar-element-description' },
-	            'Gold badges are the hardest badge to earn. These are rarely awarded and signify a great contribution to the SnackOverflow community.'
+	            'Gold badges are the hardest badge to earn. These are rarely awarded and signify a great contribution to the RestartReality community.'
 	          )
 	        )
 	      )

@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
 
-  default from: 'SnackOverflow <no-reply@snackoverflow.com>'
+  default from: 'RestartReality <no-reply@restartreality.com>'
 end

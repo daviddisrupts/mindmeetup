@@ -33930,7 +33930,7 @@
 	            'span',
 	            { className: 'link' },
 	            'Sign up'
-	          ),
+	          )
 	        )
 	      );
 	    }

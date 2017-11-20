@@ -99,12 +99,6 @@ var AuthModal = React.createClass({
           <div>{"Don't have an account? "}</div>
           <div>
             <span className='link'>Sign up</span>
-            {" or "}
-            <span
-              className='link'
-              onClick={this.handleGuestLogin}>
-              Log In as a guest.
-            </span>
           </div>
         </div>
       );

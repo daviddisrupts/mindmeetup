@@ -1,6 +1,6 @@
 .nav-container {
   color: #fff;
-  background: #22313F;
+  background: #243847;
   font-size: 14px;
   height: 36px;
 }
@@ -53,16 +53,16 @@ div.nav-header {
   margin-left: 4px;
   padding: 5px 10px;
   color: #fff;
-  background: #999;
+  background: #243847;
   transition: background 100ms;
 
 }
 .nav-header li:hover {
-  background: #ea1;
+  background: #688EA2;
 }
 
 #header-nav-active {
-  background: #ea1;
+  background: #688EA2;
 }
 
 #current-user-display-container {
@@ -97,7 +97,7 @@ div.nav-header {
 }
 
 #main-panel {
-  border-top: 2px solid #F89406;
+  border-top: 2px solid #688EA2;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;

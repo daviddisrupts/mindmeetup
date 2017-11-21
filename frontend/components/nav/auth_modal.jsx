@@ -201,8 +201,14 @@ var AuthModal = React.createClass({
                   </button>
                 </div>
               )}
-              <br /><a href="/auth/facebook?popup=popup"> Login with Facebook </a>
-              <br /><a href="/auth/google_oauth2"> Login with Google </a>
+              <br />
+              <a href="/auth/facebook">
+               <img className="social-image fb" />
+              </a>
+              <br />
+              <a href="/auth/google_oauth2" >
+                <img className="social-image google-plus" />
+              </a>
               {errors}
               {footer}
             </div>

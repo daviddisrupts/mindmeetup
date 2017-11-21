@@ -34148,14 +34148,14 @@
 	          React.createElement('br', null),
 	          React.createElement(
 	            'a',
-	            { href: '/auth/facebook?popup=popup' },
-	            ' Login with Facebook '
+	            { href: '/auth/facebook' },
+	            React.createElement('img', { className: 'social-image fb' })
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(
 	            'a',
 	            { href: '/auth/google_oauth2' },
-	            ' Login with Google '
+	            React.createElement('img', { className: 'social-image google-plus' })
 	          ),
 	          errors,
 	          footer

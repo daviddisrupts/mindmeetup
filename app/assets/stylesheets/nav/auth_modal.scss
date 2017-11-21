@@ -81,8 +81,10 @@
 .social-image {
   &.fb {
     width: 60%;
+    content: url(image_path('fb.jpg'))
   }
   &.google-plus {
     width: 60%;
+    content: url(image_path('google_plus.jpg'));
   }
 }

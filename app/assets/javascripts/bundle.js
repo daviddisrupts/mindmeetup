@@ -34149,13 +34149,13 @@
 	          React.createElement(
 	            'a',
 	            { href: '/auth/facebook' },
-	            React.createElement('img', { src: 'assets/fb.jpg', className: 'social-image fb' })
+	            React.createElement('img', { className: 'social-image fb' })
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(
 	            'a',
 	            { href: '/auth/google_oauth2' },
-	            React.createElement('img', { src: 'assets/google_plus.jpg', className: 'social-image google-plus' })
+	            React.createElement('img', { className: 'social-image google-plus' })
 	          ),
 	          errors,
 	          footer

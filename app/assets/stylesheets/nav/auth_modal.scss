@@ -77,3 +77,12 @@
   margin-top: 20px;
   color: #459210;
 }
+
+.social-image {
+  &.fb {
+    width: 60%;
+  }
+  &.google-plus {
+    width: 60%;
+  }
+}

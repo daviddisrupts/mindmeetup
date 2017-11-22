@@ -63,6 +63,10 @@
 	var BadgeShow = __webpack_require__(319);
 	var Search = __webpack_require__(321);
 	var UserRecoverAccount = __webpack_require__(324);
+	var TermsOfService = __webpack_require__(326);
+	var PrivacyPolicy = __webpack_require__(327);
+	var ContactUs = __webpack_require__(328);
+	var AboutUs = __webpack_require__(329);
 	
 	var App = React.createElement(
 	  Router,
@@ -83,7 +87,11 @@
 	    React.createElement(Route, { path: 'tags', component: TagsIndex }),
 	    React.createElement(Route, { path: 'awards', component: BadgesIndex }),
 	    React.createElement(Route, { path: 'awards/:badgeId', component: BadgeShow }),
-	    React.createElement(Route, { path: 'search(/:query)', component: Search })
+	    React.createElement(Route, { path: 'search(/:query)', component: Search }),
+	    React.createElement(Route, { path: 'terms_of_service', component: TermsOfService }),
+	    React.createElement(Route, { path: 'privacy_policy', component: PrivacyPolicy }),
+	    React.createElement(Route, { path: 'contact_us', component: ContactUs }),
+	    React.createElement(Route, { path: 'about_us', component: AboutUs })
 	  )
 	);
 	
@@ -25471,6 +25479,7 @@
 	var NavNotifications = __webpack_require__(262);
 	var AuthModal = __webpack_require__(263);
 	var CurrentUserActions = __webpack_require__(248);
+	var Footer = __webpack_require__(325);
 	
 	var HEADERS = ['questions', 'tags', 'users', 'awards', 'ask'];
 	var MODAL_TABS = ['Log In', 'Sign Up'];
@@ -25721,7 +25730,8 @@
 	        { id: 'main-panel', className: 'main-content group' },
 	        this.props.children
 	      ),
-	      signupModal
+	      signupModal,
+	      React.createElement(Footer, null)
 	    );
 	  }
 	});
@@ -33191,6 +33201,26 @@
 	      success: UserActions.receiveUsers,
 	      error: function () {
 	        debugger;
+	      }
+	    });
+	  },
+	  contactToAdmin: function (form) {
+	    var data = {
+	      '[contact_us][name]': form.name,
+	      '[contact_us][email]': form.email,
+	      '[contact_us][subject]': form.subject,
+	      '[contact_us][message]': form.message
+	    };
+	    $.ajax({
+	      method: 'POST',
+	      url: '/api/contact_us/',
+	      data: data,
+	      dataType: 'json',
+	      success: function (response) {
+	        alert(response.messages.join(','));
+	      },
+	      error: function (response) {
+	        alert(JSON.parse(response.responseText));
 	      }
 	    });
 	  }
@@ -40724,6 +40754,318 @@
 	  }
 	});
 	module.exports = UserRecoverAccount;
+
+/***/ }),
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+	
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+	
+	  render: function () {
+	    return React.createElement(
+	      'footer',
+	      { className: 'footer-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'inner-container' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/terms_of_service' },
+	              'Terms of Service'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/privacy_policy' },
+	              'Privacy Policy'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/contact_us' },
+	              'Contact Us'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/about_us' },
+	              'About Us'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.twitter.com/restartreality' },
+	              'Twitter'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.facebook.com/restartreality' },
+	              'Facebook'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.instagram.com/restartreality' },
+	              'Instagram'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Footer;
+
+/***/ }),
+/* 326 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var TermsOfService = React.createClass({
+	  displayName: "TermsOfService",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h1",
+	        { className: "static-page-title" },
+	        "Terms of service"
+	      ),
+	      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	    );
+	  }
+	});
+	
+	module.exports = TermsOfService;
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var PrivacyPolicy = React.createClass({
+	  displayName: "PrivacyPolicy",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h1",
+	        { className: "static-page-title" },
+	        "Privacy Policy"
+	      ),
+	      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	    );
+	  }
+	});
+	
+	module.exports = PrivacyPolicy;
+
+/***/ }),
+/* 328 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(247);
+	
+	var ContactUs = React.createClass({
+	  displayName: 'ContactUs',
+	
+	  getInitialState: function () {
+	    return {
+	      Name: '',
+	      email: '',
+	      subject: '',
+	      message: '',
+	      errors: [],
+	      messages: []
+	    };
+	  },
+	  handleChange: function (type, e) {
+	    switch (type) {
+	      case 'name':
+	        this.setState({ name: e.currentTarget.value });
+	        break;
+	      case 'email':
+	        this.setState({ email: e.currentTarget.value });
+	        break;
+	      case 'subject':
+	        this.setState({ subject: e.currentTarget.value });
+	        break;
+	      case 'message':
+	        this.setState({ message: e.currentTarget.value });
+	        break;
+	    }
+	  },
+	  handleSubmit: function () {
+	    this.setState({ Name: '', email: '', subject: '', message: '', errors: [], messages: [] });
+	    $('input, textarea').val('');
+	    ApiUtil.contactToAdmin(this.state);
+	  },
+	  render: function () {
+	    var alert;
+	    if (this.state.errors.length) {
+	      alert = React.createElement(
+	        'div',
+	        { className: 'auth-form-errors' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.errors.map(function (error, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'error-' + idx },
+	              error + '.'
+	            );
+	          })
+	        )
+	      );
+	    } else if (this.state.messages.length) {
+	      alert = React.createElement(
+	        'div',
+	        { className: 'auth-form-messages' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.errors.map(function (error, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'message-' + idx },
+	              error + '.'
+	            );
+	          })
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'contact-us-wrapper' },
+	      React.createElement(
+	        'h1',
+	        { className: 'static-page-title' },
+	        'Contact us'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'contact-us-form' },
+	        alert,
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Your Name'
+	          ),
+	          React.createElement('input', { type: 'text', placeholder: 'Name', id: 'auth-email', onChange: this.handleChange.bind(this, 'name') }),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Email'
+	          ),
+	          React.createElement('input', { type: 'email', placeholder: 'Email', id: 'auth-email', onChange: this.handleChange.bind(this, 'email') }),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Subject'
+	          ),
+	          React.createElement('input', { type: 'text', placeholder: 'Subject', id: 'auth-email', onChange: this.handleChange.bind(this, 'subject') }),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Message'
+	          ),
+	          React.createElement('textarea', { id: 'auth-email', placeholder: 'Message', onChange: this.handleChange.bind(this, 'message') })
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleSubmit, id: 'auth-submit' },
+	          'Send'
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'contact-us-sample' },
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'p',
+	            null,
+	            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ContactUs;
+
+/***/ }),
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var AboutUs = React.createClass({
+	  displayName: "AboutUs",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h1",
+	        { className: "static-page-title" },
+	        "About Us"
+	      ),
+	      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	    );
+	  }
+	});
+	
+	module.exports = AboutUs;
 
 /***/ })
 /******/ ]);

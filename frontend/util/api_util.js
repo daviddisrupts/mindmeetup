@@ -489,5 +489,25 @@ module.exports = {
         debugger
       }
     });
+  },
+  contactToAdmin: function(form) {
+    var data = {
+      '[contact_us][name]': form.name,
+      '[contact_us][email]': form.email,
+      '[contact_us][subject]': form.subject,
+      '[contact_us][message]': form.message
+    };
+    $.ajax({
+      method: 'POST',
+      url: '/api/contact_us/',
+      data: data,
+      dataType: 'json',
+      success: function(response) {
+        alert(response.messages.join(','));
+      },
+      error: function(response) {
+        alert(JSON.parse(response.responseText));
+      }
+    });
   }
 };

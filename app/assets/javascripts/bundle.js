@@ -51,18 +51,22 @@
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var Redirect = __webpack_require__(159).Redirect;
 	var NavBar = __webpack_require__(222);
-	var QuestionsIndex = __webpack_require__(265);
+	var QuestionsIndex = __webpack_require__(266);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var QuestionShow = __webpack_require__(277);
-	var QuestionsForm = __webpack_require__(285);
-	var QuestionEdit = __webpack_require__(290);
-	var UsersIndex = __webpack_require__(292);
-	var TagsIndex = __webpack_require__(298);
-	var UserShow = __webpack_require__(300);
-	var BadgesIndex = __webpack_require__(317);
-	var BadgeShow = __webpack_require__(319);
-	var Search = __webpack_require__(321);
-	var UserRecoverAccount = __webpack_require__(324);
+	var QuestionShow = __webpack_require__(278);
+	var QuestionsForm = __webpack_require__(286);
+	var QuestionEdit = __webpack_require__(291);
+	var UsersIndex = __webpack_require__(293);
+	var TagsIndex = __webpack_require__(299);
+	var UserShow = __webpack_require__(301);
+	var BadgesIndex = __webpack_require__(318);
+	var BadgeShow = __webpack_require__(320);
+	var Search = __webpack_require__(322);
+	var UserRecoverAccount = __webpack_require__(325);
+	var TermsOfService = __webpack_require__(326);
+	var PrivacyPolicy = __webpack_require__(327);
+	var ContactUs = __webpack_require__(328);
+	var AboutUs = __webpack_require__(329);
 	
 	var App = React.createElement(
 	  Router,
@@ -83,7 +87,11 @@
 	    React.createElement(Route, { path: 'tags', component: TagsIndex }),
 	    React.createElement(Route, { path: 'awards', component: BadgesIndex }),
 	    React.createElement(Route, { path: 'awards/:badgeId', component: BadgeShow }),
-	    React.createElement(Route, { path: 'search(/:query)', component: Search })
+	    React.createElement(Route, { path: 'search(/:query)', component: Search }),
+	    React.createElement(Route, { path: 'terms_of_service', component: TermsOfService }),
+	    React.createElement(Route, { path: 'privacy_policy', component: PrivacyPolicy }),
+	    React.createElement(Route, { path: 'contact_us', component: ContactUs }),
+	    React.createElement(Route, { path: 'about_us', component: AboutUs })
 	  )
 	);
 	
@@ -25471,6 +25479,7 @@
 	var NavNotifications = __webpack_require__(262);
 	var AuthModal = __webpack_require__(263);
 	var CurrentUserActions = __webpack_require__(248);
+	var Footer = __webpack_require__(265);
 	
 	var HEADERS = ['questions', 'tags', 'users', 'awards', 'ask'];
 	var MODAL_TABS = ['Log In', 'Sign Up'];
@@ -25721,7 +25730,8 @@
 	        { id: 'main-panel', className: 'main-content group' },
 	        this.props.children
 	      ),
-	      signupModal
+	      signupModal,
+	      React.createElement(Footer, null)
 	    );
 	  }
 	});
@@ -33196,6 +33206,26 @@
 	        debugger;
 	      }
 	    });
+	  },
+	  contactToAdmin: function (form) {
+	    var data = {
+	      '[contact_us][name]': form.name,
+	      '[contact_us][email]': form.email,
+	      '[contact_us][subject]': form.subject,
+	      '[contact_us][message]': form.message
+	    };
+	    $.ajax({
+	      method: 'POST',
+	      url: '/api/contact_us/',
+	      data: data,
+	      dataType: 'json',
+	      success: function (response) {
+	        alert(response.messages.join(','));
+	      },
+	      error: function (response) {
+	        alert(JSON.parse(response.responseText));
+	      }
+	    });
 	  }
 	};
 
@@ -34260,16 +34290,111 @@
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+	
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+	
+	  render: function () {
+	    return React.createElement(
+	      'footer',
+	      { className: 'footer-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'inner-container' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/terms_of_service' },
+	              'Terms of Service'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/privacy_policy' },
+	              'Privacy Policy'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/contact_us' },
+	              'Contact Us'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/about_us' },
+	              'About Us'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.twitter.com/restartreality' },
+	              'Twitter'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.facebook.com/restartreality' },
+	              'Facebook'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.instagram.com/restartreality' },
+	              'Instagram'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Footer;
+
+/***/ }),
+/* 266 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
 	var QuestionStore = __webpack_require__(261);
 	var ApiUtil = __webpack_require__(247);
-	var QuestionIndexItem = __webpack_require__(266);
+	var QuestionIndexItem = __webpack_require__(267);
 	var SortNav = __webpack_require__(264);
 	var QuestionActions = __webpack_require__(250);
-	var TagStub = __webpack_require__(267);
-	var ReactCSSTransitionGroup = __webpack_require__(270);
+	var TagStub = __webpack_require__(268);
+	var ReactCSSTransitionGroup = __webpack_require__(271);
 	var _callbackId;
 	
 	var QUESTION_SORT_TYPES = ['newest', 'votes', 'views', 'weekly', 'monthly', 'unanswers'];
@@ -34486,14 +34611,14 @@
 	module.exports = QuestionsIndex;
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var TagStub = __webpack_require__(267);
-	var TagStubIndex = __webpack_require__(268);
-	var UserLinkStub = __webpack_require__(269);
+	var TagStub = __webpack_require__(268);
+	var TagStubIndex = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(270);
 	var util = __webpack_require__(246);
 	
 	function renderTagStubs(questionId, tags) {
@@ -34629,7 +34754,7 @@
 	module.exports = QuestionsIndexItem;
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34675,11 +34800,11 @@
 	module.exports = TagStub;
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(268);
 	
 	var TagStubIndex = React.createClass({
 	  displayName: 'TagStubIndex',
@@ -34704,7 +34829,7 @@
 	module.exports = TagStubIndex;
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34729,13 +34854,13 @@
 	module.exports = UserLinkStub;
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(271);
+	module.exports = __webpack_require__(272);
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -34756,8 +34881,8 @@
 	
 	var assign = __webpack_require__(39);
 	
-	var ReactTransitionGroup = __webpack_require__(272);
-	var ReactCSSTransitionGroupChild = __webpack_require__(274);
+	var ReactTransitionGroup = __webpack_require__(273);
+	var ReactCSSTransitionGroupChild = __webpack_require__(275);
 	
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -34823,7 +34948,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -34840,7 +34965,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(2);
-	var ReactTransitionChildMapping = __webpack_require__(273);
+	var ReactTransitionChildMapping = __webpack_require__(274);
 	
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -35033,7 +35158,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -35136,7 +35261,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -35156,8 +35281,8 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(3);
 	
-	var CSSCore = __webpack_require__(275);
-	var ReactTransitionEvents = __webpack_require__(276);
+	var CSSCore = __webpack_require__(276);
+	var ReactTransitionEvents = __webpack_require__(277);
 	
 	var onlyChild = __webpack_require__(156);
 	
@@ -35306,7 +35431,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35409,7 +35534,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -35523,15 +35648,15 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
 	var QuestionStore = __webpack_require__(261);
-	var AnswersIndex = __webpack_require__(278);
-	var ShowItem = __webpack_require__(279);
-	var AnswersNew = __webpack_require__(284);
+	var AnswersIndex = __webpack_require__(279);
+	var ShowItem = __webpack_require__(280);
+	var AnswersNew = __webpack_require__(285);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
 	var _callbackId;
@@ -35698,15 +35823,15 @@
 	module.exports = QuestionShow;
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SortNav = __webpack_require__(264);
 	var QuestionStore = __webpack_require__(261);
 	var QuestionActions = __webpack_require__(250);
-	var ShowItem = __webpack_require__(279);
-	var ReactCSSTransitionGroup = __webpack_require__(270);
+	var ShowItem = __webpack_require__(280);
+	var ReactCSSTransitionGroup = __webpack_require__(271);
 	
 	var ANSWER_SORT_TYPES = ['oldest', 'votes'];
 	
@@ -35757,19 +35882,19 @@
 	module.exports = AnswersIndex;
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var CommentsIndex = __webpack_require__(280);
-	var CommentsForm = __webpack_require__(282);
-	var TagStub = __webpack_require__(267);
-	var TagStubIndex = __webpack_require__(268);
-	var UserLinkStub = __webpack_require__(269);
+	var CommentsIndex = __webpack_require__(281);
+	var CommentsForm = __webpack_require__(283);
+	var TagStub = __webpack_require__(268);
+	var TagStubIndex = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(270);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var AnswersEdit = __webpack_require__(283);
+	var AnswersEdit = __webpack_require__(284);
 	var ApiUtil = __webpack_require__(247);
 	var util = __webpack_require__(246);
 	
@@ -36014,12 +36139,12 @@
 	module.exports = ShowItem;
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CommentsIndexItem = __webpack_require__(281);
-	var ReactCSSTransitionGroup = __webpack_require__(270);
+	var CommentsIndexItem = __webpack_require__(282);
+	var ReactCSSTransitionGroup = __webpack_require__(271);
 	
 	var CommentsIndex = React.createClass({
 	  displayName: 'CommentsIndex',
@@ -36053,12 +36178,12 @@
 	module.exports = CommentsIndex;
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
-	var UserLinkStub = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(270);
 	
 	function commentVoteClass(userVote, type) {
 	  var className;
@@ -36147,7 +36272,7 @@
 	module.exports = CommentsIndexItem;
 
 /***/ }),
-/* 282 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36233,7 +36358,7 @@
 	module.exports = CommentsForm;
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36317,7 +36442,7 @@
 	module.exports = AnswersEdit;
 
 /***/ }),
-/* 284 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36411,17 +36536,17 @@
 	module.exports = AnswersNew;
 
 /***/ }),
-/* 285 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var QuestionsFormSidebar = __webpack_require__(286);
+	var QuestionsFormSidebar = __webpack_require__(287);
 	var ApiUtil = __webpack_require__(247);
-	var QuestionFormTag = __webpack_require__(287);
-	var RemovableTagStub = __webpack_require__(288);
-	var TagStore = __webpack_require__(289);
+	var QuestionFormTag = __webpack_require__(288);
+	var RemovableTagStub = __webpack_require__(289);
+	var TagStore = __webpack_require__(290);
 	var TagActions = __webpack_require__(254);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(268);
 	var QuestionStore = __webpack_require__(261);
 	
 	var _callbackId;
@@ -36804,7 +36929,7 @@
 	module.exports = QuestionsForm;
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36924,7 +37049,7 @@
 	module.exports = QuestionsFormSidebar;
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36944,7 +37069,7 @@
 	module.exports = QuestionFormTag;
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36975,7 +37100,7 @@
 	module.exports = RemovableTagStub;
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(242);
@@ -37063,7 +37188,7 @@
 	module.exports = TagStore;
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37071,8 +37196,8 @@
 	var CurrentUserStore = __webpack_require__(223);
 	var ApiUtil = __webpack_require__(247);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var NotFound = __webpack_require__(291);
-	var QuestionsForm = __webpack_require__(285);
+	var NotFound = __webpack_require__(292);
+	var QuestionsForm = __webpack_require__(286);
 	
 	var _callbackId;
 	
@@ -37126,7 +37251,7 @@
 	module.exports = QuestionNew;
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37146,16 +37271,16 @@
 	module.exports = NotFound;
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SortNav = __webpack_require__(264);
-	var UserStore = __webpack_require__(293);
+	var UserStore = __webpack_require__(294);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
-	var UsersIndexItem = __webpack_require__(294);
-	var SubSearch = __webpack_require__(297);
+	var UsersIndexItem = __webpack_require__(295);
+	var SubSearch = __webpack_require__(298);
 	
 	var USER_SORT_TYPES = ['reputation', 'new users', 'voters'];
 	
@@ -37226,7 +37351,7 @@
 	module.exports = UsersIndex;
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(242);
@@ -37418,13 +37543,13 @@
 	module.exports = UserStore;
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserLinkStub = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(270);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var TagLinkIndex = __webpack_require__(295);
+	var TagLinkIndex = __webpack_require__(296);
 	var util = __webpack_require__(246);
 	
 	function handleAnswerTagsComma(idx) {
@@ -37525,11 +37650,11 @@
 	module.exports = UsersIndexItem;
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagLink = __webpack_require__(296);
+	var TagLink = __webpack_require__(297);
 	
 	function handleAnswerTagsComma(idx) {
 	  if (idx !== 0) {
@@ -37563,7 +37688,7 @@
 	module.exports = TagLinkIndex;
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37588,7 +37713,7 @@
 	module.exports = TagLink;
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37630,17 +37755,17 @@
 	module.exports = SubSearch;
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SortNav = __webpack_require__(264);
-	var UserStore = __webpack_require__(293);
+	var UserStore = __webpack_require__(294);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
-	var TagsIndexItem = __webpack_require__(299);
-	var SubSearch = __webpack_require__(297);
-	var TagStore = __webpack_require__(289);
+	var TagsIndexItem = __webpack_require__(300);
+	var SubSearch = __webpack_require__(298);
+	var TagStore = __webpack_require__(290);
 	var TagActions = __webpack_require__(254);
 	
 	var TAG_SORT_TYPES = ['popular', 'name'];
@@ -37713,11 +37838,11 @@
 	module.exports = TagsIndex;
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(268);
 	
 	var TagsIndexItem = React.createClass({
 	  displayName: 'TagsIndexItem',
@@ -37773,21 +37898,21 @@
 	module.exports = TagsIndexItem;
 
 /***/ }),
-/* 300 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(293);
+	var UserStore = __webpack_require__(294);
 	var ApiUtil = __webpack_require__(247);
 	var SortNav = __webpack_require__(264);
-	var UserShowProfile = __webpack_require__(301);
-	var UserShowActivity = __webpack_require__(308);
+	var UserShowProfile = __webpack_require__(302);
+	var UserShowActivity = __webpack_require__(309);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var CurrentUserStore = __webpack_require__(223);
-	var UserShowSettings = __webpack_require__(316);
-	var NotFound = __webpack_require__(291);
+	var UserShowSettings = __webpack_require__(317);
+	var NotFound = __webpack_require__(292);
 	
 	var USER_SHOW_SORT_TYPES = ['Profile', 'Activity'];
 	var USER_SHOW_ACTIVITY_TABS = ['summary', 'answers', 'questions', 'tags', 'badges', 'favorites', 'reputation'];
@@ -37920,14 +38045,14 @@
 	module.exports = UserShow;
 
 /***/ }),
-/* 301 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ShowProfileHeaderPortrait = __webpack_require__(302);
-	var ShowProfileTopTags = __webpack_require__(303);
-	var ShowProfileTopPosts = __webpack_require__(304);
-	var ShowProfileBadges = __webpack_require__(306);
+	var ShowProfileHeaderPortrait = __webpack_require__(303);
+	var ShowProfileTopTags = __webpack_require__(304);
+	var ShowProfileTopPosts = __webpack_require__(305);
+	var ShowProfileBadges = __webpack_require__(307);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
 	function handleBio(bio) {
@@ -38095,7 +38220,7 @@
 	module.exports = UserShowProfile;
 
 /***/ }),
-/* 302 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38173,11 +38298,11 @@
 	module.exports = ShowProfileHeaderPortrait;
 
 /***/ }),
-/* 303 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(267);
+	var TagStub = __webpack_require__(268);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
@@ -38293,13 +38418,13 @@
 	module.exports = ShowProfileTopTags;
 
 /***/ }),
-/* 304 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(293);
+	var UserStore = __webpack_require__(294);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var MiniNav = __webpack_require__(305);
+	var MiniNav = __webpack_require__(306);
 	var UserActions = __webpack_require__(253);
 	
 	var SHOW_PROFILE_TOP_POSTS_SELECTORS = ['All', 'Questions', 'Answers'];
@@ -38474,7 +38599,7 @@
 	module.exports = ShowProfileTopPosts;
 
 /***/ }),
-/* 305 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38510,12 +38635,12 @@
 	module.exports = MiniNav;
 
 /***/ }),
-/* 306 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Util = __webpack_require__(246);
-	var BadgeStub = __webpack_require__(307);
+	var BadgeStub = __webpack_require__(308);
 	
 	var ShowProfileBadges = React.createClass({
 	  displayName: 'ShowProfileBadges',
@@ -38645,7 +38770,7 @@
 	module.exports = ShowProfileBadges;
 
 /***/ }),
-/* 307 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38685,18 +38810,18 @@
 	module.exports = BadgeStub;
 
 /***/ }),
-/* 308 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(293);
+	var UserStore = __webpack_require__(294);
 	var UserActions = __webpack_require__(253);
 	var SortNav = __webpack_require__(264);
-	var ShowActivitySummary = __webpack_require__(309);
+	var ShowActivitySummary = __webpack_require__(310);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var ShowActivityDetail = __webpack_require__(314);
+	var ShowActivityDetail = __webpack_require__(315);
 	var USER_SHOW_ACTIVITY_TABS = ['summary', 'answers', 'questions', 'tags', 'badges', 'favorites', 'reputation'];
 	
 	var UserShowActivity = React.createClass({
@@ -38745,11 +38870,11 @@
 	module.exports = UserShowActivity;
 
 /***/ }),
-/* 309 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ShowActivitySummaryItem = __webpack_require__(310);
+	var ShowActivitySummaryItem = __webpack_require__(311);
 	
 	var ShowActivitySummary = React.createClass({
 	  displayName: 'ShowActivitySummary',
@@ -38797,20 +38922,20 @@
 	module.exports = ShowActivitySummary;
 
 /***/ }),
-/* 310 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var MiniNav = __webpack_require__(305);
-	var ShowActivitySummaryItemLineItem = __webpack_require__(311);
-	var ShowActivityTagItem = __webpack_require__(312);
+	var MiniNav = __webpack_require__(306);
+	var ShowActivitySummaryItemLineItem = __webpack_require__(312);
+	var ShowActivityTagItem = __webpack_require__(313);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var UserStore = __webpack_require__(293);
+	var UserStore = __webpack_require__(294);
 	var UserActions = __webpack_require__(253);
 	var Util = __webpack_require__(246);
-	var ShowActivityBadgeItem = __webpack_require__(313);
+	var ShowActivityBadgeItem = __webpack_require__(314);
 	
 	var ShowActivitySummaryItem = React.createClass({
 	  displayName: 'ShowActivitySummaryItem',
@@ -39098,7 +39223,7 @@
 	module.exports = ShowActivitySummaryItem;
 
 /***/ }),
-/* 311 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39146,7 +39271,7 @@
 	module.exports = ShowActivitySummaryItemLineItem;
 
 /***/ }),
-/* 312 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39191,11 +39316,11 @@
 	module.exports = ShowActivityTagItem;
 
 /***/ }),
-/* 313 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var BadgeStub = __webpack_require__(307);
+	var BadgeStub = __webpack_require__(308);
 	
 	var ShowActivityBadgeItem = React.createClass({
 	  displayName: 'ShowActivityBadgeItem',
@@ -39224,19 +39349,19 @@
 	module.exports = ShowActivityBadgeItem;
 
 /***/ }),
-/* 314 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var MiniNav = __webpack_require__(305);
-	var TagStubIndex = __webpack_require__(268);
+	var MiniNav = __webpack_require__(306);
+	var TagStubIndex = __webpack_require__(269);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var ShowActivityTagItem = __webpack_require__(312);
-	var ShowActivityBadgeItem = __webpack_require__(313);
-	var ShowActivityReputationItem = __webpack_require__(315);
+	var ShowActivityTagItem = __webpack_require__(313);
+	var ShowActivityBadgeItem = __webpack_require__(314);
+	var ShowActivityReputationItem = __webpack_require__(316);
 	
 	var SUB_TABS = {
 	  answers: ['votes', 'newest'],
@@ -39498,7 +39623,7 @@
 	module.exports = ShowActivityDetail;
 
 /***/ }),
-/* 315 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39564,7 +39689,7 @@
 	module.exports = ShowActivityReputationItem;
 
 /***/ }),
-/* 316 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39786,15 +39911,15 @@
 	module.exports = UserShowSettings;
 
 /***/ }),
-/* 317 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
-	var BadgeStore = __webpack_require__(318);
+	var BadgeStore = __webpack_require__(319);
 	var BadgeActions = __webpack_require__(256);
 	var SortNav = __webpack_require__(264);
-	var BadgeStub = __webpack_require__(307);
+	var BadgeStub = __webpack_require__(308);
 	
 	var _callbackId;
 	var BADGE_SELECT_TYPES = ['all', 'Tier 3', 'Tier 2', 'Tier 1'];
@@ -39980,7 +40105,7 @@
 	module.exports = BadgesIndex;
 
 /***/ }),
-/* 318 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(224).Store;
@@ -40070,16 +40195,16 @@
 	module.exports = BadgeStore;
 
 /***/ }),
-/* 319 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var BadgeStore = __webpack_require__(318);
+	var BadgeStore = __webpack_require__(319);
 	var ApiUtil = __webpack_require__(247);
-	var BadgeStub = __webpack_require__(307);
-	var BadgingItem = __webpack_require__(320);
+	var BadgeStub = __webpack_require__(308);
+	var BadgingItem = __webpack_require__(321);
 	
 	var _callbackId;
 	
@@ -40150,12 +40275,12 @@
 	module.exports = BadgeShow;
 
 /***/ }),
-/* 320 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var UserLinkStub = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(270);
 	var util = __webpack_require__(246);
 	
 	var BadgingItem = React.createClass({
@@ -40216,18 +40341,18 @@
 	module.exports = BadgingItem;
 
 /***/ }),
-/* 321 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var SearchStore = __webpack_require__(322);
+	var SearchStore = __webpack_require__(323);
 	var ApiUtil = __webpack_require__(247);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var SortNav = __webpack_require__(264);
 	var SearchActions = __webpack_require__(258);
-	var SearchItem = __webpack_require__(323);
+	var SearchItem = __webpack_require__(324);
 	
 	var _callbackId;
 	
@@ -40336,7 +40461,7 @@
 	module.exports = Search;
 
 /***/ }),
-/* 322 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(224).Store;
@@ -40406,12 +40531,12 @@
 	module.exports = SearchStore;
 
 /***/ }),
-/* 323 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStubIndex = __webpack_require__(268);
-	var UserLinkStub = __webpack_require__(269);
+	var TagStubIndex = __webpack_require__(269);
+	var UserLinkStub = __webpack_require__(270);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var util = __webpack_require__(246);
 	
@@ -40585,7 +40710,7 @@
 	module.exports = SearchItem;
 
 /***/ }),
-/* 324 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -40747,6 +40872,223 @@
 	  }
 	});
 	module.exports = UserRecoverAccount;
+
+/***/ }),
+/* 326 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var TermsOfService = React.createClass({
+	  displayName: "TermsOfService",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h1",
+	        { className: "static-page-title" },
+	        "Terms of service"
+	      ),
+	      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	    );
+	  }
+	});
+	
+	module.exports = TermsOfService;
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var PrivacyPolicy = React.createClass({
+	  displayName: "PrivacyPolicy",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h1",
+	        { className: "static-page-title" },
+	        "Privacy Policy"
+	      ),
+	      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	    );
+	  }
+	});
+	
+	module.exports = PrivacyPolicy;
+
+/***/ }),
+/* 328 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(247);
+	
+	var ContactUs = React.createClass({
+	  displayName: 'ContactUs',
+	
+	  getInitialState: function () {
+	    return {
+	      Name: '',
+	      email: '',
+	      subject: '',
+	      message: '',
+	      errors: [],
+	      messages: []
+	    };
+	  },
+	  handleChange: function (type, e) {
+	    switch (type) {
+	      case 'name':
+	        this.setState({ name: e.currentTarget.value });
+	        break;
+	      case 'email':
+	        this.setState({ email: e.currentTarget.value });
+	        break;
+	      case 'subject':
+	        this.setState({ subject: e.currentTarget.value });
+	        break;
+	      case 'message':
+	        this.setState({ message: e.currentTarget.value });
+	        break;
+	    }
+	  },
+	  handleSubmit: function () {
+	    this.setState({ Name: '', email: '', subject: '', message: '', errors: [], messages: [] });
+	    $('input, textarea').val('');
+	    ApiUtil.contactToAdmin(this.state);
+	  },
+	  render: function () {
+	    var alert;
+	    if (this.state.errors.length) {
+	      alert = React.createElement(
+	        'div',
+	        { className: 'auth-form-errors' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.errors.map(function (error, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'error-' + idx },
+	              error + '.'
+	            );
+	          })
+	        )
+	      );
+	    } else if (this.state.messages.length) {
+	      alert = React.createElement(
+	        'div',
+	        { className: 'auth-form-messages' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          this.state.errors.map(function (error, idx) {
+	            return React.createElement(
+	              'li',
+	              { key: 'message-' + idx },
+	              error + '.'
+	            );
+	          })
+	        )
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'contact-us-wrapper' },
+	      React.createElement(
+	        'h1',
+	        { className: 'static-page-title' },
+	        'Contact us'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'contact-us-form' },
+	        alert,
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Your Name'
+	          ),
+	          React.createElement('input', { type: 'text', placeholder: 'Name', id: 'auth-email', onChange: this.handleChange.bind(this, 'name') }),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Email'
+	          ),
+	          React.createElement('input', { type: 'email', placeholder: 'Email', id: 'auth-email', onChange: this.handleChange.bind(this, 'email') }),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Subject'
+	          ),
+	          React.createElement('input', { type: 'text', placeholder: 'Subject', id: 'auth-email', onChange: this.handleChange.bind(this, 'subject') }),
+	          React.createElement(
+	            'div',
+	            { className: 'auth-form-label' },
+	            'Message'
+	          ),
+	          React.createElement('textarea', { id: 'auth-email', placeholder: 'Message', onChange: this.handleChange.bind(this, 'message') })
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleSubmit, id: 'auth-submit' },
+	          'Send'
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'contact-us-sample' },
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'p',
+	            null,
+	            'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ContactUs;
+
+/***/ }),
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var AboutUs = React.createClass({
+	  displayName: "AboutUs",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h1",
+	        { className: "static-page-title" },
+	        "About Us"
+	      ),
+	      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	    );
+	  }
+	});
+	
+	module.exports = AboutUs;
 
 /***/ })
 /******/ ]);

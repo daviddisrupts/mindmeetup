@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root to: 'static_pages#root'
 
   namespace :api, defaults: { format: :json } do
+    resource :contact_us, only: [:create]
     resource :session, only: [:create, :destroy]
     get '/auth/:provider/callback' => 'social_auth/omniauth_callbacks#authenticate'
 

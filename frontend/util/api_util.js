@@ -157,18 +157,21 @@ module.exports = {
   // UPDATE
 
   updateCurrentUser: function(currentUserDetails) {
-    var data = {
-      '[user][display_name]': currentUserDetails.displayName,
-      '[user][email]': currentUserDetails.email,
-      '[user][location]': currentUserDetails.location,
-      '[user][bio]': currentUserDetails.bio,
-      '[user][password]': currentUserDetails.password,
-    };
+    var formData = new FormData();
+    formData.append('[user][avatar]', currentUserDetails.profileImage);
+    formData.append('[user][avatar]', currentUserDetails.profileImage);
+    formData.append('[user][display_name]', currentUserDetails.displayName);
+    formData.append('[user][email]', currentUserDetails.email);
+    formData.append('[user][location]', currentUserDetails.location);
+    formData.append('[user][bio]', currentUserDetails.bio);
+    formData.append('[user][password]', currentUserDetails.password);
 
     $.ajax({
       method: 'PATCH',
       url: '/api/users/' + currentUserDetails.id,
-      data: data,
+      data: formData,
+      processData: false,
+      contentType: false,
       dataType: 'json',
       success: CurrentUserActions.receiveCurrentUserUpdateStatusOK,
       error: CurrentUserActions.receiveCurrentUserUpdateStatusBAD
@@ -484,6 +487,26 @@ module.exports = {
       success: UserActions.receiveUsers,
       error: function() {
         debugger
+      }
+    });
+  },
+  contactToAdmin: function(form) {
+    var data = {
+      '[contact_us][name]': form.name,
+      '[contact_us][email]': form.email,
+      '[contact_us][subject]': form.subject,
+      '[contact_us][message]': form.message
+    };
+    $.ajax({
+      method: 'POST',
+      url: '/api/contact_us/',
+      data: data,
+      dataType: 'json',
+      success: function(response) {
+        alert(response.messages.join(','));
+      },
+      error: function(response) {
+        alert(JSON.parse(response.responseText));
       }
     });
   }

@@ -2,12 +2,15 @@ var React = require('react');
 var ApiUtil = require('../../util/api_util');
 var CurrentUserStore = require('../../stores/current_user');
 var CurrentUserActions = require('../../actions/current_user');
+var util = require('../../util/util');
 
 var _callbackId;
 
 var UserShowSettings = React.createClass({
   getInitialState: function() {
     return {
+      id: this.props.id,
+      avatar_url: this.props.avatar_url,
       email: this.props.email,
       displayName: this.props.display_name,
       location: this.props.location,
@@ -23,6 +26,7 @@ var UserShowSettings = React.createClass({
   },
   onChange: function () {
     this.setState({
+      avatar_url: CurrentUserStore.fetch().avatar_url,
       isSubmitting: false,
       errors: CurrentUserStore.getUpdateSubmissionErrors(),
       submissionComplete: CurrentUserStore.getSubmissionComplete()
@@ -34,6 +38,9 @@ var UserShowSettings = React.createClass({
   },
   handleChange: function(type, e) {
     switch (type) {
+      case 'profileImage':
+        this.setState({profileImage: e.currentTarget.files[0]});
+        break;
       case 'password':
         this.setState({ password: e.currentTarget.value });
         break;
@@ -94,6 +101,16 @@ var UserShowSettings = React.createClass({
     return (
       <div className='show-settings-container'>
         <div className='show-settings-inputs'>
+          <div className='show-settings-display-name-container'>
+            <div className='show-settings-label'>
+              Profile Image
+            </div>
+            <img src={this.state.avatar_url || util.avatarSrc(this.state.id)} style={{width: 100}} />
+            <input
+              onChange={this.handleChange.bind(null, 'profileImage')}
+              type='file' />
+          </div>
+
           <div className='show-settings-display-name-container'>
             <div className='show-settings-label'>
               Email

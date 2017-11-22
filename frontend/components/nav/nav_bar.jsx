@@ -8,6 +8,7 @@ var QuestionStore = require('../../stores/question');
 var NavNotifications = require('./notifications');
 var AuthModal = require('./auth_modal');
 var CurrentUserActions = require('../../actions/current_user');
+var Footer = require('./../shared/footer');
 
 var HEADERS = ['questions', 'tags', 'users', 'awards', 'ask'];
 var MODAL_TABS = ['Log In', 'Sign Up'];
@@ -66,7 +67,7 @@ var NavBar = React.createClass({
               </div>
               <img
                 className='nav-current-user-icon'
-                src={util.avatarSrc(currentUser.id)} />
+                src={currentUser.avatar_url || util.avatarSrc(currentUser.id)} />
               <div className='current-user-reputation'>
                 AR {currentUser.ar_count} | VR {currentUser.vr_count}
               </div>
@@ -214,6 +215,7 @@ var NavBar = React.createClass({
           {this.props.children}
         </main>
         {signupModal}
+        <Footer />
       </div>
     );
   }

@@ -198,7 +198,7 @@ var ShowItem = React.createClass({ // used for question show and answers index i
                 <img
                   className='question-index-item-user-pic'
                   onClick={this.handleUserClick}
-                  src={util.avatarSrc(item.user.id)} />
+                  src={item.user.avatar_url || util.avatarSrc(item.user.id)} />
                 <div className='question-index-item-user-display-name-container'>
                   <UserLinkStub {...item.user} />
                 </div>

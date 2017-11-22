@@ -16,7 +16,11 @@ var UserShow = require('./components/users/show');
 var BadgesIndex = require('./components/badges/index');
 var BadgeShow = require('./components/badges/show');
 var Search = require('./components/search/search');
-var UserRecoverAccount = require('./components/users/recover_account')
+var UserRecoverAccount = require('./components/users/recover_account');
+var TermsOfService = require('./components/static_pages/terms_of_service');
+var PrivacyPolicy = require('./components/static_pages/privacy_policy');
+var ContactUs = require('./components/static_pages/contact_us');
+var AboutUs = require('./components/static_pages/about_us');
 
 var App = (
   <Router history={hashHistory}>
@@ -35,6 +39,10 @@ var App = (
       <Route path='awards' component={BadgesIndex} />
       <Route path='awards/:badgeId' component={BadgeShow} />
       <Route path='search(/:query)' component={Search} />
+      <Route path='terms_of_service' component={TermsOfService} />
+      <Route path='privacy_policy' component={PrivacyPolicy} />
+      <Route path='contact_us' component={ContactUs} />
+      <Route path='about_us' component={AboutUs} />
     </Route>
   </Router>
 );

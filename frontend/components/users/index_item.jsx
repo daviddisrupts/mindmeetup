@@ -59,7 +59,7 @@ var UsersIndexItem = React.createClass({
           <img
             onClick={this.handleUserClick}
             className='users-index-item-user-pic'
-            src={util.avatarSrc(user.id)} />
+            src={user.avatar_url || util.avatarSrc(user.id)} />
           <div className='link-container'>
             <UserLinkStub {...user} />
           </div>

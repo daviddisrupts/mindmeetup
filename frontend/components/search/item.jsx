@@ -20,7 +20,6 @@ var SearchItem = React.createClass({
   },
   render: function() {
     var post = this.props;
-
     var answerCount, viewCount, title = post.title,
         dateString = post.created_at.toLocaleString();
 

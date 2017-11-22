@@ -53,3 +53,6 @@ en:
     recover_mail_sent: >
                     Account recovery email sent to %{email}
                     If you don't see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark it as "Not Junk".
+  contact_us:
+    send:
+      success: "Thank you for contact us. Admin will contact you soon."

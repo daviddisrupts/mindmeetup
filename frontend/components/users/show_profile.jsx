@@ -39,7 +39,8 @@ var UserShowProfile = React.createClass({
           <ShowProfileHeaderPortrait
             badges={this.props.badges}
             reputation={this.props.reputation}
-            id={this.props.id} />
+            id={this.props.id}
+            avatarUrl={this.props.avatar_url} />
 
           <div className='user-show-profile-header-bio-container'>
             <div className='user-show-profile-header-bio-header'>

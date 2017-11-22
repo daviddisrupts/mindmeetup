@@ -8,6 +8,7 @@ var QuestionStore = require('../../stores/question');
 var NavNotifications = require('./notifications');
 var AuthModal = require('./auth_modal');
 var CurrentUserActions = require('../../actions/current_user');
+var Footer = require('./../shared/footer');
 
 var HEADERS = ['questions', 'tags', 'users', 'awards', 'ask'];
 var MODAL_TABS = ['Log In', 'Sign Up'];
@@ -214,6 +215,7 @@ var NavBar = React.createClass({
           {this.props.children}
         </main>
         {signupModal}
+        <Footer />
       </div>
     );
   }

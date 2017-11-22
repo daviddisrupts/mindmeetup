@@ -84,3 +84,7 @@ gem 'elasticsearch-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
+
+# Easy file attachment management for ActiveRecord
+gem "paperclip", "~> 5.0.0"
+gem 'aws-sdk', '~> 2.3.0'

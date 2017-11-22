@@ -10,7 +10,7 @@ json.array!(@questions) do |question|
   json.created_at_words "asked #{time_ago_in_words(question.created_at)} ago"
 
   json.user do
-    json.extract!(question.user, :id, :display_name)
+    json.extract!(question.user, :id, :display_name, :avatar_url)
     json.reputation @users[question.user.id].reputation
   end
 

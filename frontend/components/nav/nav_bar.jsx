@@ -67,7 +67,7 @@ var NavBar = React.createClass({
               </div>
               <img
                 className='nav-current-user-icon'
-                src={util.avatarSrc(currentUser.id)} />
+                src={currentUser.avatar_url || util.avatarSrc(currentUser.id)} />
               <div className='current-user-reputation'>
                 AR {currentUser.ar_count} | VR {currentUser.vr_count}
               </div>

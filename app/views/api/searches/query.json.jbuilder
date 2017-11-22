@@ -12,6 +12,7 @@ json.array!(@posts) do |post|
     json.id post.user_id
     json.display_name @users_hash[post.user_id].display_name
     json.reputation @users_hash[post.user_id].reputation
+    json.avatar_url @users_hash[post.user_id].avatar_url
   end
 
   json.tags post.associated_tags, :id, :name

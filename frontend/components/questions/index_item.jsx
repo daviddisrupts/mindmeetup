@@ -85,7 +85,7 @@ QuestionsIndexItem = React.createClass({
                 <img
                   className='question-index-item-user-pic'
                   onClick={this.handleUserClick}
-                  src={util.avatarSrc(question.user.id)} />
+                  src={question.user.avatar_url || util.avatarSrc(question.user.id)} />
                 <div className='question-index-item-user-display-name-container'>
                   <UserLinkStub {...question.user} />
                 </div>

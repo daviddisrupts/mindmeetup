@@ -1,5 +1,5 @@
 json.extract!(@user, :id, :display_name, :email, :created_at, :updated_at,
-    :bio, :reputation, :location, :tags, :view_count, :vote_count)
+    :bio, :reputation, :location, :tags, :view_count, :vote_count, :avatar_url)
 
 json.questions do
   json.array!(@questions) do |question|

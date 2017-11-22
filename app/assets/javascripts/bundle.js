@@ -25536,7 +25536,7 @@
 	            ),
 	            React.createElement('img', {
 	              className: 'nav-current-user-icon',
-	              src: util.avatarSrc(currentUser.id) }),
+	              src: currentUser.avatar_url || util.avatarSrc(currentUser.id) }),
 	            React.createElement(
 	              'div',
 	              { className: 'current-user-reputation' },
@@ -32865,18 +32865,21 @@
 	  // UPDATE
 	
 	  updateCurrentUser: function (currentUserDetails) {
-	    var data = {
-	      '[user][display_name]': currentUserDetails.displayName,
-	      '[user][email]': currentUserDetails.email,
-	      '[user][location]': currentUserDetails.location,
-	      '[user][bio]': currentUserDetails.bio,
-	      '[user][password]': currentUserDetails.password
-	    };
+	    var formData = new FormData();
+	    formData.append('[user][avatar]', currentUserDetails.profileImage);
+	    formData.append('[user][avatar]', currentUserDetails.profileImage);
+	    formData.append('[user][display_name]', currentUserDetails.displayName);
+	    formData.append('[user][email]', currentUserDetails.email);
+	    formData.append('[user][location]', currentUserDetails.location);
+	    formData.append('[user][bio]', currentUserDetails.bio);
+	    formData.append('[user][password]', currentUserDetails.password);
 	
 	    $.ajax({
 	      method: 'PATCH',
 	      url: '/api/users/' + currentUserDetails.id,
-	      data: data,
+	      data: formData,
+	      processData: false,
+	      contentType: false,
 	      dataType: 'json',
 	      success: CurrentUserActions.receiveCurrentUserUpdateStatusOK,
 	      error: CurrentUserActions.receiveCurrentUserUpdateStatusBAD
@@ -34604,7 +34607,7 @@
 	              React.createElement('img', {
 	                className: 'question-index-item-user-pic',
 	                onClick: this.handleUserClick,
-	                src: util.avatarSrc(question.user.id) }),
+	                src: question.user.avatar_url || util.avatarSrc(question.user.id) }),
 	              React.createElement(
 	                'div',
 	                { className: 'question-index-item-user-display-name-container' },
@@ -35984,7 +35987,7 @@
 	              React.createElement('img', {
 	                className: 'question-index-item-user-pic',
 	                onClick: this.handleUserClick,
-	                src: util.avatarSrc(item.user.id) }),
+	                src: item.user.avatar_url || util.avatarSrc(item.user.id) }),
 	              React.createElement(
 	                'div',
 	                { className: 'question-index-item-user-display-name-container' },
@@ -37497,7 +37500,7 @@
 	        React.createElement('img', {
 	          onClick: this.handleUserClick,
 	          className: 'users-index-item-user-pic',
-	          src: util.avatarSrc(user.id) }),
+	          src: user.avatar_url || util.avatarSrc(user.id) }),
 	        React.createElement(
 	          'div',
 	          { className: 'link-container' },
@@ -37968,7 +37971,8 @@
 	        React.createElement(ShowProfileHeaderPortrait, {
 	          badges: this.props.badges,
 	          reputation: this.props.reputation,
-	          id: this.props.id }),
+	          id: this.props.id,
+	          avatarUrl: this.props.avatar_url }),
 	        React.createElement(
 	          'div',
 	          { className: 'user-show-profile-header-bio-container' },
@@ -38145,7 +38149,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'user-show-profile-header-portrait-content' },
-	        React.createElement('img', { className: '', src: util.avatarSrc(this.props.id), alt: 'user-pic' }),
+	        React.createElement('img', { className: '', src: this.props.avatarUrl || util.avatarSrc(this.props.id), alt: 'user-pic' }),
 	        React.createElement(
 	          'div',
 	          { className: 'user-show-profile-header-portrait-reputation-container' },
@@ -39567,6 +39571,7 @@
 	var ApiUtil = __webpack_require__(247);
 	var CurrentUserStore = __webpack_require__(223);
 	var CurrentUserActions = __webpack_require__(248);
+	var util = __webpack_require__(246);
 	
 	var _callbackId;
 	
@@ -39575,6 +39580,8 @@
 	
 	  getInitialState: function () {
 	    return {
+	      id: this.props.id,
+	      avatar_url: this.props.avatar_url,
 	      email: this.props.email,
 	      displayName: this.props.display_name,
 	      location: this.props.location,
@@ -39590,6 +39597,7 @@
 	  },
 	  onChange: function () {
 	    this.setState({
+	      avatar_url: CurrentUserStore.fetch().avatar_url,
 	      isSubmitting: false,
 	      errors: CurrentUserStore.getUpdateSubmissionErrors(),
 	      submissionComplete: CurrentUserStore.getSubmissionComplete()
@@ -39601,6 +39609,9 @@
 	  },
 	  handleChange: function (type, e) {
 	    switch (type) {
+	      case 'profileImage':
+	        this.setState({ profileImage: e.currentTarget.files[0] });
+	        break;
 	      case 'password':
 	        this.setState({ password: e.currentTarget.value });
 	        break;
@@ -39677,6 +39688,19 @@
 	      React.createElement(
 	        'div',
 	        { className: 'show-settings-inputs' },
+	        React.createElement(
+	          'div',
+	          { className: 'show-settings-display-name-container' },
+	          React.createElement(
+	            'div',
+	            { className: 'show-settings-label' },
+	            'Profile Image'
+	          ),
+	          React.createElement('img', { src: this.state.avatar_url || util.avatarSrc(this.state.id), style: { width: 100 } }),
+	          React.createElement('input', {
+	            onChange: this.handleChange.bind(null, 'profileImage'),
+	            type: 'file' })
+	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'show-settings-display-name-container' },
@@ -40409,7 +40433,6 @@
 	  },
 	  render: function () {
 	    var post = this.props;
-	
 	    var answerCount,
 	        viewCount,
 	        title = post.title,

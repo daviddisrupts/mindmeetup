@@ -31,11 +31,16 @@ class User < ActiveRecord::Base
 
   attr_reader :password
   attr_accessor :tags
+  has_attached_file :avatar, styles: {
+    thumb: '100x100>',
+    medium: '300x300>'
+  }
 
   validates :email, :password_digest, presence: true, :unless => :social_login?
   validates :display_name, presence: true
   validates :email, uniqueness: true, :allow_nil => true
   validates :password, length: { minimum: 6, allow_nil: true}
+  validates_attachment :avatar, content_type: { content_type: ["image/jpg", "image/jpeg", "image/png"] }
 
   has_many :questions
   has_many :received_answers, through: :questions, source: :answers
@@ -250,5 +255,9 @@ class User < ActiveRecord::Base
 
   def social_login?
     !!provider && !!uid
+  end
+
+  def avatar_url
+    avatar.url(:medium)
   end
 end

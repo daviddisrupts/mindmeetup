@@ -39706,11 +39706,12 @@
 	  getInitialState: function () {
 	    return {
 	      id: this.props.id,
-	      avatar_url: this.props.avatar_url,
-	      email: this.props.email,
-	      displayName: this.props.display_name,
-	      location: this.props.location,
-	      bio: this.props.bio,
+	      avatar_url: this.props.avatar_url || '',
+	      email: this.props.email || '',
+	      displayName: this.props.display_name || '',
+	      location: this.props.location || '',
+	      bio: this.props.bio || '',
+	      profileImage: '',
 	      password: '',
 	      imagePreviewUrl: '',
 	      isSubmitting: false,

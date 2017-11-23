@@ -1,4 +1,6 @@
 class Api::UsersController < ApplicationController
+  before_action :authenticate_user!, only: [:update]
+
   def current
     if current_user
       @current_user = User.find_with_reputation(current_user.id)
@@ -45,24 +47,22 @@ class Api::UsersController < ApplicationController
 
   def update
     @user = User.find_with_reputation(params[:id])
-    if @user == current_user
-      if @user.is_password?(user_params[:password])
-        if @user.update(user_params)
-          render_current_user
-        else
-          render json: @user.errors.full_messages, status: :unprocessable_entity
-        end
+    if @user.authorized?(user_params[:password])
+      if @user.update(user_params)
+        render_current_user
       else
-        render json: ['Invalid password. Please try again.'], status: :forbidden
+        render json: @user.errors.full_messages, status: :unprocessable_entity
       end
     else
-      render json: {}, status: :forbidden
+      render json: @user.errors.full_messages, status: :forbidden
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:avatar, :display_name, :bio, :location, :email, :password)
+    allowed_params = [:avatar, :display_name, :bio, :location, :email]
+    allowed_params.push(:password) unless @user.social_login?
+    params.require(:user).permit(allowed_params)
   end
 end

@@ -36,6 +36,7 @@ en:
               not_found: "Email with this token was not found."
             password:
               not_match: "does not match with confirm password"
+              invalid: "Invalid password. Please try again"
             reset_password_token:
               not_found: "not found or link was expired. Please request a new one"
     success:

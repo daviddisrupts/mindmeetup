@@ -10,12 +10,14 @@ var UserShowSettings = React.createClass({
   getInitialState: function() {
     return {
       id: this.props.id,
-      avatar_url: this.props.avatar_url,
-      email: this.props.email,
-      displayName: this.props.display_name,
-      location: this.props.location,
-      bio: this.props.bio,
+      avatar_url: this.props.avatar_url || '',
+      email: this.props.email || '',
+      displayName: this.props.display_name || '',
+      location: this.props.location || '',
+      bio: this.props.bio || '',
+      profileImage: '',
       password: '',
+      imagePreviewUrl: '',
       isSubmitting: false,
       submissionComplete: false,
       errors: []
@@ -39,7 +41,17 @@ var UserShowSettings = React.createClass({
   handleChange: function(type, e) {
     switch (type) {
       case 'profileImage':
-        this.setState({profileImage: e.currentTarget.files[0]});
+        var reader = new FileReader();
+        var file = e.target.files[0];
+
+        reader.onloadend = () => {
+          this.setState({
+            profileImage: file,
+            imagePreviewUrl: reader.result
+          });
+        }
+
+        reader.readAsDataURL(file);
         break;
       case 'password':
         this.setState({ password: e.currentTarget.value });
@@ -105,7 +117,7 @@ var UserShowSettings = React.createClass({
             <div className='show-settings-label'>
               Profile Image
             </div>
-            <img src={this.state.avatar_url || util.avatarSrc(this.state.id)} style={{width: 100}} />
+            <img src={this.state.imagePreviewUrl || this.state.avatar_url || util.avatarSrc(this.state.id)} style={{width: 100}} />
             <input
               onChange={this.handleChange.bind(null, 'profileImage')}
               type='file' />

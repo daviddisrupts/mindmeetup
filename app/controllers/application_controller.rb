@@ -41,4 +41,12 @@ class ApplicationController < ActionController::Base
     @notifications = (answers + comments).sort_by(&:created_at).reverse
     render 'api/users/current'
   end
+
+  private
+
+  def authenticate_user!
+    unless current_user
+      render json: {}, status: :forbidden
+    end
+  end
 end

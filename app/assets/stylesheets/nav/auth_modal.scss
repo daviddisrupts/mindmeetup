@@ -79,12 +79,15 @@
 }
 
 .social-image {
+
   &.fb {
-    width: 60%;
-    content: url(image_path('fb.jpg'))
+    background-image: image_url('fb.png');
+    width: 202px;
+    height: 35px;
   }
   &.google-plus {
-    width: 60%;
-    content: url(image_path('google_plus.jpg'));
+    background: image_url('google_plus.png');
+    width: 202px;
+    height: 35px;
   }
 }

@@ -203,11 +203,11 @@ var AuthModal = React.createClass({
               )}
               <br />
               <a href="/auth/facebook">
-               <img className="social-image fb" />
+               <div className="social-image fb" />
               </a>
               <br />
               <a href="/auth/google_oauth2" >
-                <img className="social-image google-plus" />
+                <div className="social-image google-plus" />
               </a>
               {errors}
               {footer}

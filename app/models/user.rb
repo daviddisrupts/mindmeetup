@@ -228,7 +228,9 @@ class User < ActiveRecord::Base
   end
 
   def is_password?(password)
-    BCrypt::Password.new(password_digest).is_password?(password)
+    valid_password = BCrypt::Password.new(password_digest).is_password?(password)
+    self.errors.add(:password, :invalid) unless valid_password
+    valid_password
   end
 
   def upvote!(votable)
@@ -251,10 +253,6 @@ class User < ActiveRecord::Base
   def vr_count
     vr_questions = questions.joins(:category).where(categories: { name: ['VR','Windows mixed reality', 'Daydream', "Oculus", "HTC Vive", 'WebVR', 'SteamVR']})
     return (vr_questions.joins(:votes).count + vr_questions.joins(:favorites).count)
-  end
-
-  def social_login?
-    !!provider && !!uid
   end
 
   def avatar_url

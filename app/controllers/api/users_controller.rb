@@ -62,7 +62,7 @@ class Api::UsersController < ApplicationController
 
   def user_params
     allowed_params = [:avatar, :display_name, :bio, :location, :email]
-    allowed_params.push(:password) unless @user.social_login?
+    allowed_params.push(:password) unless @user && @user.social_login?
     params.require(:user).permit(allowed_params)
   end
 end

@@ -51,18 +51,18 @@
 	var IndexRoute = __webpack_require__(159).IndexRoute;
 	var Redirect = __webpack_require__(159).Redirect;
 	var NavBar = __webpack_require__(222);
-	var QuestionsIndex = __webpack_require__(266);
+	var QuestionsIndex = __webpack_require__(265);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var QuestionShow = __webpack_require__(278);
-	var QuestionsForm = __webpack_require__(286);
-	var QuestionEdit = __webpack_require__(291);
-	var UsersIndex = __webpack_require__(293);
-	var TagsIndex = __webpack_require__(299);
-	var UserShow = __webpack_require__(301);
-	var BadgesIndex = __webpack_require__(318);
-	var BadgeShow = __webpack_require__(320);
-	var Search = __webpack_require__(322);
-	var UserRecoverAccount = __webpack_require__(325);
+	var QuestionShow = __webpack_require__(277);
+	var QuestionsForm = __webpack_require__(285);
+	var QuestionEdit = __webpack_require__(290);
+	var UsersIndex = __webpack_require__(292);
+	var TagsIndex = __webpack_require__(298);
+	var UserShow = __webpack_require__(300);
+	var BadgesIndex = __webpack_require__(317);
+	var BadgeShow = __webpack_require__(319);
+	var Search = __webpack_require__(321);
+	var UserRecoverAccount = __webpack_require__(324);
 	var TermsOfService = __webpack_require__(326);
 	var PrivacyPolicy = __webpack_require__(327);
 	var ContactUs = __webpack_require__(328);
@@ -25479,7 +25479,7 @@
 	var NavNotifications = __webpack_require__(262);
 	var AuthModal = __webpack_require__(263);
 	var CurrentUserActions = __webpack_require__(248);
-	var Footer = __webpack_require__(265);
+	var Footer = __webpack_require__(325);
 	
 	var HEADERS = ['questions', 'tags', 'users', 'awards', 'ask'];
 	var MODAL_TABS = ['Log In', 'Sign Up'];
@@ -34290,111 +34290,16 @@
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var Link = __webpack_require__(159).Link;
-	
-	var Footer = React.createClass({
-	  displayName: 'Footer',
-	
-	  render: function () {
-	    return React.createElement(
-	      'footer',
-	      { className: 'footer-container' },
-	      React.createElement(
-	        'div',
-	        { className: 'inner-container' },
-	        React.createElement(
-	          'ul',
-	          null,
-	          React.createElement(
-	            'li',
-	            { className: 'footer-item' },
-	            React.createElement(
-	              Link,
-	              { to: '/terms_of_service' },
-	              'Terms of Service'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'footer-item' },
-	            React.createElement(
-	              Link,
-	              { to: '/privacy_policy' },
-	              'Privacy Policy'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'footer-item' },
-	            React.createElement(
-	              Link,
-	              { to: '/contact_us' },
-	              'Contact Us'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'footer-item' },
-	            React.createElement(
-	              Link,
-	              { to: '/about_us' },
-	              'About Us'
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'ul',
-	          null,
-	          React.createElement(
-	            'li',
-	            { className: 'footer-item social-link' },
-	            React.createElement(
-	              'a',
-	              { target: '_blank', href: 'https://www.twitter.com/restartreality' },
-	              'Twitter'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'footer-item social-link' },
-	            React.createElement(
-	              'a',
-	              { target: '_blank', href: 'https://www.facebook.com/restartreality' },
-	              'Facebook'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            { className: 'footer-item social-link' },
-	            React.createElement(
-	              'a',
-	              { target: '_blank', href: 'https://www.instagram.com/restartreality' },
-	              'Instagram'
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = Footer;
-
-/***/ }),
-/* 266 */
-/***/ (function(module, exports, __webpack_require__) {
-
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
 	var QuestionStore = __webpack_require__(261);
 	var ApiUtil = __webpack_require__(247);
-	var QuestionIndexItem = __webpack_require__(267);
+	var QuestionIndexItem = __webpack_require__(266);
 	var SortNav = __webpack_require__(264);
 	var QuestionActions = __webpack_require__(250);
-	var TagStub = __webpack_require__(268);
-	var ReactCSSTransitionGroup = __webpack_require__(271);
+	var TagStub = __webpack_require__(267);
+	var ReactCSSTransitionGroup = __webpack_require__(270);
 	var _callbackId;
 	
 	var QUESTION_SORT_TYPES = ['newest', 'votes', 'views', 'weekly', 'monthly', 'unanswers'];
@@ -34611,14 +34516,14 @@
 	module.exports = QuestionsIndex;
 
 /***/ }),
-/* 267 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var TagStub = __webpack_require__(268);
-	var TagStubIndex = __webpack_require__(269);
-	var UserLinkStub = __webpack_require__(270);
+	var TagStub = __webpack_require__(267);
+	var TagStubIndex = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var util = __webpack_require__(246);
 	
 	function renderTagStubs(questionId, tags) {
@@ -34754,7 +34659,7 @@
 	module.exports = QuestionsIndexItem;
 
 /***/ }),
-/* 268 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34800,11 +34705,11 @@
 	module.exports = TagStub;
 
 /***/ }),
-/* 269 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(268);
+	var TagStub = __webpack_require__(267);
 	
 	var TagStubIndex = React.createClass({
 	  displayName: 'TagStubIndex',
@@ -34829,7 +34734,7 @@
 	module.exports = TagStubIndex;
 
 /***/ }),
-/* 270 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34854,13 +34759,13 @@
 	module.exports = UserLinkStub;
 
 /***/ }),
-/* 271 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(272);
+	module.exports = __webpack_require__(271);
 
 /***/ }),
-/* 272 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -34881,8 +34786,8 @@
 	
 	var assign = __webpack_require__(39);
 	
-	var ReactTransitionGroup = __webpack_require__(273);
-	var ReactCSSTransitionGroupChild = __webpack_require__(275);
+	var ReactTransitionGroup = __webpack_require__(272);
+	var ReactCSSTransitionGroupChild = __webpack_require__(274);
 	
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -34948,7 +34853,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ }),
-/* 273 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -34965,7 +34870,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(2);
-	var ReactTransitionChildMapping = __webpack_require__(274);
+	var ReactTransitionChildMapping = __webpack_require__(273);
 	
 	var assign = __webpack_require__(39);
 	var emptyFunction = __webpack_require__(15);
@@ -35158,7 +35063,7 @@
 	module.exports = ReactTransitionGroup;
 
 /***/ }),
-/* 274 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -35261,7 +35166,7 @@
 	module.exports = ReactTransitionChildMapping;
 
 /***/ }),
-/* 275 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -35281,8 +35186,8 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(3);
 	
-	var CSSCore = __webpack_require__(276);
-	var ReactTransitionEvents = __webpack_require__(277);
+	var CSSCore = __webpack_require__(275);
+	var ReactTransitionEvents = __webpack_require__(276);
 	
 	var onlyChild = __webpack_require__(156);
 	
@@ -35431,7 +35336,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ }),
-/* 276 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -35534,7 +35439,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 277 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -35648,15 +35553,15 @@
 	module.exports = ReactTransitionEvents;
 
 /***/ }),
-/* 278 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
 	var QuestionStore = __webpack_require__(261);
-	var AnswersIndex = __webpack_require__(279);
-	var ShowItem = __webpack_require__(280);
-	var AnswersNew = __webpack_require__(285);
+	var AnswersIndex = __webpack_require__(278);
+	var ShowItem = __webpack_require__(279);
+	var AnswersNew = __webpack_require__(284);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
 	var _callbackId;
@@ -35823,15 +35728,15 @@
 	module.exports = QuestionShow;
 
 /***/ }),
-/* 279 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SortNav = __webpack_require__(264);
 	var QuestionStore = __webpack_require__(261);
 	var QuestionActions = __webpack_require__(250);
-	var ShowItem = __webpack_require__(280);
-	var ReactCSSTransitionGroup = __webpack_require__(271);
+	var ShowItem = __webpack_require__(279);
+	var ReactCSSTransitionGroup = __webpack_require__(270);
 	
 	var ANSWER_SORT_TYPES = ['oldest', 'votes'];
 	
@@ -35882,19 +35787,19 @@
 	module.exports = AnswersIndex;
 
 /***/ }),
-/* 280 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var CommentsIndex = __webpack_require__(281);
-	var CommentsForm = __webpack_require__(283);
-	var TagStub = __webpack_require__(268);
-	var TagStubIndex = __webpack_require__(269);
-	var UserLinkStub = __webpack_require__(270);
+	var CommentsIndex = __webpack_require__(280);
+	var CommentsForm = __webpack_require__(282);
+	var TagStub = __webpack_require__(267);
+	var TagStubIndex = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var AnswersEdit = __webpack_require__(284);
+	var AnswersEdit = __webpack_require__(283);
 	var ApiUtil = __webpack_require__(247);
 	var util = __webpack_require__(246);
 	
@@ -36139,12 +36044,12 @@
 	module.exports = ShowItem;
 
 /***/ }),
-/* 281 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var CommentsIndexItem = __webpack_require__(282);
-	var ReactCSSTransitionGroup = __webpack_require__(271);
+	var CommentsIndexItem = __webpack_require__(281);
+	var ReactCSSTransitionGroup = __webpack_require__(270);
 	
 	var CommentsIndex = React.createClass({
 	  displayName: 'CommentsIndex',
@@ -36178,12 +36083,12 @@
 	module.exports = CommentsIndex;
 
 /***/ }),
-/* 282 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
-	var UserLinkStub = __webpack_require__(270);
+	var UserLinkStub = __webpack_require__(269);
 	
 	function commentVoteClass(userVote, type) {
 	  var className;
@@ -36272,7 +36177,7 @@
 	module.exports = CommentsIndexItem;
 
 /***/ }),
-/* 283 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36358,7 +36263,7 @@
 	module.exports = CommentsForm;
 
 /***/ }),
-/* 284 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36442,7 +36347,7 @@
 	module.exports = AnswersEdit;
 
 /***/ }),
-/* 285 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36536,17 +36441,17 @@
 	module.exports = AnswersNew;
 
 /***/ }),
-/* 286 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var QuestionsFormSidebar = __webpack_require__(287);
+	var QuestionsFormSidebar = __webpack_require__(286);
 	var ApiUtil = __webpack_require__(247);
-	var QuestionFormTag = __webpack_require__(288);
-	var RemovableTagStub = __webpack_require__(289);
-	var TagStore = __webpack_require__(290);
+	var QuestionFormTag = __webpack_require__(287);
+	var RemovableTagStub = __webpack_require__(288);
+	var TagStore = __webpack_require__(289);
 	var TagActions = __webpack_require__(254);
-	var TagStub = __webpack_require__(268);
+	var TagStub = __webpack_require__(267);
 	var QuestionStore = __webpack_require__(261);
 	
 	var _callbackId;
@@ -36929,7 +36834,7 @@
 	module.exports = QuestionsForm;
 
 /***/ }),
-/* 287 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37049,7 +36954,7 @@
 	module.exports = QuestionsFormSidebar;
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37069,7 +36974,7 @@
 	module.exports = QuestionFormTag;
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37100,7 +37005,7 @@
 	module.exports = RemovableTagStub;
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(242);
@@ -37188,7 +37093,7 @@
 	module.exports = TagStore;
 
 /***/ }),
-/* 291 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37196,8 +37101,8 @@
 	var CurrentUserStore = __webpack_require__(223);
 	var ApiUtil = __webpack_require__(247);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var NotFound = __webpack_require__(292);
-	var QuestionsForm = __webpack_require__(286);
+	var NotFound = __webpack_require__(291);
+	var QuestionsForm = __webpack_require__(285);
 	
 	var _callbackId;
 	
@@ -37251,7 +37156,7 @@
 	module.exports = QuestionNew;
 
 /***/ }),
-/* 292 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37271,16 +37176,16 @@
 	module.exports = NotFound;
 
 /***/ }),
-/* 293 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SortNav = __webpack_require__(264);
-	var UserStore = __webpack_require__(294);
+	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
-	var UsersIndexItem = __webpack_require__(295);
-	var SubSearch = __webpack_require__(298);
+	var UsersIndexItem = __webpack_require__(294);
+	var SubSearch = __webpack_require__(297);
 	
 	var USER_SORT_TYPES = ['reputation', 'new users', 'voters'];
 	
@@ -37351,7 +37256,7 @@
 	module.exports = UsersIndex;
 
 /***/ }),
-/* 294 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(242);
@@ -37543,13 +37448,13 @@
 	module.exports = UserStore;
 
 /***/ }),
-/* 295 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserLinkStub = __webpack_require__(270);
+	var UserLinkStub = __webpack_require__(269);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var TagLinkIndex = __webpack_require__(296);
+	var TagLinkIndex = __webpack_require__(295);
 	var util = __webpack_require__(246);
 	
 	function handleAnswerTagsComma(idx) {
@@ -37650,11 +37555,11 @@
 	module.exports = UsersIndexItem;
 
 /***/ }),
-/* 296 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagLink = __webpack_require__(297);
+	var TagLink = __webpack_require__(296);
 	
 	function handleAnswerTagsComma(idx) {
 	  if (idx !== 0) {
@@ -37688,7 +37593,7 @@
 	module.exports = TagLinkIndex;
 
 /***/ }),
-/* 297 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37713,7 +37618,7 @@
 	module.exports = TagLink;
 
 /***/ }),
-/* 298 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -37755,17 +37660,17 @@
 	module.exports = SubSearch;
 
 /***/ }),
-/* 299 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SortNav = __webpack_require__(264);
-	var UserStore = __webpack_require__(294);
+	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var ApiUtil = __webpack_require__(247);
-	var TagsIndexItem = __webpack_require__(300);
-	var SubSearch = __webpack_require__(298);
-	var TagStore = __webpack_require__(290);
+	var TagsIndexItem = __webpack_require__(299);
+	var SubSearch = __webpack_require__(297);
+	var TagStore = __webpack_require__(289);
 	var TagActions = __webpack_require__(254);
 	
 	var TAG_SORT_TYPES = ['popular', 'name'];
@@ -37838,11 +37743,11 @@
 	module.exports = TagsIndex;
 
 /***/ }),
-/* 300 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(268);
+	var TagStub = __webpack_require__(267);
 	
 	var TagsIndexItem = React.createClass({
 	  displayName: 'TagsIndexItem',
@@ -37898,21 +37803,21 @@
 	module.exports = TagsIndexItem;
 
 /***/ }),
-/* 301 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(294);
+	var UserStore = __webpack_require__(293);
 	var ApiUtil = __webpack_require__(247);
 	var SortNav = __webpack_require__(264);
-	var UserShowProfile = __webpack_require__(302);
-	var UserShowActivity = __webpack_require__(309);
+	var UserShowProfile = __webpack_require__(301);
+	var UserShowActivity = __webpack_require__(308);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var CurrentUserStore = __webpack_require__(223);
-	var UserShowSettings = __webpack_require__(317);
-	var NotFound = __webpack_require__(292);
+	var UserShowSettings = __webpack_require__(316);
+	var NotFound = __webpack_require__(291);
 	
 	var USER_SHOW_SORT_TYPES = ['Profile', 'Activity'];
 	var USER_SHOW_ACTIVITY_TABS = ['summary', 'answers', 'questions', 'tags', 'badges', 'favorites', 'reputation'];
@@ -38045,14 +37950,14 @@
 	module.exports = UserShow;
 
 /***/ }),
-/* 302 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ShowProfileHeaderPortrait = __webpack_require__(303);
-	var ShowProfileTopTags = __webpack_require__(304);
-	var ShowProfileTopPosts = __webpack_require__(305);
-	var ShowProfileBadges = __webpack_require__(307);
+	var ShowProfileHeaderPortrait = __webpack_require__(302);
+	var ShowProfileTopTags = __webpack_require__(303);
+	var ShowProfileTopPosts = __webpack_require__(304);
+	var ShowProfileBadges = __webpack_require__(306);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
 	function handleBio(bio) {
@@ -38220,7 +38125,7 @@
 	module.exports = UserShowProfile;
 
 /***/ }),
-/* 303 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38298,11 +38203,11 @@
 	module.exports = ShowProfileHeaderPortrait;
 
 /***/ }),
-/* 304 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStub = __webpack_require__(268);
+	var TagStub = __webpack_require__(267);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	
@@ -38418,13 +38323,13 @@
 	module.exports = ShowProfileTopTags;
 
 /***/ }),
-/* 305 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(294);
+	var UserStore = __webpack_require__(293);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var MiniNav = __webpack_require__(306);
+	var MiniNav = __webpack_require__(305);
 	var UserActions = __webpack_require__(253);
 	
 	var SHOW_PROFILE_TOP_POSTS_SELECTORS = ['All', 'Questions', 'Answers'];
@@ -38599,7 +38504,7 @@
 	module.exports = ShowProfileTopPosts;
 
 /***/ }),
-/* 306 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38635,12 +38540,12 @@
 	module.exports = MiniNav;
 
 /***/ }),
-/* 307 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Util = __webpack_require__(246);
-	var BadgeStub = __webpack_require__(308);
+	var BadgeStub = __webpack_require__(307);
 	
 	var ShowProfileBadges = React.createClass({
 	  displayName: 'ShowProfileBadges',
@@ -38770,7 +38675,7 @@
 	module.exports = ShowProfileBadges;
 
 /***/ }),
-/* 308 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -38810,18 +38715,18 @@
 	module.exports = BadgeStub;
 
 /***/ }),
-/* 309 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(294);
+	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var SortNav = __webpack_require__(264);
-	var ShowActivitySummary = __webpack_require__(310);
+	var ShowActivitySummary = __webpack_require__(309);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var ShowActivityDetail = __webpack_require__(315);
+	var ShowActivityDetail = __webpack_require__(314);
 	var USER_SHOW_ACTIVITY_TABS = ['summary', 'answers', 'questions', 'tags', 'badges', 'favorites', 'reputation'];
 	
 	var UserShowActivity = React.createClass({
@@ -38870,11 +38775,11 @@
 	module.exports = UserShowActivity;
 
 /***/ }),
-/* 310 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ShowActivitySummaryItem = __webpack_require__(311);
+	var ShowActivitySummaryItem = __webpack_require__(310);
 	
 	var ShowActivitySummary = React.createClass({
 	  displayName: 'ShowActivitySummary',
@@ -38922,20 +38827,20 @@
 	module.exports = ShowActivitySummary;
 
 /***/ }),
-/* 311 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var MiniNav = __webpack_require__(306);
-	var ShowActivitySummaryItemLineItem = __webpack_require__(312);
-	var ShowActivityTagItem = __webpack_require__(313);
+	var MiniNav = __webpack_require__(305);
+	var ShowActivitySummaryItemLineItem = __webpack_require__(311);
+	var ShowActivityTagItem = __webpack_require__(312);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var UserStore = __webpack_require__(294);
+	var UserStore = __webpack_require__(293);
 	var UserActions = __webpack_require__(253);
 	var Util = __webpack_require__(246);
-	var ShowActivityBadgeItem = __webpack_require__(314);
+	var ShowActivityBadgeItem = __webpack_require__(313);
 	
 	var ShowActivitySummaryItem = React.createClass({
 	  displayName: 'ShowActivitySummaryItem',
@@ -39223,7 +39128,7 @@
 	module.exports = ShowActivitySummaryItem;
 
 /***/ }),
-/* 312 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39271,7 +39176,7 @@
 	module.exports = ShowActivitySummaryItemLineItem;
 
 /***/ }),
-/* 313 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39316,11 +39221,11 @@
 	module.exports = ShowActivityTagItem;
 
 /***/ }),
-/* 314 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var BadgeStub = __webpack_require__(308);
+	var BadgeStub = __webpack_require__(307);
 	
 	var ShowActivityBadgeItem = React.createClass({
 	  displayName: 'ShowActivityBadgeItem',
@@ -39349,19 +39254,19 @@
 	module.exports = ShowActivityBadgeItem;
 
 /***/ }),
-/* 315 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var MiniNav = __webpack_require__(306);
-	var TagStubIndex = __webpack_require__(269);
+	var MiniNav = __webpack_require__(305);
+	var TagStubIndex = __webpack_require__(268);
 	var Util = __webpack_require__(246);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var ShowActivityTagItem = __webpack_require__(313);
-	var ShowActivityBadgeItem = __webpack_require__(314);
-	var ShowActivityReputationItem = __webpack_require__(316);
+	var ShowActivityTagItem = __webpack_require__(312);
+	var ShowActivityBadgeItem = __webpack_require__(313);
+	var ShowActivityReputationItem = __webpack_require__(315);
 	
 	var SUB_TABS = {
 	  answers: ['votes', 'newest'],
@@ -39623,7 +39528,7 @@
 	module.exports = ShowActivityDetail;
 
 /***/ }),
-/* 316 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39689,7 +39594,7 @@
 	module.exports = ShowActivityReputationItem;
 
 /***/ }),
-/* 317 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -39923,15 +39828,15 @@
 	module.exports = UserShowSettings;
 
 /***/ }),
-/* 318 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(247);
-	var BadgeStore = __webpack_require__(319);
+	var BadgeStore = __webpack_require__(318);
 	var BadgeActions = __webpack_require__(256);
 	var SortNav = __webpack_require__(264);
-	var BadgeStub = __webpack_require__(308);
+	var BadgeStub = __webpack_require__(307);
 	
 	var _callbackId;
 	var BADGE_SELECT_TYPES = ['all', 'Tier 3', 'Tier 2', 'Tier 1'];
@@ -40117,7 +40022,7 @@
 	module.exports = BadgesIndex;
 
 /***/ }),
-/* 319 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(224).Store;
@@ -40207,16 +40112,16 @@
 	module.exports = BadgeStore;
 
 /***/ }),
-/* 320 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var BadgeStore = __webpack_require__(319);
+	var BadgeStore = __webpack_require__(318);
 	var ApiUtil = __webpack_require__(247);
-	var BadgeStub = __webpack_require__(308);
-	var BadgingItem = __webpack_require__(321);
+	var BadgeStub = __webpack_require__(307);
+	var BadgingItem = __webpack_require__(320);
 	
 	var _callbackId;
 	
@@ -40287,12 +40192,12 @@
 	module.exports = BadgeShow;
 
 /***/ }),
-/* 321 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var hashHistory = __webpack_require__(159).hashHistory;
-	var UserLinkStub = __webpack_require__(270);
+	var UserLinkStub = __webpack_require__(269);
 	var util = __webpack_require__(246);
 	
 	var BadgingItem = React.createClass({
@@ -40353,18 +40258,18 @@
 	module.exports = BadgingItem;
 
 /***/ }),
-/* 322 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var React = __webpack_require__(1);
-	var SearchStore = __webpack_require__(323);
+	var SearchStore = __webpack_require__(322);
 	var ApiUtil = __webpack_require__(247);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var SortNav = __webpack_require__(264);
 	var SearchActions = __webpack_require__(258);
-	var SearchItem = __webpack_require__(324);
+	var SearchItem = __webpack_require__(323);
 	
 	var _callbackId;
 	
@@ -40473,7 +40378,7 @@
 	module.exports = Search;
 
 /***/ }),
-/* 323 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(224).Store;
@@ -40543,12 +40448,12 @@
 	module.exports = SearchStore;
 
 /***/ }),
-/* 324 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var TagStubIndex = __webpack_require__(269);
-	var UserLinkStub = __webpack_require__(270);
+	var TagStubIndex = __webpack_require__(268);
+	var UserLinkStub = __webpack_require__(269);
 	var hashHistory = __webpack_require__(159).hashHistory;
 	var util = __webpack_require__(246);
 	
@@ -40722,7 +40627,7 @@
 	module.exports = SearchItem;
 
 /***/ }),
-/* 325 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -40884,6 +40789,101 @@
 	  }
 	});
 	module.exports = UserRecoverAccount;
+
+/***/ }),
+/* 325 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
+	
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+	
+	  render: function () {
+	    return React.createElement(
+	      'footer',
+	      { className: 'footer-container' },
+	      React.createElement(
+	        'div',
+	        { className: 'inner-container' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/terms_of_service' },
+	              'Terms of Service'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/privacy_policy' },
+	              'Privacy Policy'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/contact_us' },
+	              'Contact Us'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item' },
+	            React.createElement(
+	              Link,
+	              { to: '/about_us' },
+	              'About Us'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.twitter.com/restartreality' },
+	              'Twitter'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.facebook.com/restartreality' },
+	              'Facebook'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            { className: 'footer-item social-link' },
+	            React.createElement(
+	              'a',
+	              { target: '_blank', href: 'https://www.instagram.com/restartreality' },
+	              'Instagram'
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Footer;
 
 /***/ }),
 /* 326 */

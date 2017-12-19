@@ -1,11 +1,12 @@
+
 namespace :migrate do  
   task :create_category => :environment do
         
     Category.create!([{name: "AR"},{name: "VR"}])
 
-    ar_subcategories = ['ARKit', 'ARCore', "HoloLens", "Magic Leap", "Vuforia"]
+    ar_subcategories = ['Magic Leap', 'ARKit', 'ARCore', "HoloLens", "Vuforia"]
 
-    vr_subcategories = ['Windows Mixed Reality', 'Daydream', "Oculus", "HTC Vive", "WebVR", "SteamVR"]
+    vr_subcategories = ['Windows Mixed Reality', 'Google VR', "HTC Vive", "Oculus", "Samsung VR", "Playstation VR" "WebVR", "SteamVR"]
 
     ar_category = Category.find_by_name("AR")
     vr_category = Category.find_by_name("VR")

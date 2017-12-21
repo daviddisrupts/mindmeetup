@@ -9,14 +9,12 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-require 'elasticsearch/model'
 
 class Question < ActiveRecord::Base
   include Commentable
   include Votable
   include Viewable
   include Badgeable
-  include Searchable
 
   attr_accessor :tag_names, :matches
 
@@ -24,8 +22,7 @@ class Question < ActiveRecord::Base
   # validate tag_ids?
 
   belongs_to :user
-  belongs_to :category
- 
+
   has_many :answers, dependent: :destroy
   has_many :responders, -> { distinct }, through: :answers, source: :user
 
@@ -38,6 +35,12 @@ class Question < ActiveRecord::Base
 
   USER_DETAILS = { user: [{ questions: :votes }, { given_answers: :votes }, :votes,
     { comments: :votes }]}
+
+  def self.search(query)
+    Question.includes(:associated_tags, :votes, :views, :answers)
+        .where("lower(content) like :query OR lower(title) like :query",
+        query: "%#{query.downcase}%")
+  end
 
   def self.with_stats_and_tags_by_user_id(user_id)
     Question

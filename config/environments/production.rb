@@ -89,8 +89,7 @@ Rails.application.configure do
     :authentication => :plain,
     :enable_starttls_auto => true
   }
-  # Initialize a elasticsearch model client
-  Elasticsearch::Model.client = Elasticsearch::Client.new url: ENV['BONSAI_URL']
+
 
   config.paperclip_defaults = {
     storage: :s3,

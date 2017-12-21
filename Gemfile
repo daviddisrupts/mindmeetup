@@ -76,9 +76,6 @@ group :production, :staging do
 end
 gem 'active_model_serializers'
 
-# serach engine
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
 
 # Social authentication
 gem 'omniauth'

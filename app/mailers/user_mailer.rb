@@ -9,7 +9,7 @@ class UserMailer < ApplicationMailer
     @resource = resource
     @token = token
     @url =  ApplicationMailer.default_url_options[:protocol] + ApplicationMailer.default_url_options[:host] + "/#/users/account-recovery?reset_password_token=#{@token}"
-    mail(to: @resource.email, subject: 'Account Recovery - Snack Overflow')
+    mail(to: @resource.email, subject: 'Account Recovery - RestartReality')
   end
 
   def contact_to_admin(contact_details)

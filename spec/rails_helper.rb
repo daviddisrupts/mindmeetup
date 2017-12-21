@@ -56,9 +56,9 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  # Allow calling of FactoryGirl methods without prefix, ex:
-  # FactoryGirl.build(:user) becomes build(:user)
-  config.include FactoryGirl::Syntax::Methods
+  # Allow calling of FactoryBot methods without prefix, ex:
+  # FactoryBot.build(:user) becomes build(:user)
+  config.include FactoryBot::Syntax::Methods
 end
 
 Shoulda::Matchers.configure do |config|

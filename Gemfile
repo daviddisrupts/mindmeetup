@@ -5,7 +5,7 @@ ruby "2.3.1"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.15'
+gem 'pg', '~> 0.20.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -48,7 +48,7 @@ group :development, :test do
   gem 'selenium-webdriver', '2.53.4'
   gem 'rspec-rails'
   gem 'launchy'
-  gem 'factory_girl_rails'
+  gem "factory_bot"
 end
 
 group :test do

@@ -36954,7 +36954,7 @@
 	        React.createElement(
 	          'li',
 	          null,
-	          '\u2022 Please make sure your question is relevant to food, snacks, cooking or some culinary concept.'
+	          '\u2022 Please make sure your question is relevant to virtual, augmented, or mixed reality.'
 	        ),
 	        React.createElement(
 	          'li',

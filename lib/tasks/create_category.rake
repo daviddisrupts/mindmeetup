@@ -6,7 +6,7 @@ namespace :migrate do
 
     ar_subcategories = ['Magic Leap', 'ARKit', 'ARCore', "HoloLens", "Vuforia"]
 
-    vr_subcategories = ['Windows Mixed Reality', 'Google VR', "HTC Vive", "Oculus", "Samsung VR", "Playstation VR", "WebVR", "SteamVR"]
+    vr_subcategories = ['Windows Mixed Reality', "Vive Focus", "Oculus Go", "Google Daydream", "Gear VR", "Playstation VR", "Oculus Rift", "Htc Vive", "WebVR", "SteamVR"]
 
     ar_category = Category.find_by_name("AR")
     vr_category = Category.find_by_name("VR")

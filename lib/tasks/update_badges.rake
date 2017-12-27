@@ -21,7 +21,7 @@ namespace :migrate do
     pop_answer.find_by(rank: "gold").update_attributes(name: "neo_award")
 
     Badge.where(category: "Tag").destroy_all
-    tags = ["HTC Vive","Oculus", "Playstation VR", "HoloLens", "Windows Mixed Reality", "Google VR","Samsung VR", "SteamVR", "WebVR"]
+    tags = ["Windows Mixed Reality", "Oculus Go", "Vive Focus", "Google Daydream", "Gear VR", "Playstation VR", "Magic Leap", "HoloLens", "ARKit", "ARCore", "Oculus Rift", "HTC Vive", "Vuforia", "SteamVR", "WebVR"]
     Tagging.destroy_all
     Tag.destroy_all
     tags.each do |tag|
@@ -30,6 +30,6 @@ namespace :migrate do
       Badge.create(subcategory: tag, category: "Tag", rank: "silver", name: tag, description: "Awarded for having at least 250 total score in the #{tag.titlecase} tag.")
       Badge.create(subcategory: tag, category: "Tag", rank: "gold", name: tag, description: "Awarded for having at least 500 total score in the #{tag.titlecase} tag.")
     end
-
+ 
   end
 end

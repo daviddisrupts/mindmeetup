@@ -40092,7 +40092,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'badge-index-sidebar-element-description' },
-	            'Tier 2 Awards are less common than Tier 1 awards. You\'ll have to make a high-quality post to get these.'
+	            'Tier 2 Awards are less common than Tier 1 Awards. You\'ll have to make a high-quality post to get these.'
 	          )
 	        ),
 	        React.createElement(
@@ -40106,7 +40106,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'badge-index-sidebar-element-description' },
-	            'Tier 3 badges are the hardest badge to earn. These are rarely awarded and signify a great contribution to the RestartReality community.'
+	            'Tier 3 Awards are the hardest awards to earn. These are rarely awarded and signify a great contribution to the RestartReality community.'
 	          )
 	        )
 	      )

@@ -40078,7 +40078,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'badge-index-sidebar-element-description' },
-	            'Bronze badges encourage users to make quality posts. They are not too hard to get if you try!'
+	            'Tier 1 awards encourage users to make quality posts. They are not too hard to get if you try!'
 	          )
 	        ),
 	        React.createElement(
@@ -40092,7 +40092,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'badge-index-sidebar-element-description' },
-	            'Silver badges are less common than bronze badges. You\'ll have to make a quality post to get these.'
+	            'Tier 2 Awards are less common than Tier 1 awards. You\'ll have to make a high-quality post to get these.'
 	          )
 	        ),
 	        React.createElement(
@@ -40106,7 +40106,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'badge-index-sidebar-element-description' },
-	            'Gold badges are the hardest badge to earn. These are rarely awarded and signify a great contribution to the RestartReality community.'
+	            'Tier 3 badges are the hardest badge to earn. These are rarely awarded and signify a great contribution to the RestartReality community.'
 	          )
 	        )
 	      )

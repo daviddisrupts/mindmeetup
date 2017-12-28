@@ -36742,7 +36742,7 @@
 	        'div',
 	        { className: 'question-form-tags-new-header' },
 	        'Tag \'',
-	        this.state.tagString.toLowerCase(),
+	        this.state.tagString(),
 	        '\' not found. Enter a description of this tag to create it.'
 	      ),
 	      React.createElement('textarea', {

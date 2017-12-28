@@ -21,7 +21,7 @@ namespace :migrate do
     pop_answer.find_by(rank: "gold").update_attributes(name: "neo_award")
 
     Badge.where(category: "Tag").destroy_all
-    tags = ["Windows Mixed Reality", "Oculus Go", "Google Daydream", "Vive Focus", "Gear VR", "Playstation VR", "Magic Leap", "HoloLens", "ARKit", "ARCore", "Oculus Rift", "HTC Vive", "Vuforia", "SteamVR", "WebVR"]
+    tags = ["windows mixed reality", "oculus go", "google daydream", "google vr" "daydream", "htc vive", "vive focus", "vive", "gear vr", "samsung gear vr", "samsung vr", "playstation vr", "psvr", "magic leap", "magic leap one", "hololens", "apple ar", "arkit", "arcore", "oculus rift", "htc vive", "vuforia", "steamvr", "webvr", "mirage solo", "wmr", "windows vr", "lenovo explorer", "samsung odyssey", "dell visor", "acer windows mixed reality", "hp windows mixed reality", "lightwear", "lightpack"]
     Tagging.destroy_all
     Tag.destroy_all
     tags.each do |tag|

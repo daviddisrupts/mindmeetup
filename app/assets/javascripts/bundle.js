@@ -36643,9 +36643,9 @@
 	    } else {
 	      if (value.length > 25) {
 	        this.setState({ tagStringError: 'Tag name is 25 characters max.' });
-	      } else if (value && value.search(/^[a-zA-Z0-9_ ]*$/i) === -1) {
+	      } else if (value && value.search(/^[-a-z0-9_ ]+$/i) === -1) {
 	        this.setState({
-	          tagStringError: 'Permitted tag characters: letters, numbers and spaces'
+	          tagStringError: 'Permitted tag characters: [ a-z 0-9 - ]'
 	        });
 	      } else {
 	        TagActions.changeTagSearchTerm(value.toLowerCase());
@@ -36742,7 +36742,7 @@
 	        'div',
 	        { className: 'question-form-tags-new-header' },
 	        'Tag \'',
-	        this.state.tagString(),
+	        this.state.tagString.toLowerCase(),
 	        '\' not found. Enter a description of this tag to create it.'
 	      ),
 	      React.createElement('textarea', {

@@ -36643,9 +36643,9 @@
 	    } else {
 	      if (value.length > 25) {
 	        this.setState({ tagStringError: 'Tag name is 25 characters max.' });
-	      } else if (value && value.search(/^[-a-z0-9]+$/i) === -1) {
+	      } else if (value && value.search(/^[a-zA-Z0-9_ ]*$/i) === -1) {
 	        this.setState({
-	          tagStringError: 'Permitted tag characters: [ a-z 0-9 - ]'
+	          tagStringError: 'Permitted tag characters: letters, numbers and spaces'
 	        });
 	      } else {
 	        TagActions.changeTagSearchTerm(value.toLowerCase());

@@ -40078,7 +40078,7 @@
 	          React.createElement(
 	            'div',
 	            { className: 'badge-index-sidebar-element-description' },
-	            'Tier 1 awards encourage users to make quality posts. They are not too hard to get if you try!'
+	            'Tier 1 Awards encourage users to make quality posts. They are not too hard to get if you try!'
 	          )
 	        ),
 	        React.createElement(

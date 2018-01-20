@@ -25549,10 +25549,8 @@
 	            React.createElement(
 	              'div',
 	              { className: 'current-user-reputation' },
-	              'AR ',
-	              currentUser.ar_count,
-	              ' | VR ',
-	              currentUser.vr_count
+	              'Score ',
+ +	              currentUser.reputation,
 	            )
 	          )
 	        );

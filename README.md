@@ -1,4 +1,4 @@
-# SnackOverflow
+# RestartReality
 
 [Live on Heroku!][live]
 
@@ -35,7 +35,7 @@ Alternatively, if you don't want to use seeds with StackExchange data, edit
 
 ## Summary
 
-SnackOverflow is a single-page, food-themed Q&A web application inspired by
+RestartReality is a single-page, food-themed Q&A web application inspired by
 StackOverflow and built using Ruby on Rails and ReactJS/Flux. By default, seed
 entries are procedurally generated using custom Markov Chain models trained with
 samples scraped from the Cooking StackExchange.
@@ -66,7 +66,7 @@ In addition to the above, logged-in users can:
 
 #### Back end
 
-SnackOverflow's foundation RESTs on a JSON API served by Ruby on Rails using a
+RestartReality's foundation RESTs on a JSON API served by Ruby on Rails using a
 PostgreSQL database. Extensive use of joins and associations prevents N+1
 database queries. Polymorphic associations and concerns help keep codebase DRY.
 
@@ -107,5 +107,5 @@ bundle exec rspec --color --format documentation
 
 [StackExchange-key-signup]: http://stackapps.com/apps/oauth/register
 [firefox47]: https://ftp.mozilla.org/pub/firefox/releases/47.0.1/
-[live]: http://www.snackoverflow.xyz
-[seeds]: https://github.com/fndelacruz/SnackOverflow/blob/master/db/seeds.rb
+[live]: http://www.RestartReality.xyz
+[seeds]: https://github.com/fndelacruz/RestartReality/blob/master/db/seeds.rb
